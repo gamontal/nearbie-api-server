@@ -1,3 +1,4 @@
+var passport = require('passport');
 var mongoose = require('mongoose');
 var User = require('../models/user');
 
@@ -23,7 +24,7 @@ exports.register = function (req, res, next) {
   });
 
   user.save(function (err) {
-    if (err) { res.json(err); }
+    if (err) { res.status(422).send({ message: 'username or password already taken' }); }
     else {
       user.__v = undefined;
       user.password = undefined;
@@ -34,3 +35,6 @@ exports.register = function (req, res, next) {
 };
 
 // POST /api/login
+exports.login = function (req, res, next) {
+  res.json(req.user);
+};
