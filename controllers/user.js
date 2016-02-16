@@ -1,11 +1,13 @@
 var mongoose = require('mongoose');
 var User = require('../models/user');
 
-// PUT /api/user/:userId
-/*
-exports.updateUserInfo = function (req, res, next) {
+// GET /api/user/:username
+exports.getUserInfo = function (req, res, next) {
+  User.findOne({ username: req.params.username }, { password: 0, __v: 0 }, function (err, user) {
+    if (err) { return next(err); }
+    res.status(200).json(user);
+  });
 };
-*/
 
 // DELETE /api/user/:userId
 exports.deleteUser = function (req, res, next) {
@@ -15,11 +17,20 @@ exports.deleteUser = function (req, res, next) {
   });
 };
 
+// PUT /api/user/:userId
+exports.updateUserInfo = function (req, res, next) {
+  var userInfo = req.body;
+  User.update({ _id: req.params.userId }, $set: { 'email': userInfo.email, 'username': userInfo.username }, function (err, user) {
+    if (err) { return next(err); }
+    res.status(200).send({ success: true, message: 'user information updated' });
+  });
+};
+
 // GET /api/user/profile/:username
 exports.getProfile = function (req, res, next) {
-  User.findOne({ 'username': req.params.username }, { password: 0, email: 0, __v: 0 }, function (err, profile) {
+  User.findOne({ username: req.params.username }, { password: 0, email: 0, __v: 0 }, function (err, profile) {
     if (err) { return next(err); }
-    res.json(profile);
+    res.status(200).json(profile);
   });
 };
 
@@ -34,7 +45,7 @@ exports.updateProfile = function (req, res, next) {
     'profile.interests': profileInfo.interests
   }}, function (err, status) {
     if (err) { return next(err); }
-    res.status(200).send({ message: 'user profile updated' });
+    res.status(200).send({ success: true, message: 'user profile updated' });
   });
 };
 

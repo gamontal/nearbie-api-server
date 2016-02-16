@@ -1,52 +1,26 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-//var BearerStrategy = require('passport-http-bearer').Strategy;
-//var BasicStrategy = require('passport-http').BasicStrategy;
+var jwt = require('jsonwebtoken');
+var config = require('../config');
 var User = require('../models/user');
+var config = require('../config');
 
-passport.use('local-login', new LocalStrategy(function (username, password, cb) {
-  User.findOne({ username: username }, function (err, user) {
-    if (err) { return cb(err); }
+exports.checkForAuthentication = function (req, res, next) {
+  // check header or url parameters or post parameters for token
+  var token = req.body.token || req.query.token || req.headers['x-access-token'];
 
-    // No user found with that username
-    if (!user) { return cb(null, false); }
-
-    // Make sure the password is correct
-    user.verifyPassword(password, function (err, isMatch) {
-      if (err) { return cb(err); }
-
-      // Password did not match
-      if (!isMatch) { return cb(null, false); }
-
-      // Success
-      user.password = undefined;
-      user.__v = undefined;
-      user.email = undefined;
-
-      return cb(null, user);
+  if (token) {
+    jwt.verify(token, config.secret, function (err, decoded) {
+      if (err) {
+        return res.json({ success: false, message: 'Failed to authenticate token.'});
+      } else {
+        req.decoded = decoded;
+        next();
+      }
     });
-  });
-}));
-
-passport.use(new LocalStrategy(function (username, password, cb) {
-  User.findOne({ username: username }, function (err, user) {
-    if (err) { return cb(err); }
-
-    // No user found with that username
-    if (!user) { return cb(null, false); }
-
-    // Make sure the password is correct
-    user.verifyPassword(password, function (err, isMatch) {
-      if (err) { return cb(err); }
-
-      // Password did not match
-      if (!isMatch) { return cb(null, false); }
-
-      // Success
-      return cb(null, user);
+  } else {
+    return res.status(403).send({
+      success: false,
+      message: 'No token provided'
     });
-  });
-}));
+  }
+};
 
-exports.isAuthenticated = passport.authenticate('local', { session: false });
-exports.loginAuth = passport.authenticate('local-login', { session: false });

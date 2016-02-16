@@ -1,7 +1,6 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var uniqueValidator = require('mongoose-unique-validator');
-
 var Schema = mongoose.Schema;
 var ObjectId = Schema.ObjectId;
 
@@ -46,3 +45,4 @@ userSchema.methods.verifyPassword = function (password, cb) {
 };
 
 module.exports = mongoose.model('users', userSchema);
+
