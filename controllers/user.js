@@ -1,10 +1,17 @@
+/**
+ * @module
+ * @moduledesc this module contains the user routes methods.
+ */
+
 var mongoose = require('mongoose');
 var User = require('../models/user');
 
 // GET /api/user/:username
 exports.getUserInfo = function (req, res, next) {
   User.findOne({ username: req.params.username }, { password: 0, __v: 0 }, function (err, user) {
+
     if (err) { return next(err); }
+
     res.status(200).json(user);
   });
 };
@@ -12,16 +19,23 @@ exports.getUserInfo = function (req, res, next) {
 // DELETE /api/user/:userId
 exports.deleteUser = function (req, res, next) {
   User.remove({ _id: req.params.userId }, function (err, user) {
+
     if (err) { return next(err); }
-    res.status(200).send({ message: 'user deleted' });
+
+    res.status(200).send({ success: true, message: 'user deleted' });
   });
 };
 
 // PUT /api/user/:userId
 exports.updateUserInfo = function (req, res, next) {
   var userInfo = req.body;
-  User.update({ _id: req.params.userId }, $set: { 'email': userInfo.email, 'username': userInfo.username }, function (err, user) {
+  User.update({ _id: req.params.userId }, { $set: {
+    'email': userInfo.email,
+    'username': userInfo.username
+  }}, function (err, user) {
+
     if (err) { return next(err); }
+
     res.status(200).send({ success: true, message: 'user information updated' });
   });
 };
@@ -29,7 +43,9 @@ exports.updateUserInfo = function (req, res, next) {
 // GET /api/user/profile/:username
 exports.getProfile = function (req, res, next) {
   User.findOne({ username: req.params.username }, { password: 0, email: 0, __v: 0 }, function (err, profile) {
+
     if (err) { return next(err); }
+
     res.status(200).json(profile);
   });
 };
@@ -44,7 +60,9 @@ exports.updateProfile = function (req, res, next) {
     'profile.gender': profileInfo.gender,
     'profile.interests': profileInfo.interests
   }}, function (err, status) {
+
     if (err) { return next(err); }
+
     res.status(200).send({ success: true, message: 'user profile updated' });
   });
 };

@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @moduledesc this module contains the application access routes methods.
+ */
+
 var mongoose = require('mongoose');
 var User = require('../models/user');
 var jwt = require('jsonwebtoken');
@@ -25,8 +30,9 @@ exports.register = function (req, res, next) {
   });
 
   user.save(function (err) {
-    if (err) { res.status(404).send({ message: 'username or password already taken' }); }
-    else {
+    if (err) {
+      res.status(404).send({ message: 'username or password already taken' });
+    } else {
       user.__v = undefined;
       user.password = undefined;
       user.email = undefined;
