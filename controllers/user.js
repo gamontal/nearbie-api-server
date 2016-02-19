@@ -29,20 +29,32 @@ exports.deleteUser = function (req, res, next) {
 // PUT /api/user/:userId
 exports.updateUserInfo = function (req, res, next) {
   var userInfo = req.body;
-  User.update({ _id: req.params.userId }, { $set: {
-    'email': userInfo.email,
-    'username': userInfo.username
-  }}, function (err, user) {
+  User.findOne({ _id: req.params.userId }, function (err, user) {
 
     if (err) { return next(err); }
 
-    res.status(200).send({ success: true, message: 'user information updated' });
+    if (!user) {
+      res.status(404).send({ success: false, message: 'user doesn\'t exist' });
+    } else {
+      user.username = userInfo.username;
+      user.password = userInfo.password;
+      user.email = userInfo.email;
+      user.save();
+
+      res.status(200).send({ success: true, message: 'user information updated' });
+    }
   });
 };
 
 // GET /api/user/profile/:username
 exports.getProfile = function (req, res, next) {
-  User.findOne({ username: req.params.username }, { password: 0, email: 0, __v: 0, location: 0 }, function (err, profile) {
+  User.findOne({ username: req.params.username }, {
+    // remove unwanted or sensitive fields
+    password: 0,
+    email: 0,
+    __v: 0,
+    location: 0
+  }, function (err, profile) {
 
     if (err) { return next(err); }
 
