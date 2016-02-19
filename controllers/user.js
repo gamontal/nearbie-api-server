@@ -35,7 +35,7 @@ exports.updateUserInfo = function (req, res, next) {
 
     if (!user) {
       res.status(404).send({ success: false, message: 'user doesn\'t exist' });
-    } else {
+    } else if (user) {
       user.username = userInfo.username;
       user.password = userInfo.password;
       user.email = userInfo.email;
