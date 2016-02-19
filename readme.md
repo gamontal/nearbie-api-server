@@ -1,3 +1,5 @@
+[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gmontalvoriv/quickee-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 # Overview (for the current iteration)
 
 ## Database and User model
@@ -12,10 +14,14 @@ Using a MongoDB database and the Mongoose library to query user information from
   username: String, //=> unique = true, required = true
   password: String, //=> required = true
   email: String, //=> unique = true, required = true
+  location: {
+    lat: Number, //=> required = true
+    lng: Number //=> required = true
+  },
   profile: {
     profile_image: String,
     gender: String,
-    brief_desc: String
+    bio: String
   }
 }
 ```
