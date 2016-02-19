@@ -42,7 +42,7 @@ exports.updateUserInfo = function (req, res, next) {
 
 // GET /api/user/profile/:username
 exports.getProfile = function (req, res, next) {
-  User.findOne({ username: req.params.username }, { password: 0, email: 0, __v: 0 }, function (err, profile) {
+  User.findOne({ username: req.params.username }, { password: 0, email: 0, __v: 0, location: 0 }, function (err, profile) {
 
     if (err) { return next(err); }
 
@@ -52,13 +52,12 @@ exports.getProfile = function (req, res, next) {
 
 // PUT /api/user/profile/:username
 exports.updateProfile = function (req, res, next) {
-  var profileInfo = req.body.profile;
+  var profileInfo = req.body;
 
   User.update({ username: req.params.username }, { $set: {
     'profile.profile_image': profileInfo.profile_image,
-    'profile.full_name': profileInfo.full_name,
     'profile.gender': profileInfo.gender,
-    'profile.interests': profileInfo.interests
+    'profile.bio': profileInfo.bio
   }}, function (err, status) {
 
     if (err) { return next(err); }

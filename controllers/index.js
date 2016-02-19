@@ -21,17 +21,20 @@ exports.register = function (req, res, next) {
     username: userInfo.username,
     password: userInfo.password,
     email: userInfo.email,
+    location: {
+      lat: userInfo.location.lat,
+      lng: userInfo.location.lng
+    },
     profile: {
       profile_image: "",
-      full_name: "",
       gender: "",
-      interests: ""
+      bio: ""
     }
   });
 
   user.save(function (err) {
     if (err) {
-      res.status(404).send({ message: 'username or password already taken' });
+      res.status(400).send({ success: false, message: 'users validation failed' });
     } else {
       user.__v = undefined;
       user.password = undefined;
@@ -47,20 +50,25 @@ exports.login = function (req, res, next) {
     if (err) { return next(err); }
 
     if (!user) {
-      res.status(404).json({ message: 'Invalid username' });
+      res.status(400).json({ message: 'Invalid username' });
     } else if (user) {
 
       user.verifyPassword(req.body.password, function (err, isMatch) {
         if (err) { return next(err); }
 
         // Password did not match
-        if (!isMatch) { res.status(404).json({ message: 'Invalid password' }); }
+        if (!isMatch) { res.status(400).json({ message: 'Invalid password' }); }
 
         var token = jwt.sign(user, config.secret);
 
+        // remove any unwanted or sensitive fields
+        user.password = undefined;
+        user.__v = undefined;
+
         res.status(200).json({
           success: true,
-          token: token
+          token: token,
+          user: user
         });
       });
     }

@@ -12,16 +12,19 @@ var ObjectId = Schema.ObjectId;
 var userSchema = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  email: { type: String, index: true, unique: true, required: true },
+  email: { type: String, index: true, unique: true, required: true }, // TODO set to lower case for precise validation
+  location: {
+    lat: { type: Number, required: true },
+    lng: { type: Number, required: true }
+  },
   profile: {
     profile_image: String,
-    full_name: String,
     gender: String,
-    interests: String
+    bio: String
   }
 });
 
-userSchema.plugin(uniqueValidator); // validate unique properties
+userSchema.plugin(uniqueValidator); // validate schema properties
 
 // Execute before each user.save() call
 userSchema.pre('save', function (cb) {

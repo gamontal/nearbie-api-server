@@ -41,8 +41,8 @@ router.route('/user/:username')
   .get(userController.getUserInfo); // return user object
 
 router.route('/user/:userId')
+  .put(userController.updateUserInfo) // update account information
   .delete(userController.deleteUser); // delete user account permanently
-  .put(userController.updateUserInfo); // update account information
 
 router.route('/user/profile/:username')
   .get(userController.getProfile) // get a user's profile information
