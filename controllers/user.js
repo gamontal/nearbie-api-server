@@ -27,21 +27,28 @@ exports.deleteUser = function (req, res, next) {
 };
 
 // PUT /api/user/:userId
+// NOTE it is debatable whether or not to send the user's object in the payload or as a query
 exports.updateUserInfo = function (req, res, next) {
   var userInfo = req.body;
-  User.findOne({ _id: req.params.userId }, function (err, user) {
 
+  User.findOne({ _id: req.params.userId }, function (err, user) {
     if (err) { return next(err); }
 
     if (!user) {
       res.status(404).send({ success: false, message: 'user doesn\'t exist' });
     } else if (user) {
+
       user.username = userInfo.username;
       user.password = userInfo.password;
       user.email = userInfo.email;
-      user.save();
+      user.save(function (err) { // catch validation error and return response to the client
+        if (err) {
+          res.status(400).send({ success: false, message: 'user validation failed' });
+        } else {
+          res.status(200).send({ success: true, message: 'user information updated' });
+        }
+      });
 
-      res.status(200).send({ success: true, message: 'user information updated' });
     }
   });
 };

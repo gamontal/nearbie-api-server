@@ -31,9 +31,6 @@ router.route('/register')
 router.route('/login')
   .post(controller.login); // user login
 
-// router.route('/logout')
-  // .post(controller.logout); // user logout
-
 /* ENABLE AUTHENTICATION */
 router.use(authController.checkForAuthentication);
 

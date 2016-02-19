@@ -34,7 +34,7 @@ exports.register = function (req, res, next) {
 
   user.save(function (err) {
     if (err) {
-      res.status(400).send({ success: false, message: 'users validation failed' });
+      res.status(400).send({ success: false, message: 'user validation failed' });
     } else {
       user.__v = undefined;
       user.password = undefined;
