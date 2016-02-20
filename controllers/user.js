@@ -77,7 +77,7 @@ exports.getProfile = function (req, res, next) {
 
 // PUT /api/user/profile/:username
 exports.updateProfile = function (req, res, next) {
-  var profileInfo = req.body;
+  var newProfileInfo = req.body;
 
   User.findOne({ username: req.params.username }, function (err, user) {
 
@@ -87,9 +87,9 @@ exports.updateProfile = function (req, res, next) {
       res.status(404).send({ success: false, message: 'user doesn\'t exist' });
     } else if (user) {
 
-      user.profile.profile_image = profileInfo.profile_image,
-      user.profile.gender = profileInfo.gender,
-      user.profile.bio = profileInfo.bio
+      user.profile.profile_image = newProfileInfo.profile_image;
+      user.profile.gender = newProfileInfo.gender;
+      user.profile.bio = newProfileInfo.bio;
 
       user.save();
 
