@@ -20,7 +20,6 @@ server.use(morgan('dev'));
 server.use(methodOverride());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.set('rRID4RK7', config.secret);
 
 var router = express.Router();
 

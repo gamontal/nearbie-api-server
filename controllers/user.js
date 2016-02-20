@@ -41,6 +41,7 @@ exports.updateUserInfo = function (req, res, next) {
       user.username = userInfo.username;
       user.password = userInfo.password;
       user.email = userInfo.email;
+
       user.save(function (err) { // catch validation error and return response to the client
         if (err) {
           res.status(400).send({ success: false, message: 'user validation failed' });
@@ -78,15 +79,22 @@ exports.getProfile = function (req, res, next) {
 exports.updateProfile = function (req, res, next) {
   var profileInfo = req.body;
 
-  User.update({ username: req.params.username }, { $set: {
-    'profile.profile_image': profileInfo.profile_image,
-    'profile.gender': profileInfo.gender,
-    'profile.bio': profileInfo.bio
-  }}, function (err, status) {
+  User.findOne({ username: req.params.username }, function (err, user) {
 
     if (err) { return next(err); }
 
-    res.status(200).send({ success: true, message: 'user profile updated' });
+    if (!user) {
+      res.status(404).send({ success: false, message: 'user doesn\'t exist' });
+    } else if (user) {
+
+      user.profile.profile_image = profileInfo.profile_image,
+      user.profile.gender = profileInfo.gender,
+      user.profile.bio = profileInfo.bio
+
+      user.save();
+
+      res.status(200).send({ success: true, message: 'user profile updated' });
+    }
   });
 };
 
