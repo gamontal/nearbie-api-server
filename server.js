@@ -4,32 +4,34 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var config = require('./config');
-var controller = require('./controllers/index');
+var server = express();
+
+/* Route Handlers */
+var mainController = require('./controllers/main');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
-var server = express();
 
 mongoose.connect(config.database, function (err) {
   if (err) { console.log(err); }
-  else { console.log('connection to [' + config.database + '] was successful'); } // these logs are intended for development
+  else { console.log('connection to [' + config.database + '] was successful'); }
 });
 
 server.use(morgan('dev'));
 server.use(methodOverride());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.set('rRID4RK7', config.secret); // sets API token
+server.set('rRID4RK7', config.secret);
 
 var router = express.Router();
 
 router.route('/')
-  .get(controller.api);
+  .get(mainController.api);
 
 router.route('/register')
-  .post(controller.register); // user registration
+  .post(mainController.register); // user registration
 
 router.route('/login')
-  .post(controller.login); // user login
+  .post(mainController.login); // user login
 
 /* ENABLE AUTHENTICATION */
 router.use(authController.checkForAuthentication);
@@ -41,11 +43,17 @@ router.route('/user/:userId')
   .put(userController.updateUserInfo) // update account information
   .delete(userController.deleteUser); // delete user account permanently
 
+//router.route('/user/location')
+  //.put(userController.updateUserLocation); // updates the user location
+
 router.route('/user/profile/:username')
   .get(userController.getProfile) // get a user's profile information
   .put(userController.updateProfile); // update a user's profile information
 
 server.use('/api', router); // initialize routes
+
+
+/* Server Configuration */
 
 // catch 404 status code
 server.get('*', function (req, res) {

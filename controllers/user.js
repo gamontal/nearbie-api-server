@@ -53,6 +53,11 @@ exports.updateUserInfo = function (req, res, next) {
   });
 };
 
+/* GET /api/location
+exports.updateUserLocation = function (req, res, next) {
+};
+*/
+
 // GET /api/user/profile/:username
 exports.getProfile = function (req, res, next) {
   User.findOne({ username: req.params.username }, {
@@ -60,7 +65,7 @@ exports.getProfile = function (req, res, next) {
     password: 0,
     email: 0,
     __v: 0,
-    location: 0
+    loc: 0
   }, function (err, profile) {
 
     if (err) { return next(err); }

@@ -7,20 +7,21 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
-var ObjectId = Schema.ObjectId;
+//var ObjectId = Schema.ObjectId;
 
 var userSchema = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
-  email: { // TODO validate email
+  email: {
     type: String,
     index: true,
     unique: true,
-    required: true
+    required: true,
+    lowercase: true
   },
-  location: {
-    lat: { type: Number, required: true },
-    lng: { type: Number, required: true }
+  loc: {
+    lng: { type: Number, required: true },
+    lat: { type: Number, required: true }
   },
   profile: {
     profile_image: String,
