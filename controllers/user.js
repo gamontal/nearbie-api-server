@@ -54,10 +54,39 @@ exports.updateUserInfo = function (req, res, next) {
   });
 };
 
-/* GET /api/location
+// PUT /api/user/location/:userId
+// NOTE returns an empty array if no users were found with nearby coordinates
 exports.updateUserLocation = function (req, res, next) {
+
+  // store the latest coordenates
+  User.update({ _id: req.params.userId }, { $set: { loc: [req.body.lng, req.body.lat] }}, function (err) {
+    if (err) { return next(err); }
+  });
+
+  // get the max distance or set it to 1 km
+  var maxDistance = req.body.maxDistance || 1;
+
+  // convert the distance to radius
+  maxDistance /= 6371;
+
+  // get coordinates
+  var coords = [];
+  coords[0] = req.body.lng;
+  coords[1] = req.body.lat;
+
+  // find nearby users
+  User.find({
+    loc: {
+      $near: coords,
+      $maxDistance: maxDistance
+    }
+  }).exec(function (err, users) {
+
+    if (err) { return next(err); }
+
+    res.status(200).json(users);
+  });
 };
-*/
 
 // GET /api/user/profile/:username
 exports.getProfile = function (req, res, next) {

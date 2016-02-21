@@ -7,21 +7,18 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
-//var ObjectId = Schema.ObjectId;
 
 var userSchema = new Schema({
   username: { type: String, unique: true, required: true },
   password: { type: String, required: true },
   email: {
     type: String,
-    index: true,
     unique: true,
     required: true,
     lowercase: true
   },
   loc: {
-    lng: { type: Number, required: true },
-    lat: { type: Number, required: true }
+    type: [Number]
   },
   profile: {
     profile_image: String,
@@ -58,5 +55,6 @@ userSchema.methods.verifyPassword = function (password, cb) {
   });
 };
 
+userSchema.index({ loc: '2d' });
 module.exports = mongoose.model('users', userSchema);
 
