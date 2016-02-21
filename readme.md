@@ -14,10 +14,7 @@ Using a MongoDB database and the Mongoose library to query user information from
   username: String, //=> unique = true, required = true
   password: String, //=> required = true
   email: String, //=> unique = true, required = true
-  location: {
-    lat: Number, //=> required = true
-    lng: Number //=> required = true
-  },
+  loc: [Number],
   profile: {
     profile_image: String,
     gender: String,
