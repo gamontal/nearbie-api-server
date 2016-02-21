@@ -61,7 +61,7 @@ exports.login = function (req, res, next) {
         }
 
         var expires = moment().add('days', 7).valueOf();
-        var token = jwt.sign(user, config.secret, { expiresIn: expires }); // expires in 24 hours
+        var token = jwt.sign(user, config.secret, { expiresIn: expires });
 
         // remove any unwanted or sensitive fields
         user.password = undefined;
