@@ -4,9 +4,11 @@
  */
 
 var mongoose = require('mongoose');
-var User = require('../models/user');
 var jwt = require('jsonwebtoken');
+var moment = require('moment');
 var config = require('../config');
+
+var User = require('../models/user'); // user model
 
 // GET /api
 exports.api = function (req, res) {
@@ -21,10 +23,7 @@ exports.register = function (req, res, next) {
     username: userInfo.username,
     password: userInfo.password,
     email: userInfo.email,
-    location: {
-      lat: userInfo.location.lat,
-      lng: userInfo.location.lng
-    },
+    loc: userInfo.loc,
     profile: {
       profile_image: "",
       gender: "",
@@ -50,16 +49,19 @@ exports.login = function (req, res, next) {
     if (err) { return next(err); }
 
     if (!user) {
-      res.status(400).json({ message: 'Invalid username' });
+      res.status(400).json({ success: false, message: 'Invalid username' });
     } else if (user) {
 
       user.verifyPassword(req.body.password, function (err, isMatch) {
         if (err) { return next(err); }
 
         // Password did not match
-        if (!isMatch) { res.status(400).json({ message: 'Invalid password' }); }
+        if (!isMatch) {
+          res.status(400).json({ success: false, message: 'Invalid password' });
+        }
 
-        var token = jwt.sign(user, config.secret);
+        var expires = moment().add('days', 7).valueOf();
+        var token = jwt.sign(user, config.secret, { expiresIn: expires }); // expires in 24 hours
 
         // remove any unwanted or sensitive fields
         user.password = undefined;

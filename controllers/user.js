@@ -16,9 +16,9 @@ exports.getUserInfo = function (req, res, next) {
   });
 };
 
-// DELETE /api/user/:userId
+// DELETE /api/user/:userid
 exports.deleteUser = function (req, res, next) {
-  User.remove({ _id: req.params.userId }, function (err, user) {
+  User.remove({ _id: req.params.userid }, function (err, user) {
 
     if (err) { return next(err); }
 
@@ -26,12 +26,12 @@ exports.deleteUser = function (req, res, next) {
   });
 };
 
-// PUT /api/user/:userId
+// PUT /api/user/:userid
 // NOTE it is debatable whether or not to send the user's object in the payload or as a query
 exports.updateUserInfo = function (req, res, next) {
   var userInfo = req.body;
 
-  User.findOne({ _id: req.params.userId }, function (err, user) {
+  User.findOne({ _id: req.params.userid }, function (err, user) {
     if (err) { return next(err); }
 
     if (!user) {
@@ -54,12 +54,12 @@ exports.updateUserInfo = function (req, res, next) {
   });
 };
 
-// PUT /api/user/location/:userId
+// PUT /api/user/location/:userid
 // NOTE returns an empty array if no users were found with nearby coordinates
 exports.updateUserLocation = function (req, res, next) {
 
   // store the latest coordenates
-  User.update({ _id: req.params.userId }, { $set: { loc: [req.body.lng, req.body.lat] }}, function (err) {
+  User.update({ _id: req.params.userid }, { $set: { loc: [req.body.lng, req.body.lat] }}, function (err) {
     if (err) { return next(err); }
   });
 

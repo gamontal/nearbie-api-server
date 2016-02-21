@@ -9,6 +9,7 @@
     "jsonwebtoken": "^5.5.4",
     "kerberos": "^0.0.17",
     "method-override": "^2.3.5",
+    "moment": "^2.11.2",
     "mongoose": "^4.2.8",
     "mongoose-unique-validator": "1.0.0",
     "morgan": "^1.6.1"

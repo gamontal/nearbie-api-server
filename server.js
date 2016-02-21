@@ -23,6 +23,8 @@ server.use(bodyParser.json());
 
 var router = express.Router();
 
+/* API Routes */
+
 router.route('/')
   .get(mainController.api);
 
@@ -32,18 +34,18 @@ router.route('/register')
 router.route('/login')
   .post(mainController.login); // user login
 
-/* ENABLE AUTHENTICATION */
+/* ENABLE AUTHENTICATION FOR ALL /api/user/ ROUTES */
 router.use(authController.checkForAuthentication);
 
 router.route('/user/:username')
   .get(userController.getUserInfo); // return user object
 
-router.route('/user/:userId')
+router.route('/user/:userid')
   .put(userController.updateUserInfo) // update account information
   .delete(userController.deleteUser); // delete user account permanently
 
-router.route('/user/location/:userId')
-  .put(userController.updateUserLocation); // updates the user location and return nearby users
+router.route('/user/location/:userid')
+  .put(userController.updateUserLocation); // updates the user location and returns nearby users
 
 router.route('/user/profile/:username')
   .get(userController.getProfile) // get a user's profile information
