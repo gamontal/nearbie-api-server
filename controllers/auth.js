@@ -1,6 +1,6 @@
 /**
  * @module
- * @moduledesc JWT token validation module.
+ * @moduledesc JWT validation module.
  */
 
 var jwt = require('jsonwebtoken');
