@@ -63,8 +63,8 @@ exports.updateUserLocation = function (req, res, next) {
     if (err) { return next(err); }
   });
 
-  // get the max distance or set it to 1 km
-  var maxDistance = req.body.maxDistance || 1;
+  // get the max distance or set it to 5 km
+  var maxDistance = req.body.maxDistance || 5;
 
   // convert the distance to radius
   maxDistance /= 6371;
@@ -80,7 +80,7 @@ exports.updateUserLocation = function (req, res, next) {
       $near: coords,
       $maxDistance: maxDistance
     }
-  }).exec(function (err, users) {
+  }, { password: 0, __v: 0 }).exec(function (err, users) {
 
     if (err) { return next(err); }
 

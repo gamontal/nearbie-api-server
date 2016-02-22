@@ -35,7 +35,7 @@ router.route('/login')
   .post(mainController.login); // user login
 
 /* ENABLE AUTHENTICATION FOR ALL /api/user/ ROUTES */
-router.use(authController.checkForAuthentication);
+//router.use(authController.checkForAuthentication);
 
 router.route('/user/:username')
   .get(userController.getUserInfo); // return user object

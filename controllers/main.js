@@ -19,6 +19,7 @@ exports.api = function (req, res) {
 exports.register = function (req, res, next) {
   var userInfo = req.body;
 
+  // create a new user
   var user = new User({
     username: userInfo.username,
     password: userInfo.password,
@@ -33,11 +34,16 @@ exports.register = function (req, res, next) {
 
   user.save(function (err) {
     if (err) {
-      res.status(400).send({ success: false, message: 'user validation failed' });
+      res.status(400).send({
+        success: false,
+        message: 'Validation failed, a user with that username or email address already exists.'
+      });
     } else {
+
       user.__v = undefined;
       user.password = undefined;
       user.email = undefined;
+
       res.status(200).json(user);
     }
   });
