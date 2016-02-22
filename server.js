@@ -11,19 +11,22 @@ var mainController = require('./controllers/main');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
+/* MongoDB Connection */
 mongoose.connect(config.database, function (err) {
   if (err) { console.log(err); }
-  else { console.log('connection to [' + config.database + '] was successful'); }
+  else { console.log('connection to [' + config.database + '] was successful'); } // this output will be removed once in production
 });
 
+/* Middleware */
 server.use(morgan('dev'));
 server.use(methodOverride());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
-var router = express.Router();
 
 /* API Routes */
+
+var router = express.Router();
 
 router.route('/')
   .get(mainController.api);
@@ -50,6 +53,7 @@ router.route('/user/location/:userid')
 router.route('/user/profile/:username')
   .get(userController.getProfile) // get a user's profile information
   .put(userController.updateProfile); // update a user's profile information
+
 
 server.use('/api', router); // initialize routes
 
