@@ -2,7 +2,6 @@ var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var methodOverride = require('method-override');
 var config = require('./config');
 var server = express();
 
@@ -19,7 +18,6 @@ mongoose.connect(config.database, function (err) {
 
 /* Middleware */
 server.use(morgan('dev'));
-server.use(methodOverride());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
@@ -37,20 +35,20 @@ router.route('/register')
 router.route('/login')
   .post(mainController.login); // user login
 
-/* ENABLE AUTHENTICATION FOR ALL /api/user/ ROUTES */
+/* ENABLE AUTHENTICATION FOR ALL /api/users/ ROUTES */
 //router.use(authController.checkForAuthentication);
 
-router.route('/user/:username')
+router.route('/users/:username')
   .get(userController.getUserInfo); // return user object
 
-router.route('/user/:userid')
+router.route('/users/:userid')
   .put(userController.updateUserInfo) // update account information
   .delete(userController.deleteUser); // delete user account permanently
 
-router.route('/user/location/:userid')
+router.route('/users/location/:userid')
   .put(userController.updateUserLocation); // updates the user location and returns nearby users
 
-router.route('/user/profile/:username')
+router.route('/users/profile/:username')
   .get(userController.getProfile) // get a user's profile information
   .put(userController.updateProfile); // update a user's profile information
 

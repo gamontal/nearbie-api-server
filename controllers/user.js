@@ -6,7 +6,7 @@
 var mongoose = require('mongoose');
 var User = require('../models/user');
 
-// GET /api/user/:username
+// GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
   User.findOne({ username: req.params.username }, { password: 0, __v: 0 }, function (err, user) {
 
@@ -16,7 +16,7 @@ exports.getUserInfo = function (req, res, next) {
   });
 };
 
-// DELETE /api/user/:userid
+// DELETE /api/users/:userid
 exports.deleteUser = function (req, res, next) {
   User.remove({ _id: req.params.userid }, function (err, user) {
 
@@ -26,7 +26,7 @@ exports.deleteUser = function (req, res, next) {
   });
 };
 
-// PUT /api/user/:userid
+// PUT /api/users/:userid
 // NOTE it is debatable whether or not to send the user's object in the payload or as a query
 exports.updateUserInfo = function (req, res, next) {
   var userInfo = req.body;
@@ -54,7 +54,7 @@ exports.updateUserInfo = function (req, res, next) {
   });
 };
 
-// PUT /api/user/location/:userid
+// PUT /api/users/location/:userid
 // NOTE returns an empty array if no users were found with nearby coordinates
 exports.updateUserLocation = function (req, res, next) {
 
@@ -89,7 +89,7 @@ exports.updateUserLocation = function (req, res, next) {
   });
 };
 
-// GET /api/user/profile/:username
+// GET /api/users/profile/:username
 exports.getProfile = function (req, res, next) {
   User.findOne({ username: req.params.username }, {
     // remove unwanted or sensitive fields
@@ -105,7 +105,7 @@ exports.getProfile = function (req, res, next) {
   });
 };
 
-// PUT /api/user/profile/:username
+// PUT /api/users/profile/:username
 exports.updateProfile = function (req, res, next) {
   var newProfileInfo = req.body;
 
