@@ -34,3 +34,40 @@ User validation and endpoint protection is done using the JSON Web Token authent
 ## Changes (everything is subject to change)
 
 > Update this document if any changes that do not comply with these methods are made.
+
+## Available endpoints
+
+#### Main route
+
+```GET /api```
+
+#### User registration
+  
+```POST /api/register```
+
+#### User login
+
+```POST /api/login```
+
+#### Get a user's information
+
+```GET /user/:username```
+
+#### Update user information
+
+```PUT /user/:userid```
+
+#### Delete a user
+
+```DELETE /user/:userid```
+
+#### Update a user's location
+
+```PUT /user/location/userid```
+
+#### Get a user's profile information
+
+```GET /user/profile/username```
+
+#### Update a user's profile information
+```PUT /user/profile/username```
