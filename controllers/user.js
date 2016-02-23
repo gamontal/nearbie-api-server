@@ -22,7 +22,7 @@ exports.deleteUser = function (req, res, next) {
 
     if (err) { return next(err); }
 
-    res.status(200).send({ success: true, message: 'user deleted' });
+    res.status(200).json({ success: true, message: 'user deleted' });
   });
 };
 
@@ -35,7 +35,7 @@ exports.updateUserInfo = function (req, res, next) {
     if (err) { return next(err); }
 
     if (!user) {
-      res.status(404).send({ success: false, message: 'user doesn\'t exist' });
+      res.status(404).json({ success: false, message: 'user doesn\'t exist' });
     } else if (user) {
 
       user.username = userInfo.username;
@@ -44,9 +44,9 @@ exports.updateUserInfo = function (req, res, next) {
 
       user.save(function (err) { // catch validation error and return response to the client
         if (err) {
-          res.status(400).send({ success: false, message: 'user validation failed' });
+          res.status(400).json({ success: false, message: 'user validation failed' });
         } else {
-          res.status(200).send({ success: true, message: 'user information updated' });
+          res.status(200).json({ success: true, message: 'user information updated' });
         }
       });
 
