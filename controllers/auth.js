@@ -16,7 +16,7 @@ exports.checkForAuthentication = function (req, res, next) {
     // compare tokens
     jwt.verify(token, config.secret, function (err, decoded) {
       if (err) {
-        return res.json({
+        return res.status(403).json({
           success: false,
           message: 'Failed to authenticate token.'
         });
@@ -26,7 +26,7 @@ exports.checkForAuthentication = function (req, res, next) {
       }
     });
   } else {
-    return res.status(403).send({
+    return res.status(403).json({
       success: false,
       message: 'No token provided'
     });
