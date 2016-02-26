@@ -45,6 +45,16 @@ User validation and endpoint protection is done using the JSON Web Token authent
   
 ```POST /api/register```
 
+**Payload example:**
+
+```javascript
+{
+  "username": "user1",
+  "password": "1234",
+  "email": "user1@gmail.com"
+}
+```
+
 #### User login
 
 ```POST /api/login```
@@ -53,9 +63,20 @@ User validation and endpoint protection is done using the JSON Web Token authent
 
 ```GET /users/:username```
 
+
 #### Update user information
 
 ```PUT /users/:userid```
+
+**Payload example:**
+
+```javascript
+{
+  "username": "newUsername",
+  "password": "newPassword",
+  "email": "newEmail"
+}
+```
 
 #### Delete a user
 
@@ -63,7 +84,16 @@ User validation and endpoint protection is done using the JSON Web Token authent
 
 #### Update a user's location
 
-```PUT /users/location/userid```
+```PUT /users/location/:userid```
+
+**Payload example:**
+
+```javascript
+{
+  "lng": "22.123456",
+  "lat": "-22.123456"
+}
+```
 
 #### Get a user's profile information
 
@@ -71,3 +101,13 @@ User validation and endpoint protection is done using the JSON Web Token authent
 
 #### Update a user's profile information
 ```PUT /users/profile/username```
+
+**Payload example:**
+
+```javascript
+{
+  "profile_image": "example.link.com",
+  "gender": "Female",
+  "bio": "new bio information"
+}
+```
