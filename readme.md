@@ -51,23 +51,23 @@ User validation and endpoint protection is done using the JSON Web Token authent
 
 #### Get a user's information
 
-```GET /user/:username```
+```GET /users/:username```
 
 #### Update user information
 
-```PUT /user/:userid```
+```PUT /users/:userid```
 
 #### Delete a user
 
-```DELETE /user/:userid```
+```DELETE /users/:userid```
 
 #### Update a user's location
 
-```PUT /user/location/userid```
+```PUT /users/location/userid```
 
 #### Get a user's profile information
 
-```GET /user/profile/username```
+```GET /users/profile/username```
 
 #### Update a user's profile information
-```PUT /user/profile/username```
+```PUT /users/profile/username```
