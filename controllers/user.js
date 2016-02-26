@@ -84,7 +84,13 @@ exports.updateUserLocation = function (req, res, next) {
 
     if (err) { return next(err); }
 
-    users.shift() // remove user from the nearby users list (first item in the results array)
+    // this removes the current user from the results array
+    users.forEach(function (elem, index) {
+      if (elem._id == req.params.userid) {
+        users.splice(index, 1);
+      }
+    });
+
     res.status(200).json(users);
   });
 };
