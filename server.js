@@ -21,7 +21,6 @@ server.use(morgan('dev'));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
-
 /* API Routes */
 
 var router = express.Router();

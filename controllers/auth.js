@@ -10,7 +10,7 @@ var config = require('../config');
 
 exports.checkForAuthentication = function (req, res, next) {
   // check header or url parameters or post parameters for token
-  var token = req.body.token || req.query.token || req.headers['x-access-token'];
+  var token = req.headers['x-access-token']; // takes API token from request header
 
   if (token) {
     // compare tokens
