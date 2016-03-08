@@ -4,6 +4,8 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var config = require('./config');
 var server = express();
+var fs = require('fs');
+var accessLogStream = fs.createWriteStream(__dirname + '/logs/access.log', {flags: 'a'});
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
@@ -12,12 +14,11 @@ var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
 mongoose.connect(config.database, function (err) {
-  if (err) { console.log(err); }
-  else { console.log('connection to [' + config.database + '] was successful'); } // this output will be removed once in production
+  if (err) { console.error(err); }
 });
 
 /* Middleware */
-server.use(morgan('dev'));
+server.use(morgan('combined', { stream: accessLogStream }));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
@@ -44,10 +45,11 @@ router.route('/users/:userid')
   .put(userController.updateUserInfo) // update account information
   .delete(userController.deleteUser); // delete user account permanently
 
-router.route('/users/location/:userid')
-  .put(userController.updateUserLocation); // updates the user location and returns nearby users
+router.route('/users/:userid/location')
+  .post(userController.updateUserLocation) // update and store a user's location
+  .put(userController.getNearbyUsers); // updates the user location and returns nearby users
 
-router.route('/users/profile/:username')
+router.route('/users/:username/profile')
   .get(userController.getProfile) // get a user's profile information
   .put(userController.updateProfile); // update a user's profile information
 

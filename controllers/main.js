@@ -52,14 +52,18 @@ exports.register = function (req, res, next) {
 // POST /api/login
 exports.login = function (req, res, next) {
   User.findOne({ username: req.body.username }, function (err, user) {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
 
     if (!user) {
       res.status(400).json({ success: false, message: 'Invalid username' });
     } else if (user) {
 
       user.verifyPassword(req.body.password, function (err, isMatch) {
-        if (err) { return next(err); }
+        if (err) {
+          return next(err);
+        }
 
         // Password did not match
         if (!isMatch) {

@@ -9,8 +9,9 @@ var User = require('../models/user');
 // GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
   User.findOne({ username: req.params.username }, { password: 0, __v: 0 }, function (err, user) {
-
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
 
     res.status(200).json(user);
   });
@@ -19,8 +20,9 @@ exports.getUserInfo = function (req, res, next) {
 // DELETE /api/users/:userid
 exports.deleteUser = function (req, res, next) {
   User.remove({ _id: req.params.userid }, function (err, user) {
-
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
 
     res.status(200).json({ success: true, message: 'user deleted' });
   });
@@ -32,7 +34,9 @@ exports.updateUserInfo = function (req, res, next) {
   var userInfo = req.body;
 
   User.findOne({ _id: req.params.userid }, function (err, user) {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
 
     if (!user) {
       res.status(404).json({ success: false, message: 'user doesn\'t exist' });
@@ -42,25 +46,50 @@ exports.updateUserInfo = function (req, res, next) {
       user.password = userInfo.password;
       user.email = userInfo.email;
 
-      user.save(function (err) { // catch validation error and return response to the client
-        if (err) {
+      user.save(function (valErr) { // catch validation error and return response to the client
+        if (valErr) {
           res.status(400).json({ success: false, message: 'user validation failed' });
         } else {
           res.status(200).json({ success: true, message: 'user information updated' });
         }
       });
-
     }
   });
 };
 
-// PUT /api/users/location/:userid
-// NOTE returns an empty array if no users were found with nearby coordinates
 exports.updateUserLocation = function (req, res, next) {
+  // store new coordenates
+  User.findOne({ _id: req.params.userid }, function (err, user) {
+    if (err) {
+      return next(err);
+    }
 
-  // store the latest coordenates
+    if (!user) {
+      res.status(404).json({ success: false, message: 'user doesn\'t exist' });
+    } else if (user) {
+
+      user.loc = [req.body.lng, req.body.lat];
+
+      user.save(function (valErr) { // catch validation error and return response to the client
+        if (valErr) {
+          res.status(400).json({ success: false, message: 'user validation failed' });
+        } else {
+          res.status(200).json({ success: true, message: 'user location updated' });
+        }
+      });
+    }
+  });
+};
+
+// PUT /api/users/:userid/location
+// NOTE returns an empty array if no users were found with nearby coordinates
+exports.getNearbyUsers = function (req, res, next) {
+
+  // store new coordinates
   User.update({ _id: req.params.userid }, { $set: { loc: [req.body.lng, req.body.lat] }}, function (err) {
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
   });
 
   // get the max distance or set it to 5 km
@@ -82,7 +111,9 @@ exports.updateUserLocation = function (req, res, next) {
     }
   }, { password: 0, __v: 0 }).exec(function (err, users) {
 
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
 
     // this removes the current user from the results array
     // NOTE mongoose doesn't provide this type of functionality (excluding a specific user from a query)
@@ -97,7 +128,7 @@ exports.updateUserLocation = function (req, res, next) {
   });
 };
 
-// GET /api/users/profile/:username
+// GET /api/users/:username/profile
 exports.getProfile = function (req, res, next) {
   User.findOne({ username: req.params.username }, {
     // remove unwanted or sensitive fields
@@ -107,19 +138,26 @@ exports.getProfile = function (req, res, next) {
     loc: 0
   }, function (err, profile) {
 
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
 
-    res.status(200).json(profile);
+    if (!profile) {
+      res.status(404).json({ success: false, message: 'user doesn\'t exists' })
+    } else {
+      res.status(200).json(profile); 
+    }
   });
 };
 
-// PUT /api/users/profile/:username
+// PUT /api/users/:username/profile
 exports.updateProfile = function (req, res, next) {
   var newProfileInfo = req.body;
 
   User.findOne({ username: req.params.username }, function (err, user) {
-
-    if (err) { return next(err); }
+    if (err) {
+      return next(err);
+    }
 
     if (!user) {
       res.status(404).send({ success: false, message: 'user doesn\'t exist' });
