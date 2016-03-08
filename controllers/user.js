@@ -143,7 +143,7 @@ exports.getProfile = function (req, res, next) {
     }
 
     if (!profile) {
-      res.status(404).json({ success: false, message: 'user doesn\'t exists' })
+      res.status(404).json({ success: false, message: 'user doesn\'t exists' });
     } else {
       res.status(200).json(profile); 
     }
