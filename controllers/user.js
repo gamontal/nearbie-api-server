@@ -14,7 +14,7 @@ exports.getUserInfo = function (req, res, next) {
     }
 
     if (!user) {
-      res.status(404).json({ success: false, message: 'user doesn\'t exist' });
+      res.status(404).json({ success: false, message: 'User doesn\'t exist' });
     } else if (user) {
       res.status(200).json(user);
     }
@@ -28,61 +28,70 @@ exports.deleteUser = function (req, res, next) {
       return next(err);
     }
 
-    res.status(200).json({ success: true, message: 'user deleted' });
+    res.status(200).json({ success: true, message: 'User deleted' });
   });
 };
 
 // PUT /api/users/:userid
 // NOTE it is debatable whether or not to send the user's object in the payload or as a query
 exports.updateUserInfo = function (req, res, next) {
-  var userInfo = req.body;
+  if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
+    var userInfo = req.body;
 
-  User.findOne({ _id: req.params.userid }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+    User.findOne({ _id: req.params.userid }, function (err, user) {
+      if (err) {
+        return next(err);
+      }
 
-    if (!user) {
-      res.status(404).json({ success: false, message: 'user doesn\'t exist' });
-    } else if (user) {
+      if (!user) {
+        res.status(404).json({ success: false, message: 'User doesn\'t exist' });
+      } else if (user) {
 
-      user.username = userInfo.username;
-      user.password = userInfo.password;
-      user.email = userInfo.email;
+        user.username = userInfo.username;
+        user.password = userInfo.password;
+        user.email = userInfo.email;
 
-      user.save(function (valErr) { // catch validation error and return response to the client
-        if (valErr) {
-          res.status(400).json({ success: false, message: 'user validation failed' });
-        } else {
-          res.status(200).json({ success: true, message: 'user information updated' });
-        }
-      });
-    }
-  });
+        user.save(function (valErr) { // catch validation error and return response to the client
+          if (valErr) {
+            res.status(400).json({ success: false, message: 'User validation failed' });
+          } else {
+            res.status(200).json({ success: true, message: 'User information updated' });
+          }
+        });
+      }
+    });
+  } else {
+    res.status(404).json({ success: false, message: 'Invalid user id' })
+  }
 };
 
 exports.updateUserLocation = function (req, res, next) {
-  // store new coordenates
-  User.findOne({ _id: req.params.userid }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+  if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
-    if (!user) {
-      res.status(404).json({ success: false, message: 'user doesn\'t exist' });
-    } else if (user) {
+    // store new coordenates
+    User.findOne({ _id: req.params.userid }, function (err, user) {
+      if (err) {
+        return next(err);
+      }
 
-      user.loc = [req.body.lng, req.body.lat];
+      if (!user) {
+        res.status(404).json({ success: false, message: 'User doesn\'t exist' });
+      } else if (user) {
 
-      user.save(function (valErr) { // catch validation error and return response to the client
-        if (valErr) {
-          res.status(400).json({ success: false, message: 'user validation failed' });
-        } else {
-          res.status(200).json({ success: true, message: 'user location updated' });
-        }
-      });
-    }
-  });
+        user.loc = [req.body.lng, req.body.lat];
+
+        user.save(function (valErr) { // catch validation error and return response to the client
+          if (valErr) {
+            res.status(400).json({ success: false, message: 'User validation failed' });
+          } else {
+            res.status(200).json({ success: true, message: 'User location updated' });
+          }
+        });
+      }
+    });
+  } else {
+    res.status(404).json({ success: false, message: 'Invalid user id' });
+  }
 };
 
 // PUT /api/users/:userid/location
@@ -147,7 +156,7 @@ exports.getProfile = function (req, res, next) {
     }
 
     if (!profile) {
-      res.status(404).json({ success: false, message: 'user doesn\'t exists' });
+      res.status(404).json({ success: false, message: 'User doesn\'t exists' });
     } else {
       res.status(200).json(profile); 
     }
@@ -164,7 +173,7 @@ exports.updateProfile = function (req, res, next) {
     }
 
     if (!user) {
-      res.status(404).send({ success: false, message: 'user doesn\'t exist' });
+      res.status(404).send({ success: false, message: 'User doesn\'t exist' });
     } else if (user) {
 
       user.profile.profile_image = newProfileInfo.profile_image;
@@ -173,7 +182,7 @@ exports.updateProfile = function (req, res, next) {
 
       user.save();
 
-      res.status(200).send({ success: true, message: 'user profile updated' });
+      res.status(200).send({ success: true, message: 'User profile updated' });
     }
   });
 };

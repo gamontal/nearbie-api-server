@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var config = require('./config');
 var server = express();
 var fs = require('fs');
-/* var accessLogStream = fs.createWriteStream(__dirname + '/logs/access.log', {flags: 'a'}); */
+// var accessLogStream = fs.createWriteStream(__dirname + '/logs/access.log', {flags: 'a'});
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
