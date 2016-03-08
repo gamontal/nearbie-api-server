@@ -76,9 +76,22 @@ User validation and endpoint protection is done using the JSON Web Token authent
 
 ```DELETE /users/:userid```
 
+#### Update a user's location and return nearby users
+
+```PUT /users/:userid/location```
+
+**Payload example:**
+
+```javascript
+{
+  "lng": "22.123456",
+  "lat": "-22.123456"
+}
+```
+
 #### Update a user's location
 
-```PUT /users/location/:userid```
+```POST /users/:userid/location```
 
 **Payload example:**
 
@@ -91,10 +104,10 @@ User validation and endpoint protection is done using the JSON Web Token authent
 
 #### Get a user's profile information
 
-```GET /users/profile/username```
+```GET /users/:username/profile```
 
 #### Update a user's profile information
-```PUT /users/profile/username```
+```PUT /users/:username/profile```
 
 **Payload example:**
 
