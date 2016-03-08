@@ -13,7 +13,11 @@ exports.getUserInfo = function (req, res, next) {
       return next(err);
     }
 
-    res.status(200).json(user);
+    if (!user) {
+      res.status(404).json({ success: false, message: 'user doesn\'t exist' });
+    } else if (user) {
+      res.status(200).json(user);
+    }
   });
 };
 
