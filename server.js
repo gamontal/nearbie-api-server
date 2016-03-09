@@ -1,10 +1,11 @@
 var fs = require('fs');
+var url = require('url');
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var server = express();
-var config = require('./config')[server.get('env')];
+var config = require('./config')[process.env.NODE_ENV || 'production'];
 // var accessLogStream = fs.createWriteStream(__dirname + '/logs/access.log', {flags: 'a'});
 
 /* Route Handlers */
@@ -14,11 +15,11 @@ var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
 mongoose.connect(config.database, function (err) {
-  if (err) { console.error(err); } else { console.log(config.database); }
+  if (err) { console.error(err); } else { console.log(url.parse(config.database).host); }
 });
 
 /* Middleware */
-server.use(morgan('combined'));
+server.use(morgan('common'));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
@@ -36,7 +37,9 @@ router.route('/login')
   .post(mainController.login); // user login
 
 /* ENABLE AUTHENTICATION FOR ALL /api/users/ ROUTES */
-//router.use(authController.checkForAuthentication);
+if (server.get('env') === 'production') {
+  router.use(authController.checkForAuthentication);
+}
 
 router.route('/users/:username')
   .get(userController.getUserInfo); // return user object
