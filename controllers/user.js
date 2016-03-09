@@ -63,6 +63,7 @@ exports.updateUserInfo = function (req, res, next) {
   }
 };
 
+// POST /api/users/:userid/location
 exports.updateUserLocation = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
@@ -96,12 +97,11 @@ exports.updateUserLocation = function (req, res, next) {
 // NOTE returns an empty array if no users were found with nearby coordinates
 exports.getNearbyUsers = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
+    var userid = req.params.userid;
 
     // store new coordinates
-    User.findOne({ _id: req.params.userid }, function (user, err) {
-      if (err) {
-        return next(err);
-      }
+    User.findOne({ _id: userid }, function (err, user) {
+      if (err) { return next(err); }
 
       if (!user) {
         res.status(404).json({ success: false, message: 'user doen\'t exist'});
@@ -113,41 +113,41 @@ exports.getNearbyUsers = function (req, res, next) {
             res.status(400).json({ success: false, message: 'User validation failed' });
           }
         });
+
+        var maxDistance = req.body.maxDistance || 2;
+
+        // convert the distance to radius
+        maxDistance /= 6371;
+
+        // get coordinates
+        var coords = [];
+        coords[0] = req.body.lng;
+        coords[1] = req.body.lat;
+
+        // find nearby users
+        User.find({
+          loc: {
+            $near: coords,
+            $maxDistance: maxDistance
+          }
+        }, { password: 0, __v: 0 }).exec(function (err, users) {
+
+          if (err) {
+            return next(err);
+          }
+
+          // this removes the current user from the results array
+          // NOTE mongoose doesn't provide this type of functionality (excluding a specific user from a query)
+          // looping through the users array and eliminating the user's object is the only feasible solution I could find
+          users.forEach(function (elem, index) {
+            if (elem._id == userid) {
+              users.splice(index, 1);
+            }
+          });
+
+          res.status(200).json(users);
+        });
       }
-    });
-
-    var maxDistance = req.body.maxDistance || 2;
-
-    // convert the distance to radius
-    maxDistance /= 6371;
-
-    // get coordinates
-    var coords = [];
-    coords[0] = req.body.lng;
-    coords[1] = req.body.lat;
-
-    // find nearby users
-    User.find({
-      loc: {
-        $near: coords,
-        $maxDistance: maxDistance
-      }
-    }, { password: 0, __v: 0 }).exec(function (err, users) {
-
-      if (err) {
-        return next(err);
-      }
-
-      // this removes the current user from the results array
-      // NOTE mongoose doesn't provide this type of functionality (excluding a specific user from a query)
-      // looping through the users array and eliminating the user's object is the only feasible solution I could find
-      users.forEach(function (elem, index) {
-        if (elem._id == req.params.userid) {
-          users.splice(index, 1);
-        }
-      });
-
-      res.status(200).json(users);
     });
   } else {
     res.status(404).json({ success: false, message: 'Invalid user id' });
