@@ -105,8 +105,8 @@ exports.getNearbyUsers = function (req, res, next) {
     }
   });
 
-  // get the max distance or set it to 5 km
-  var maxDistance = req.body.maxDistance || 5;
+  // get the max distance or set it to 2 km
+  var maxDistance = req.body.maxDistance || 2;
 
   // convert the distance to radius
   maxDistance /= 6371;
