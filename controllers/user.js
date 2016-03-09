@@ -98,9 +98,21 @@ exports.getNearbyUsers = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
     // store new coordinates
-    User.update({ _id: req.params.userid }, { $set: { loc: [req.body.lng, req.body.lat] }}, function (err) {
+    User.findOne({ _id: req.params.userid }, function (user, err) {
       if (err) {
         return next(err);
+      }
+
+      if (!user) {
+        res.status(404).json({ success: false, message: 'user doen\'t exist'});
+      } else if (user) {
+        user.loc = [req.body.lng, req.body.lat];
+
+        user.save(function (valErr) {
+          if (valErr) {
+            res.status(400).json({ success: false, message: 'User validation failed' });
+          }
+        });
       }
     });
 
