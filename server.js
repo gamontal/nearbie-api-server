@@ -1,10 +1,10 @@
+var fs = require('fs');
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var config = require('./config');
 var server = express();
-var fs = require('fs');
+var config = require('./config')[server.get('env')];
 // var accessLogStream = fs.createWriteStream(__dirname + '/logs/access.log', {flags: 'a'});
 
 /* Route Handlers */
@@ -14,11 +14,11 @@ var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
 mongoose.connect(config.database, function (err) {
-  if (err) { console.error(err); }
+  if (err) { console.error(err); } else { console.log(config.database); }
 });
 
 /* Middleware */
-server.use(morgan('dev'));
+server.use(morgan('combined'));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 

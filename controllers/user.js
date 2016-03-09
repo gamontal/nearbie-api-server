@@ -106,25 +106,27 @@ exports.getNearbyUsers = function (req, res, next) {
       if (!user) {
         res.status(404).json({ success: false, message: 'user doen\'t exist'});
       } else if (user) {
-        user.loc = [req.body.lng, req.body.lat];
 
+        user.loc = [req.body.lng, req.body.lat]; // add new coordinates
+
+        // save changes
         user.save(function (valErr) {
           if (valErr) {
             res.status(400).json({ success: false, message: 'User validation failed' });
           }
         });
 
+        // sets radius
         var maxDistance = req.body.maxDistance || 2;
 
         // convert the distance to radius
         maxDistance /= 6371;
 
-        // get coordinates
         var coords = [];
         coords[0] = req.body.lng;
         coords[1] = req.body.lat;
 
-        // find nearby users
+        // query for nearby users
         User.find({
           loc: {
             $near: coords,
