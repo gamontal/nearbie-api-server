@@ -34,7 +34,7 @@ var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
-mongoose.connect(serverConfig.database, function (err) {
+mongoose.createConnection(serverConfig.database, function (err) {
   if (err) { console.log('connection to ' + url.parse(serverConfig.database).host + ' failed'); }
   else { console.log('connection to ' + url.parse(serverConfig.database).host + ' was successful'); }
 });

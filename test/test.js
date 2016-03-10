@@ -8,7 +8,7 @@ describe('Routing', function () {
   var url = 'http://quickee-api.herokuapp.com/api';
 
   before(function (done) {
-    mongoose.connect(serverConfig.test.database);
+    mongoose.createConnection(serverConfig.test.database);
     done();
   });
 
