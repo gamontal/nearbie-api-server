@@ -6,7 +6,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var FileStreamRotator = require('file-stream-rotator');
 var logDirectory = __dirname + '/log';
-var config = require('./config')[process.env.NODE_ENV || 'development'];
+var config = require('./config')[process.env.NODE_ENV || 'production'];
 var server = express();
 
 
@@ -50,7 +50,7 @@ router.route('/login')
   .post(mainController.login); // user login
 
 /* ENABLE AUTHENTICATION FOR ALL /api/users/ ROUTES */
-if (server.get('env') === 'production') {
+if (process.env.NODE_ENV === 'production') {
   router.use(authController.checkForAuthentication);
 }
 
