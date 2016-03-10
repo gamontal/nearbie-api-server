@@ -19,7 +19,9 @@
   "files": [
     "log",
     "data",
-    "data/imgs"
+    "data/imgs",
+    "test",
+    "Makefile"
   ],
   "devDependencies": {
     "assert": "^1.3.0",
