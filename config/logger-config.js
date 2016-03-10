@@ -1,4 +1,5 @@
 /* Logging Modules */
+/*
 var FileStreamRotator = require('file-stream-rotator');
 var logDirectory = '../log';
 
@@ -10,4 +11,4 @@ module.exports = {
     verbose: false
   })
 };
-
+*/
