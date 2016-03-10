@@ -4,13 +4,13 @@ var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-//var FileStreamRotator = require('file-stream-rotator');
-//var logDirectory = __dirname + '/log';
+var FileStreamRotator = require('file-stream-rotator');
+var logDirectory = __dirname + '/log';
 var config = require('./config')[process.env.NODE_ENV || 'production'];
 var server = express();
 
 
-/* Log Configuration
+/* Log Configuration */
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
 
 var accessLogStream = FileStreamRotator.getStream({
@@ -18,7 +18,7 @@ var accessLogStream = FileStreamRotator.getStream({
   filename: logDirectory + '/access-%DATE%.log',
   frequency: 'daily',
   verbose: false
-}); */
+});
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
@@ -32,7 +32,7 @@ mongoose.connect(config.database, function (err) {
 });
 
 /* Middleware */
-server.use(morgan('common'));
+server.use(morgan('common', { stream: accessLogStream }));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
