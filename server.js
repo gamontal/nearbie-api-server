@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 
 /* Configuration Modules */
 var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'production'];
-var loggerConfig = require('./config/logger-config');
 var multerConfig = require('./config/multer-config');
 var cloudinaryConfig = require('./config/cloudinary-config');
 
@@ -21,6 +20,8 @@ var server = express();
 
 /* Logs Directory Check and Configuration */
 var logDirectory = __dirname + '/log';
+var loggerConfig = require('./config/logger-config')(logDirectory);
+
 var accessLogStream = loggerConfig.logger;
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
 

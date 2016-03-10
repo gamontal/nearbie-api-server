@@ -1,15 +1,14 @@
-/* Logging Modules */
-
 var path = require('path');
 var FileStreamRotator = require('file-stream-rotator');
-var logDirectory = path.join(__dirname, '../log');
 
-module.exports = {
-  'logger': FileStreamRotator.getStream({
-    date_format: 'YYYYMMDD',
-    filename: logDirectory + '/access-%DATE%.log',
-    frequency: 'daily',
-    verbose: false
-  })
+module.exports = function (logDirectory) {
+  return ({
+    logger: FileStreamRotator.getStream({
+      date_format: 'YYYYMMDD',
+      filename: logDirectory + '/access-%DATE%.log',
+      frequency: 'daily',
+      verbose: false
+    })
+  });
 };
 
