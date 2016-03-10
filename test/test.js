@@ -24,11 +24,15 @@ describe('Routing', function () {
         .post('/register')
         .send(userInfo)
         .end(function (err, res) {
-          if (err) { throw err }
+          try {
+            if (err) { throw err }
 
-          should(res).have.property('status', 400);
-          done();
+            should(res).have.property('status', 400);
+            done();
+          } catch (e) {
+            done(e);
+          }
         });
     });
-  })
-})
+  });
+});

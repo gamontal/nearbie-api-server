@@ -6,7 +6,7 @@
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
-var config = require('../config/server-config');
+var serverConfig = require('../config/server-config');
 
 var User = require('../models/user'); // user model
 
@@ -71,7 +71,7 @@ exports.login = function (req, res, next) {
         }
 
         var expires = moment().add('days', 7).valueOf();
-        var token = jwt.sign(user, config.secret, { expiresIn: expires });
+        var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
 
         // remove any unwanted or sensitive fields
         user.password = undefined;
