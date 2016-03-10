@@ -21,8 +21,8 @@ var server = express();
 
 /* Logs Directory Check and Configuration */
 var logDirectory = __dirname + '/log';
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
 var accessLogStream = loggerConfig.logger;
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
 
 /* Cloudinary Configuration */
 cloudinary.config(cloudinaryConfig);
