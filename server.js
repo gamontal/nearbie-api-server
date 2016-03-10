@@ -4,8 +4,16 @@ var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
+
+/* Image Processing Modules */
+var cloudinary = require('cloudinary');
+var multer = require('multer');
+var upload = multer({ dest: './data/imgs/' });
+
+/* Logging Modules */
 var FileStreamRotator = require('file-stream-rotator');
 var logDirectory = __dirname + '/log';
+
 var config = require('./config')[process.env.NODE_ENV || 'production'];
 var server = express();
 
@@ -20,6 +28,9 @@ var accessLogStream = FileStreamRotator.getStream({
   verbose: false
 });
 
+/* Cloudinary Configuration */
+cloudinary.config(require('./config').cloudinary);
+
 /* Route Handlers */
 var mainController = require('./controllers/main');
 var userController = require('./controllers/user');
@@ -32,7 +43,7 @@ mongoose.connect(config.database, function (err) {
 });
 
 /* Middleware */
-server.use(morgan('common', { stream: accessLogStream }));
+server.use(morgan('combined', { stream: accessLogStream }));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
@@ -66,9 +77,8 @@ router.route('/users/:userid/location')
   .put(userController.getNearbyUsers); // updates the user location and returns nearby users
 
 router.route('/users/:username/profile')
-  .get(userController.getProfile) // get a user's profile information
-  .put(userController.updateProfile); // update a user's profile information
-
+  .get(userController.getUserProfile) // get a user's profile information
+  .put(upload.single('profile_image'), userController.updateUserProfile); // update a user's profile information
 
 server.use('/api', router); // initialize routes
 

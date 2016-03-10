@@ -3,8 +3,11 @@
  * @moduledesc this module contains the user routes methods.
  */
 
+var fs = require('fs');
 var mongoose = require('mongoose');
-var User = require('../models/user');
+var cloudinary = require('cloudinary');
+
+var User = require('../models/user'); // User Model
 
 // GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
@@ -157,7 +160,7 @@ exports.getNearbyUsers = function (req, res, next) {
 };
 
 // GET /api/users/:username/profile
-exports.getProfile = function (req, res, next) {
+exports.getUserProfile = function (req, res, next) {
   User.findOne({ username: req.params.username }, {
     // remove unwanted or sensitive fields
     password: 0,
@@ -179,26 +182,39 @@ exports.getProfile = function (req, res, next) {
 };
 
 // PUT /api/users/:username/profile
-exports.updateProfile = function (req, res, next) {
+// TODO store file image locally, upload to cloudinary, delete temporary image and store to database
+exports.updateUserProfile = function (req, res, next) {
   var newProfileInfo = req.body;
+  cloudinary.uploader.upload(req.file.path, function (result) {
+    User.findOne({ username: req.params.username }, function (err, user) {
+      if (err) {
+        return next(err);
+      }
 
-  User.findOne({ username: req.params.username }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+      if (!user) {
+        res.status(404).send({ success: false, message: 'User doesn\'t exist' });
+      } else if (user) {
 
-    if (!user) {
-      res.status(404).send({ success: false, message: 'User doesn\'t exist' });
-    } else if (user) {
+        user.profile.profile_image = result.secure_url;
+        user.profile.gender = newProfileInfo.gender;
+        user.profile.bio = newProfileInfo.bio;
 
-      user.profile.profile_image = newProfileInfo.profile_image;
-      user.profile.gender = newProfileInfo.gender;
-      user.profile.bio = newProfileInfo.bio;
+        user.save(function (valErr) {
+          if (valErr) {
+            return next(err);
+          }
 
-      user.save();
+          // remove user image
+          fs.unlink(req.file.path, function(err) {
+            if (err) {
+              return next(err);
+            }
+          });
 
-      res.status(200).send({ success: true, message: 'User profile updated' });
-    }
+          res.status(200).send({ success: true, message: 'User profile updated' });
+        });
+      }
+    });
   });
 };
 
