@@ -6,7 +6,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var FileStreamRotator = require('file-stream-rotator');
 var logDirectory = __dirname + '/log';
-var config = require('./config')[process.env.NODE_ENV || 'production'];
+var config = require('./config')[process.env.NODE_ENV || 'development'];
 var server = express();
 
 

@@ -104,7 +104,7 @@ exports.getNearbyUsers = function (req, res, next) {
       if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ success: false, message: 'user doen\'t exist'});
+        res.status(404).json({ success: false, message: 'user doesn\'t exist'});
       } else if (user) {
 
         user.loc = [req.body.lng, req.body.lat]; // add new coordinates
