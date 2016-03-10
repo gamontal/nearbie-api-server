@@ -1,12 +1,24 @@
 var fs = require('fs');
-var url = require('url');
+var url = require('url'); // for url parsing
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
-var server = express();
+var FileStreamRotator = require('file-stream-rotator');
+var logDirectory = __dirname + '/log';
 var config = require('./config')[process.env.NODE_ENV || 'production'];
-// var accessLogStream = fs.createWriteStream(__dirname + '/logs/access.log', {flags: 'a'});
+var server = express();
+
+
+/* Log Configuration */
+fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
+
+var accessLogStream = FileStreamRotator.getStream({
+  date_format: 'YYYYMMDD',
+  filename: logDirectory + '/access-%DATE%.log',
+  frequency: 'daily',
+  verbose: false
+});
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
@@ -15,11 +27,12 @@ var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
 mongoose.connect(config.database, function (err) {
-  if (err) { console.error(err); } else { console.log(url.parse(config.database).host); }
+  if (err) { console.log('connection to ' + url.parse(config.database).host + ' failed'); }
+  else { console.log('connection to ' + url.parse(config.database).host + ' was successful'); }
 });
 
 /* Middleware */
-server.use(morgan('common'));
+server.use(morgan('common', { stream: accessLogStream }));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
