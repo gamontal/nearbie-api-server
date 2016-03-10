@@ -1,6 +1,6 @@
 /* Logging Modules */
 var FileStreamRotator = require('file-stream-rotator');
-var logDirectory = __dirname + '/../log';
+var logDirectory = '../log';
 
 module.exports = {
   'logger': FileStreamRotator.getStream({

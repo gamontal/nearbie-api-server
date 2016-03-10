@@ -1,3 +1,3 @@
 module.exports = {
-  dest: './data/imgs/'
+  'dest': './data/imgs/'
 };
