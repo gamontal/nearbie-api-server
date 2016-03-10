@@ -1,4 +1,3 @@
-var path = require('path');
 var FileStreamRotator = require('file-stream-rotator');
 
 module.exports = function (logDirectory) {

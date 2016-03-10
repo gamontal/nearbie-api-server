@@ -1,6 +1,0 @@
-::1 - - [10/Mar/2016:18:15:52 +0000] "GET /api/users/theOne HTTP/1.1" 200 269 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
-::1 - - [10/Mar/2016:18:15:52 +0000] "GET /favicon.ico HTTP/1.1" 404 23 "http://localhost:3000/api/users/theOne" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
-::1 - - [10/Mar/2016:18:16:00 +0000] "GET /api/users/theOne/profile HTTP/1.1" 200 208 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
-::1 - - [10/Mar/2016:18:20:52 +0000] "GET /api/users/theOne/profile HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
-::1 - - [10/Mar/2016:18:20:59 +0000] "GET /api/users/theOne HTTP/1.1" 304 - "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
-::1 - - [10/Mar/2016:18:24:31 +0000] "GET /api/users/theOne HTTP/1.1" 403 47 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.87 Safari/537.36"
