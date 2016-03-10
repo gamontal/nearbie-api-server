@@ -5,28 +5,19 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
-/* Image Processing Modules */
+/* Image Handling Modules */
 var cloudinary = require('cloudinary');
 var multer = require('multer');
 var upload = multer({ dest: './data/imgs/' });
-
-/* Logging Modules */
-var FileStreamRotator = require('file-stream-rotator');
-var logDirectory = __dirname + '/log';
 
 var config = require('./config')[process.env.NODE_ENV || 'production'];
 var server = express();
 
 
-/* Log Configuration */
+/* Logs Directory Check and Configuration */
+var logDirectory = __dirname + '/log';
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
-
-var accessLogStream = FileStreamRotator.getStream({
-  date_format: 'YYYYMMDD',
-  filename: logDirectory + '/access-%DATE%.log',
-  frequency: 'daily',
-  verbose: false
-});
+var accessLogStream = require('./config').logger;
 
 /* Cloudinary Configuration */
 cloudinary.config(require('./config').cloudinary);
