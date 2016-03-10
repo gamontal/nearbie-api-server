@@ -5,7 +5,7 @@ var mongoose = require('mongoose');
 var serverConfig = require('../config/server-config');
 
 describe('Routing', function () {
-  var url = 'http://quickee-api.herokuapp.com';
+  var url = 'http://quickee-api.herokuapp.com/api';
 
   before(function (done) {
     mongoose.connect(serverConfig.test.database);
@@ -21,7 +21,7 @@ describe('Routing', function () {
       };
 
       request(url)
-        .post('/api/register')
+        .post('/register')
         .send(userInfo)
         .end(function (err, res) {
           if (err) { throw err }
