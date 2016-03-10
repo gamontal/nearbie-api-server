@@ -6,7 +6,7 @@
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
-var config = require('../config');
+var config = require('../config/server-config');
 
 var User = require('../models/user'); // user model
 

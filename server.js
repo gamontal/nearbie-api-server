@@ -5,22 +5,27 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
+/* Configuration Modules */
+var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'production'];
+var loggerConfig = require('./config/logger-config');
+var multerConfig = require('./config/multer-config');
+var cloudinaryConfig = require('./config/cloudinary-config');
+
 /* Image Handling Modules */
 var cloudinary = require('cloudinary');
 var multer = require('multer');
-var upload = multer({ dest: './data/imgs/' });
+var upload = multer(multerConfig);
 
-var config = require('./config')[process.env.NODE_ENV || 'production'];
 var server = express();
 
 
 /* Logs Directory Check and Configuration */
 var logDirectory = __dirname + '/log';
 fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
-var accessLogStream = require('./config').logger;
+var accessLogStream = loggerConfig.logger;
 
 /* Cloudinary Configuration */
-cloudinary.config(require('./config').cloudinary);
+cloudinary.config(cloudinaryConfig);
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
@@ -28,9 +33,9 @@ var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
-mongoose.connect(config.database, function (err) {
-  if (err) { console.log('connection to ' + url.parse(config.database).host + ' failed'); }
-  else { console.log('connection to ' + url.parse(config.database).host + ' was successful'); }
+mongoose.connect(serverConfig.database, function (err) {
+  if (err) { console.log('connection to ' + url.parse(serverConfig.database).host + ' failed'); }
+  else { console.log('connection to ' + url.parse(serverConfig.database).host + ' was successful'); }
 });
 
 /* Middleware */
@@ -105,7 +110,7 @@ server.use(function (err, req, res, next) {
 });
 
 // start the server
-server.listen(config.port, function () {
-    console.log('Listening on port ' + config.port);
+server.listen(serverConfig.port, function () {
+    console.log('Listening on port ' + serverConfig.port);
 });
 

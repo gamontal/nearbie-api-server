@@ -4,9 +4,8 @@
  */
 
 var jwt = require('jsonwebtoken');
-var config = require('../config');
 var User = require('../models/user');
-var config = require('../config');
+var config = require('../config/server-config');
 
 exports.checkForAuthentication = function (req, res, next) {
   // check header or url parameters or post parameters for token

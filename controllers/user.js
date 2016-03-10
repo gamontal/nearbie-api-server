@@ -176,24 +176,25 @@ exports.getUserProfile = function (req, res, next) {
     if (!profile) {
       res.status(404).json({ success: false, message: 'User doesn\'t exists' });
     } else {
-      res.status(200).json(profile); 
+      res.status(200).json(profile);
     }
   });
 };
 
 // PUT /api/users/:username/profile
-// TODO store file image locally, upload to cloudinary, delete temporary image and store to database
 exports.updateUserProfile = function (req, res, next) {
   var newProfileInfo = req.body;
-  cloudinary.uploader.upload(req.file.path, function (result) {
-    User.findOne({ username: req.params.username }, function (err, user) {
-      if (err) {
-        return next(err);
-      }
+  User.findOne({ username: req.params.username }, function (err, user) {
+    if (err) {
+      return next(err);
+    }
 
-      if (!user) {
-        res.status(404).send({ success: false, message: 'User doesn\'t exist' });
-      } else if (user) {
+    if (!user) {
+      res.status(404).send({ success: false, message: 'User doesn\'t exist' });
+    } else if (user) {
+
+      // TODO validate image size and type before uploading
+      cloudinary.uploader.upload(req.file.path, function (result) {
 
         user.profile.profile_image = result.secure_url;
         user.profile.gender = newProfileInfo.gender;
@@ -213,8 +214,8 @@ exports.updateUserProfile = function (req, res, next) {
 
           res.status(200).send({ success: true, message: 'User profile updated' });
         });
-      }
-    });
+      });
+    }
   });
 };
 
