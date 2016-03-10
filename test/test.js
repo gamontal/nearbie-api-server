@@ -2,18 +2,18 @@ var should = require('should');
 var assert = require('assert');
 var request = require('supertest');
 var mongoose = require('mongoose');
-var serverConfig = require('../config/server-config').test;
+var serverConfig = require('../config/server-config');
 
 describe('Routing', function () {
-  var url = 'http://quickee-api.herokuapp.com'; // NOTE change to http://quickee-api.herokuapp.com before deployment
+  var url = 'http://quickee-api.herokuapp.com';
 
   before(function (done) {
-    mongoose.connect(serverConfig.database);
+    mongoose.connect(serverConfig.test.database);
     done();
   });
 
   describe('Account', function () {
-    it('should should return error trying to save duplicate username', function (done) {
+    it('should return error trying to save duplicate username', function (done) {
       var userInfo = {
         username: 'user1',
         password: '1234',
