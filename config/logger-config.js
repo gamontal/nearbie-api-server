@@ -1,7 +1,8 @@
 /* Logging Modules */
-/*
+
+var path = require('path');
 var FileStreamRotator = require('file-stream-rotator');
-var logDirectory = '../log';
+var logDirectory = path.join(__dirname, '../log');
 
 module.exports = {
   'logger': FileStreamRotator.getStream({
@@ -11,4 +12,4 @@ module.exports = {
     verbose: false
   })
 };
-*/
+
