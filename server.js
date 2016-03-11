@@ -40,7 +40,12 @@ mongoose.connect(serverConfig.database, function (err) {
 });
 
 /* Middleware */
-server.use(morgan('combined', { stream: accessLogStream }));
+if (process.env.NODE_ENV === 'production') {
+  server.use(morgan('combined', { stream: accessLogStream }));
+} else {
+  server.use(morgan('dev'));
+}
+
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
