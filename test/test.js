@@ -3,7 +3,7 @@ var should = require('should');
 var assert = require('assert');
 var request = require('supertest');
 
-var userInfo = {
+var testUser = {
   _id: '56e3001a76517d7d05122b1b',
   username: 'user1',
   password: '1234',
@@ -19,8 +19,7 @@ var userInfo = {
 describe('Routing', function () {
   var url = server;
 
-  describe('Account', function () {
-
+  describe('API', function () {
     it('should return the API\'s main page', function (done) {
       request(url)
         .get('/api')
@@ -33,13 +32,15 @@ describe('Routing', function () {
           }
         });
     });
+  });
 
+  describe('Account', function () {
     it('should return error trying to save duplicate username or email', function (done) {
       var payload = {
-        username: userInfo.username,
-        password: userInfo.password,
-        email: userInfo.email,
-        "loc": [userInfo.loc[0], userInfo.loc[1]]
+        username: testUser.username,
+        password: testUser.password,
+        email: testUser.email,
+        "loc": [testUser.loc[0], testUser.loc[1]]
       };
 
       request(url)
@@ -59,7 +60,7 @@ describe('Routing', function () {
 
     it('should return the user\'s information', function (done) {
       request(url)
-        .get('/api/users/' + userInfo.username)
+        .get('/api/users/' + testUser.username)
         .end(function (err, res) {
           try {
             if (err) { throw err }
@@ -74,13 +75,13 @@ describe('Routing', function () {
 
     it('should update a user\'s account information', function (done) {
       var payload = {
-        username: userInfo.username,
-        password: userInfo.password,
-        email: userInfo.email
+        username: testUser.username,
+        password: testUser.password,
+        email: testUser.email
       };
 
       request(url)
-        .put('/api/users/' + userInfo._id)
+        .put('/api/users/' + testUser._id)
         .send(payload)
         .end(function (err, res) {
           try {
@@ -96,12 +97,12 @@ describe('Routing', function () {
 
     it('should update a user\'s location', function (done) {
       var payload = {
-      lng: userInfo.loc[0],
-      lat: userInfo.loc[1]
+      lng: testUser.loc[0],
+      lat: testUser.loc[1]
       };
 
       request(url)
-        .post('/api/users/' + userInfo._id + '/location')
+        .post('/api/users/' + testUser._id + '/location')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -117,12 +118,12 @@ describe('Routing', function () {
 
     it('should update a user\'s location and return nearby users', function (done) {
       var payload = {
-        lng: userInfo.loc[0],
-        lat: userInfo.loc[1]
+        lng: testUser.loc[0],
+        lat: testUser.loc[1]
       };
 
       request(url)
-        .put('/api/users/' + userInfo._id + '/location')
+        .put('/api/users/' + testUser._id + '/location')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -138,7 +139,7 @@ describe('Routing', function () {
 
     it('should return a user\'s profile information', function (done) {
       request(url)
-        .get('/api/users/' + userInfo.username + '/profile')
+        .get('/api/users/' + testUser.username + '/profile')
         .end(function (err, res) {
           try {
             if (err) { throw err }
@@ -153,13 +154,13 @@ describe('Routing', function () {
 /*
     it('should update a user\'s profile information', function (done) {
       var payload = {
-          profile_image: userInfo.profile_image,
-          gender: userInfo.gender,
-          bio: userInfo.bio
+          profile_image: testUser.profile_image,
+          gender: testUser.gender,
+          bio: testUser.bio
       };
 
       request(url)
-        .put('/users/' + userInfo.username + '/profile')
+        .put('/users/' + testUser.username + '/profile')
         .send(payload)
         .end(function (err, res) {
           try {
