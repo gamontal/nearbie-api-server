@@ -48,8 +48,8 @@ exports.updateUserInfo = function (req, res, next) {
         user.password = userInfo.password || user.password;
         user.email = userInfo.email || user.email;
 
-        user.save(function (valErr) { // catch validation error and return response to the client
-          if (valErr) {
+        user.save(function (err) { // catch validation error and return response to the client
+          if (err) {
             res.status(400).json({ success: false, message: 'User validation failed' });
           } else {
             res.status(200).json({ success: true, message: 'User information updated' });
@@ -76,8 +76,8 @@ exports.updateUserLocation = function (req, res, next) {
 
         user.loc = [req.body.lng, req.body.lat];
 
-        user.save(function (valErr) { // catch validation error and return response to the client
-          if (valErr) {
+        user.save(function (err) { // catch validation error and return response to the client
+          if (err) {
             res.status(400).json({ success: false, message: 'User validation failed' });
           } else {
             res.status(200).json({ success: true, message: 'User location updated' });
@@ -107,8 +107,8 @@ exports.getNearbyUsers = function (req, res, next) {
         user.loc = [req.body.lng, req.body.lat]; // add new coordinates
 
         // save changes
-        user.save(function (valErr) {
-          if (valErr) {
+        user.save(function (err) {
+          if (err) {
             res.status(400).json({ success: false, message: 'User validation failed' });
           }
         });
