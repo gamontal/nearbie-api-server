@@ -44,9 +44,9 @@ exports.updateUserInfo = function (req, res, next) {
         res.status(404).json({ success: false, message: 'User doesn\'t exist' });
       } else if (user) {
 
-        user.username = userInfo.username;
-        user.password = userInfo.password;
-        user.email = userInfo.email;
+        user.username = userInfo.username || user.username;
+        user.password = userInfo.password || user.password;
+        user.email = userInfo.email || user.email;
 
         user.save(function (valErr) { // catch validation error and return response to the client
           if (valErr) {
