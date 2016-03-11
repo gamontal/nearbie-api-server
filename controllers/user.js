@@ -184,10 +184,7 @@ exports.getUserProfile = function (req, res, next) {
 // PUT /api/users/:username/profile
 exports.updateUserProfile = function (req, res, next) {
   var newProfileInfo = req.body;
-
-  if (typeof req.file.path === 'undefined') {
-    req.file.path = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457699376/profile_image_placeholder_dwdms9.jpg';
-  }
+  var imgUrl;
 
   User.findOne({ username: req.params.username }, function (err, user) {
     if (err) {
@@ -198,8 +195,14 @@ exports.updateUserProfile = function (req, res, next) {
       res.status(404).send({ success: false, message: 'User doesn\'t exist' });
     } else if (user) {
 
+      if (!typeof req.file === 'undefined') {
+        imgUrl = req.file.path;
+      } else {
+        imgUrl = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457699376/profile_image_placeholder_dwdms9.jpg';
+      }
+
       // TODO validate image size and type before uploading
-      cloudinary.uploader.upload(req.file.path, function (result) {
+      cloudinary.uploader.upload(imgUrl, function (result) {
 
         user.profile.profile_image = result.secure_url;
         user.profile.gender = newProfileInfo.gender;
@@ -210,12 +213,14 @@ exports.updateUserProfile = function (req, res, next) {
             return next(err);
           }
 
-          // remove user image
-          fs.unlink(req.file.path, function(err) {
-            if (err) {
-              return next(err);
-            }
-          });
+          if (!typeof req.file === 'undefined') {
+            // remove user image
+            fs.unlink(imgUrl, function(err) {
+              if (err) {
+                return next(err);
+              }
+            });
+          }
 
           res.status(200).send({ success: true, message: 'User profile updated' });
         });
