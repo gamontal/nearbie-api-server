@@ -42,7 +42,7 @@ mongoose.connect(serverConfig.database, function (err) {
 /* Middleware */
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: accessLogStream }));
-} else {
+} else if (process.env.NODE_ENV === 'development') {
   server.use(morgan('dev'));
 }
 
