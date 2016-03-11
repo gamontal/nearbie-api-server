@@ -1,10 +1,10 @@
+var server = require('../server');
 var should = require('should');
 var assert = require('assert');
 var request = require('supertest');
-var mongoose = require('mongoose');
 
 var userInfo = {
-  _id: '56e20f1d84d6580300e152ba',
+  _id: '56e3001a76517d7d05122b1b',
   username: 'user1',
   password: '1234',
   email: 'user1@server.com',
@@ -17,13 +17,13 @@ var userInfo = {
 };
 
 describe('Routing', function () {
-  var url = 'http://quickee-api.herokuapp.com/api';
+  var url = server;
 
   describe('Account', function () {
 
     it('should return the API\'s main page', function (done) {
       request(url)
-        .get('/')
+        .get('/api')
         .end(function (err, res) {
           try {
             should(res).have.property('status', 200);
@@ -43,7 +43,7 @@ describe('Routing', function () {
       };
 
       request(url)
-        .post('/register')
+        .post('/api/register')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -59,7 +59,7 @@ describe('Routing', function () {
 
     it('should return the user\'s information', function (done) {
       request(url)
-        .get('/users/' + userInfo.username)
+        .get('/api/users/' + userInfo.username)
         .end(function (err, res) {
           try {
             if (err) { throw err }
@@ -80,7 +80,7 @@ describe('Routing', function () {
       };
 
       request(url)
-        .put('/users/' + userInfo._id)
+        .put('/api/users/' + userInfo._id)
         .send(payload)
         .end(function (err, res) {
           try {
@@ -101,7 +101,7 @@ describe('Routing', function () {
       };
 
       request(url)
-        .post('/users/' + userInfo._id + '/location')
+        .post('/api/users/' + userInfo._id + '/location')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -122,7 +122,7 @@ describe('Routing', function () {
       };
 
       request(url)
-        .put('/users/' + userInfo._id + '/location')
+        .put('/api/users/' + userInfo._id + '/location')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -138,7 +138,7 @@ describe('Routing', function () {
 
     it('should return a user\'s profile information', function (done) {
       request(url)
-        .get('/users/' + userInfo.username + '/profile')
+        .get('/api/users/' + userInfo.username + '/profile')
         .end(function (err, res) {
           try {
             if (err) { throw err }

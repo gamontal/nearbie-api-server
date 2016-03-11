@@ -35,8 +35,8 @@ var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
 mongoose.connect(serverConfig.database, function (err) {
-  if (err) { console.log('connection to ' + url.parse(serverConfig.database).host + ' failed'); }
-  else { console.log('connection to ' + url.parse(serverConfig.database).host + ' was successful'); }
+  if (err) { console.log('\n\tconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
+  else { console.log('\n\tconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
 });
 
 /* Middleware */
@@ -114,4 +114,7 @@ server.use(function (err, req, res, next) {
 server.listen(serverConfig.port, function () {
     console.log('Listening on port ' + serverConfig.port);
 });
+
+module.exports = server; // makes the server available for integration tests
+                        // or any other service that requires it
 
