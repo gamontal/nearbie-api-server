@@ -173,7 +173,8 @@ exports.getUserProfile = function (req, res, next) {
 };
 
 // PUT /api/users/:username/profile
-// TODO fix upload new image bug
+// TODO upload image to cloudinary from the client
+// NOTE this method is not practical, used for development
 exports.updateUserProfile = function (req, res, next) {
   var newProfileInfo = req.body;
 
@@ -184,11 +185,14 @@ exports.updateUserProfile = function (req, res, next) {
       res.status(404).send({ success: false, message: 'User doesn\'t exist' });
     } else if (user) {
 
-      if (req.file === undefined) {
+      // verify image
+      if (typeof req.file === 'undefined') {
         user.profile.profile_image = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457699376/profile_image_placeholder_dwdms9.jpg';
-      } else {
+        user.save();
+      } else if (req.file) {
         cloudinary.uploader.upload(req.file.path, function (result) {
           user.profile.profile_image = result.secure_url;
+          user.save();
         });
 
         // remove user image
