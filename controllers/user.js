@@ -12,9 +12,7 @@ var User = require('../models/user'); // User Model
 // GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
   User.findOne({ username: req.params.username }, { password: 0, __v: 0 }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+    if (err) { return next(err); }
 
     if (!user) {
       res.status(404).json({ success: false, message: 'User doesn\'t exist' });
@@ -40,9 +38,7 @@ exports.updateUserInfo = function (req, res, next) {
     var userInfo = req.body;
 
     User.findOne({ _id: req.params.userid }, function (err, user) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
 
       if (!user) {
         res.status(404).json({ success: false, message: 'User doesn\'t exist' });
@@ -72,9 +68,7 @@ exports.updateUserLocation = function (req, res, next) {
 
     // store new coordenates
     User.findOne({ _id: req.params.userid }, function (err, user) {
-      if (err) {
-        return next(err);
-      }
+      if (err) { return next(err); }
 
       if (!user) {
         res.status(404).json({ success: false, message: 'User doesn\'t exist' });
@@ -168,10 +162,7 @@ exports.getUserProfile = function (req, res, next) {
     __v: 0,
     loc: 0
   }, function (err, profile) {
-
-    if (err) {
-      return next(err);
-    }
+    if (err) { return next(err); }
 
     if (!profile) {
       res.status(404).json({ success: false, message: 'User doesn\'t exists' });
@@ -184,47 +175,38 @@ exports.getUserProfile = function (req, res, next) {
 // PUT /api/users/:username/profile
 exports.updateUserProfile = function (req, res, next) {
   var newProfileInfo = req.body;
-  var imgUrl;
 
   User.findOne({ username: req.params.username }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+    if (err) { return next(err); }
 
     if (!user) {
       res.status(404).send({ success: false, message: 'User doesn\'t exist' });
     } else if (user) {
 
-      if (!typeof req.file === 'undefined') {
-        imgUrl = req.file.path;
+      if (req.file === undefined) {
+        user.profile.profile_image = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457699376/profile_image_placeholder_dwdms9.jpg';
       } else {
-        imgUrl = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457699376/profile_image_placeholder_dwdms9.jpg';
-      }
+        cloudinary.uploader.upload(req.file.path, function (result) {
+          user.profile.profile_image = result.secure_url;
+        });
 
-      // TODO validate image size and type before uploading
-      cloudinary.uploader.upload(imgUrl, function (result) {
-
-        user.profile.profile_image = result.secure_url;
-        user.profile.gender = newProfileInfo.gender;
-        user.profile.bio = newProfileInfo.bio;
-
-        user.save(function (valErr) {
-          if (valErr) {
+        // remove user image
+        fs.unlink(req.file.path, function(err) {
+          if (err) {
             return next(err);
           }
-
-          if (!typeof req.file === 'undefined') {
-            // remove user image
-            fs.unlink(imgUrl, function(err) {
-              if (err) {
-                return next(err);
-              }
-            });
-          }
-
-          res.status(200).send({ success: true, message: 'User profile updated' });
         });
+      }
+
+      user.profile.gender = newProfileInfo.gender;
+      user.profile.bio = newProfileInfo.bio;
+
+      user.save(function (err) {
+        if (err) {
+          return next(err);
+        }
       });
+      res.status(200).send({ success: true, message: 'User profile updated' });
     }
   });
 };
