@@ -8,7 +8,7 @@ var userInfo = {
   username: 'user1',
   password: '1234',
   email: 'user1@server.com',
-  loc: [-66.758605, 18.475206],
+  loc: [-69.758605, 19.475206],
   profile: {
     profile_image: 'http://res.cloudinary.com/demo/image/upload/v1371281596/sample.jpg',
     gender: 'Male',
