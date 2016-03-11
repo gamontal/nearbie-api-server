@@ -184,6 +184,11 @@ exports.getUserProfile = function (req, res, next) {
 // PUT /api/users/:username/profile
 exports.updateUserProfile = function (req, res, next) {
   var newProfileInfo = req.body;
+
+  if (typeof req.file.path === 'undefined') {
+    req.file.path = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457699376/profile_image_placeholder_dwdms9.jpg';
+  }
+
   User.findOne({ username: req.params.username }, function (err, user) {
     if (err) {
       return next(err);
