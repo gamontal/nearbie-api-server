@@ -1,4 +1,4 @@
 test:
-	@./node_modules/.bin/mocha
+	@./node_modules/.bin/mocha -t 100000
 
 .PHONY: test

@@ -173,6 +173,7 @@ exports.getUserProfile = function (req, res, next) {
 };
 
 // PUT /api/users/:username/profile
+// TODO fix upload new image bug
 exports.updateUserProfile = function (req, res, next) {
   var newProfileInfo = req.body;
 
