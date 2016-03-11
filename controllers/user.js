@@ -203,8 +203,8 @@ exports.updateUserProfile = function (req, res, next) {
         });
       }
 
-      user.profile.gender = newProfileInfo.gender;
-      user.profile.bio = newProfileInfo.bio;
+      user.profile.gender = newProfileInfo.gender || user.profile.gender;
+      user.profile.bio = newProfileInfo.bio || user.profile.bio;
 
       user.save(function (err) {
         if (err) {
