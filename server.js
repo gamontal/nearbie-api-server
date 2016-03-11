@@ -15,7 +15,7 @@ var cloudinary = require('cloudinary');
 var multer = require('multer');
 var upload = multer(multerConfig);
 
-var server = express();
+var server = express(); // express server instance
 
 /* Logs Directory Check and Configuration */
 var logDirectory = __dirname + '/log';

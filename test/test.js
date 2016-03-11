@@ -2,15 +2,9 @@ var should = require('should');
 var assert = require('assert');
 var request = require('supertest');
 var mongoose = require('mongoose');
-var serverConfig = require('../config/server-config');
 
 describe('Routing', function () {
   var url = 'http://quickee-api.herokuapp.com/api';
-
-  before(function (done) {
-    mongoose.connect(serverConfig.test.database);
-    done();
-  });
 
   describe('Account', function () {
     it('should return error trying to save duplicate username', function (done) {
