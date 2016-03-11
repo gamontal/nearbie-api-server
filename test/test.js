@@ -34,7 +34,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should return error trying to save duplicate username', function (done) {
+    it('should return error trying to save duplicate username or email', function (done) {
       var payload = {
         username: userInfo.username,
         password: userInfo.password,
