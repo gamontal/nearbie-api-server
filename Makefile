@@ -7,8 +7,12 @@ start-dev: ;@echo "Starting server in development mode....."; \
 test: ;@echo "Initializing tests....."; \
        NODE_ENV=test ./node_modules/.bin/mocha -t 100000
 
+update: ;@echo "Updating....."; \
+         git pull --rebase; \
+         npm install
+
 # stop production server for maintenance purposes
 stop-prod-server: ;@echo "WARNING: Stopping all server processes....."; \
                    ./node_modules/.bin/forever stopall
 
-.PHONY: start-prod start-dev test stop-prod-server
+.PHONY: start-prod start-dev test update stop-prod-server
