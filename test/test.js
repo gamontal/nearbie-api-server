@@ -35,7 +35,7 @@ describe('Routing', function () {
   });
 
   describe('Account', function () {
-    it('should return error trying to save duplicate username or email', function (done) {
+    it('should RETURN ERROR trying to save duplicate username or email', function (done) {
       var payload = {
         username: testUser.username,
         password: testUser.password,
@@ -58,7 +58,95 @@ describe('Routing', function () {
         });
     });
 
-    it('should return the user\'s information', function (done) {
+    it('should RETURN ERROR if the user doesn\'t exist #1', function (done) {
+      request(url)
+        .get('/api/users/' + 'user')
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 404);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should RETURN ERROR if the user doesn\'t exist #2', function (done) {
+      var payload = {
+        username: testUser.username,
+        password: testUser.password,
+        email: testUser.email
+      };
+
+      request(url)
+        .put('/api/users/' + 'user')
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 404);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should RETURN ERROR if the user doesn\'t exist #3', function (done) {
+      var payload = {
+        bio: testUser.profile.bio,
+        gender: testUser.profile.gender
+      };
+
+      request(url)
+        .put('/api/users/' + 'user/profile')
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 404);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should RETURN ERROR if the user doesn\'t exist #4', function (done) {
+      request(url)
+        .post('/api/users/' + '56e3001a76517d7d05122123/location')
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 404);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should RETURN ERROR if an invalid user ID is used', function (done) {
+      request(url)
+        .put('/api/users/' + '56e3001a76517d7d05122/location')
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 404);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should RETURN the user\'s information', function (done) {
       request(url)
         .get('/api/users/' + testUser.username)
         .end(function (err, res) {
@@ -73,7 +161,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s account information #1', function (done) {
+    it('should UPDATE a user\'s account information #1', function (done) {
       var payload = {
         username: testUser.username
       };
@@ -93,7 +181,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s account information #2', function (done) {
+    it('should UPDATE a user\'s account information #2', function (done) {
       var payload = {
         password: testUser.password
       };
@@ -113,7 +201,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s account information #3', function (done) {
+    it('should UPDATE a user\'s account information #3', function (done) {
       var payload = {
         email: testUser.email
       };
@@ -133,7 +221,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s account information #4', function (done) {
+    it('should UPDATE a user\'s account information #4', function (done) {
       var payload = {
         username: testUser.username,
         password: testUser.password,
@@ -155,7 +243,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s location', function (done) {
+    it('should UPDATE a user\'s location', function (done) {
       var payload = {
       lng: testUser.loc[0],
       lat: testUser.loc[1]
@@ -176,7 +264,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s location and return nearby users', function (done) {
+    it('should UPDATE a user\'s location and return nearby users', function (done) {
       var payload = {
         lng: testUser.loc[0],
         lat: testUser.loc[1]
@@ -197,7 +285,7 @@ describe('Routing', function () {
         });
     });
 
-    it('should return a user\'s profile information', function (done) {
+    it('should RETURN a user\'s profile information', function (done) {
       request(url)
         .get('/api/users/' + testUser.username + '/profile')
         .end(function (err, res) {
@@ -212,9 +300,9 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s profile information #1', function (done) {
+    it('should UPDATE a user\'s profile information #1', function (done) {
       var payload = {
-          gender: testUser.gender
+          gender: testUser.profile.gender
       };
 
       request(url)
@@ -232,9 +320,9 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s profile information #2', function (done) {
+    it('should UPDATE a user\'s profile information #2', function (done) {
       var payload = {
-        bio: testUser.bio
+        bio: testUser.profile.bio
       };
 
       request(url)
@@ -252,9 +340,9 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s profile information #3', function (done) {
+    it('should UPDATE a user\'s profile information #3', function (done) {
       var payload = {
-        profile_image: testUser.profile_image
+        profile_image: testUser.profile.profile_image
       };
 
       request(url)
