@@ -16,7 +16,7 @@ exports.checkForAuthentication = function (req, res, next) {
       if (err) {
         return res.status(403).json({
           success: false,
-          message: 'Failed to authenticate token.'
+          message: 'Failed to authenticate token'
         });
       } else {
         req.decoded = decoded;

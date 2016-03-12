@@ -5,17 +5,13 @@ var mongoose = require('mongoose');
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
-/* Configuration Modules */
+/* Server Configuration */
 var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'production'];
-var multerConfig = require('./config/multer-config');
-var cloudinaryConfig = require('./config/cloudinary-config');
 
 /* Image Handling Modules */
+var upload = require('./config/multer-config'); // multer configuration
 var cloudinary = require('cloudinary');
-var multer = require('multer');
-var upload = multer(multerConfig);
-
-var server = express(); // express server instance
+require('./config/cloudinary-config')(cloudinary); // sets cloudinary credentials
 
 /* Logs Directory Check and Configuration */
 var logDirectory = __dirname + '/log';
@@ -24,9 +20,6 @@ fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log director
 
 var loggerConfig = require('./config/logger-config')(logDirectory);
 var accessLogStream = loggerConfig.logger;
-
-/* Cloudinary Configuration */
-cloudinary.config(cloudinaryConfig);
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
@@ -38,6 +31,9 @@ mongoose.connect(serverConfig.database, function (err) {
   if (err) { console.log('\n\tconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
   else { console.log('\n\tconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
 });
+
+
+var server = express(); // express server instance
 
 /* Middleware */
 if (process.env.NODE_ENV === 'production') {
@@ -82,10 +78,10 @@ router.route('/users/:username/profile')
   .get(userController.getUserProfile) // get a user's profile information
   .put(upload.single('profile_image'), userController.updateUserProfile); // update a user's profile information
 
-server.use('/api', router); // initialize routes
+server.use('/api', router); // set routes
 
 
-/* Server Configuration */
+/* Routes Error Handling */
 
 // catch 404 status code
 server.get('*', function (req, res) {
@@ -115,11 +111,11 @@ server.use(function (err, req, res, next) {
   });
 });
 
-// start the server
+/* Initialize the Server */
 server.listen(serverConfig.port, function () {
     console.log('Listening on port ' + serverConfig.port);
 });
 
-module.exports = server; // makes the server available for integration tests
+module.exports = server; // makes the server module available for integration tests
                         // or any other service that requires it
 
