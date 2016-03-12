@@ -10,7 +10,7 @@ var testUser = {
   email: 'user1@server.com',
   loc: [-69.758605, 19.475206],
   profile: {
-    profile_image: 'http://res.cloudinary.com/demo/image/upload/v1371281596/sample.jpg',
+    profile_image: undefined,
     gender: 'Male',
     bio: 'People person'
   }
@@ -19,7 +19,7 @@ var testUser = {
 describe('Routing', function () {
   var url = server;
 
-  describe('API', function () {
+  describe('API connection', function () {
     it('should return the API\'s main page', function (done) {
       request(url)
         .get('/api')
@@ -73,7 +73,67 @@ describe('Routing', function () {
         });
     });
 
-    it('should update a user\'s account information', function (done) {
+    it('should update a user\'s account information #1', function (done) {
+      var payload = {
+        username: testUser.username
+      };
+
+      request(url)
+        .put('/api/users/' + testUser._id)
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 200);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should update a user\'s account information #2', function (done) {
+      var payload = {
+        password: testUser.password
+      };
+
+      request(url)
+        .put('/api/users/' + testUser._id)
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 200);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should update a user\'s account information #3', function (done) {
+      var payload = {
+        email: testUser.email
+      };
+
+      request(url)
+        .put('/api/users/' + testUser._id)
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 200);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should update a user\'s account information #4', function (done) {
       var payload = {
         username: testUser.username,
         password: testUser.password,
@@ -151,16 +211,14 @@ describe('Routing', function () {
           }
         });
     });
-/*
-    it('should update a user\'s profile information', function (done) {
+
+    it('should update a user\'s profile information #1', function (done) {
       var payload = {
-          profile_image: testUser.profile_image,
-          gender: testUser.gender,
-          bio: testUser.bio
+          gender: testUser.gender
       };
 
       request(url)
-        .put('/users/' + testUser.username + '/profile')
+        .put('/api/users/' + testUser.username + '/profile')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -173,6 +231,45 @@ describe('Routing', function () {
           }
         });
     });
-*/
+
+    it('should update a user\'s profile information #2', function (done) {
+      var payload = {
+        bio: testUser.bio
+      };
+
+      request(url)
+        .put('/api/users/' + testUser.username + '/profile')
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 200);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should update a user\'s profile information #3', function (done) {
+      var payload = {
+        profile_image: testUser.profile_image
+      };
+
+      request(url)
+        .put('/api/users/' + testUser.username + '/profile')
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 200);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
   });
 });
