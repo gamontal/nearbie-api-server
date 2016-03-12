@@ -24,15 +24,24 @@ exports.getUserInfo = function (req, res, next) {
 
 // DELETE /api/users/:userid
 exports.deleteUser = function (req, res, next) {
-  User.remove({ _id: req.params.userid }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+  if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
+    User.remove({ _id: req.params.userid }, function (err, user) {
+      if (err) {
+        return next(err);
+      }
 
-    res.status(200).json({ success: true, message: 'User deleted' });
-  });
+      if (!user) {
+        res.status(404).json({ success: false, message: 'User doesn\'t exist' });
+      } else if (user) {
+        res.status(200).json({ success: true, message: 'User deleted' });
+      }
+    });
+  } else {
+    res.status(400).json({ success: false, message: 'Invalid user id' })
+  }
 };
 
+// PUT /api/users/:userid
 exports.updateUserInfo = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
     var userInfo = req.body;
@@ -58,7 +67,7 @@ exports.updateUserInfo = function (req, res, next) {
       }
     });
   } else {
-    res.status(404).json({ success: false, message: 'Invalid user id' })
+    res.status(400).json({ success: false, message: 'Invalid user id' })
   }
 };
 
@@ -86,7 +95,7 @@ exports.updateUserLocation = function (req, res, next) {
       }
     });
   } else {
-    res.status(404).json({ success: false, message: 'Invalid user id' });
+    res.status(400).json({ success: false, message: 'Invalid user id' });
   }
 };
 
@@ -149,7 +158,7 @@ exports.getNearbyUsers = function (req, res, next) {
       }
     });
   } else {
-    res.status(404).json({ success: false, message: 'Invalid user id' });
+    res.status(400).json({ success: false, message: 'Invalid user id' });
   }
 };
 

@@ -60,7 +60,7 @@ describe('Routing', function () {
 
     it('should RETURN ERROR if the user doesn\'t exist #1', function (done) {
       request(url)
-        .get('/api/users/' + 'user')
+        .get('/api/users/user')
         .end(function (err, res) {
           try {
             if (err) { throw err }
@@ -81,7 +81,7 @@ describe('Routing', function () {
       };
 
       request(url)
-        .put('/api/users/' + 'user')
+        .put('/api/users/56e3001a76517d7d05122123')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -102,7 +102,7 @@ describe('Routing', function () {
       };
 
       request(url)
-        .put('/api/users/' + 'user/profile')
+        .put('/api/users/user/profile')
         .send(payload)
         .end(function (err, res) {
           try {
@@ -117,8 +117,14 @@ describe('Routing', function () {
     });
 
     it('should RETURN ERROR if the user doesn\'t exist #4', function (done) {
+      var payload = {
+        lng: testUser.loc[0],
+        lat: testUser.loc[1]
+      };
+
       request(url)
-        .post('/api/users/' + '56e3001a76517d7d05122123/location')
+        .post('/api/users/56e3001a76517d7d05122123/location')
+        .send(payload)
         .end(function (err, res) {
           try {
             if (err) { throw err }
@@ -131,14 +137,42 @@ describe('Routing', function () {
         });
     });
 
-    it('should RETURN ERROR if an invalid user ID is used', function (done) {
+    it('should RETURN ERROR if an invalid user ID is used #1', function (done) {
+      var payload = {
+        username: testUser.username,
+        password: testUser.password,
+        email: testUser.email
+      };
+
       request(url)
-        .put('/api/users/' + '56e3001a76517d7d05122/location')
+        .put('/api/users/56e3001a76517d7d05')
+        .send(payload)
         .end(function (err, res) {
           try {
             if (err) { throw err }
 
-            should(res).have.property('status', 404);
+            should(res).have.property('status', 400);
+            done();
+          } catch (e) {
+            done(e);
+          }
+        });
+    });
+
+    it('should RETURN ERROR if an invalid user ID is used #2', function (done) {
+      var payload = {
+        lng: testUser.loc[0],
+        lat: testUser.loc[1]
+      };
+
+      request(url)
+        .put('/api/users/56e3001a76517d7d05/location')
+        .send(payload)
+        .end(function (err, res) {
+          try {
+            if (err) { throw err }
+
+            should(res).have.property('status', 400);
             done();
           } catch (e) {
             done(e);
