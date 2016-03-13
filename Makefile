@@ -10,8 +10,8 @@ test: ;@echo "Initializing tests....."; \
        NODE_ENV=test ./node_modules/.bin/mocha -t 100000
 
 install: ;@echo "Installing dependencies....."; \
-          npm install pm2; \ # make sure pm2 is installed
-          npm install # install the rest of the dependencies
+          npm install pm2; \
+          npm install # install pm2 and the rest of the dependencies
 
 # stop production server for maintenance purposes
 stop-prod-server: ;@echo "WARNING: Stopping all server processes....."; \
