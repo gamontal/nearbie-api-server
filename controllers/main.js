@@ -44,7 +44,7 @@ exports.register = function (req, res, next) {
       user.password = undefined;
       user.email = undefined;
 
-      res.status(200).json(user);
+      res.status(201).json(user);
     }
   });
 };
