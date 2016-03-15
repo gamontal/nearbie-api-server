@@ -3,6 +3,8 @@
  * @moduledesc this module contains the application access routes methods.
  */
 
+'use strict';
+
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');

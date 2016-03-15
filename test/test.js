@@ -1,3 +1,5 @@
+'use strict';
+
 var server = require('../server');
 var should = require('should');
 var assert = require('assert');
@@ -45,10 +47,12 @@ describe('Routing', function () {
 
       request(url)
         .post('/api/register')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 400);
             done();
@@ -63,7 +67,7 @@ describe('Routing', function () {
         .get('/api/users/user')
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 404);
             done();
@@ -82,10 +86,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/56e3001a76517d7d05122123')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 404);
             done();
@@ -103,10 +109,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/user/profile')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 404);
             done();
@@ -124,10 +132,12 @@ describe('Routing', function () {
 
       request(url)
         .post('/api/users/56e3001a76517d7d05122123/location')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 404);
             done();
@@ -146,10 +156,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/56e3001a76517d7d05')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 400);
             done();
@@ -167,10 +179,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/56e3001a76517d7d05/location')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 400);
             done();
@@ -185,7 +199,7 @@ describe('Routing', function () {
         .get('/api/users/' + testUser.username)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -202,10 +216,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/' + testUser._id)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -222,10 +238,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/' + testUser._id)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -242,10 +260,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/' + testUser._id)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -264,10 +284,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/' + testUser._id)
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -285,10 +307,12 @@ describe('Routing', function () {
 
       request(url)
         .post('/api/users/' + testUser._id + '/location')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -306,10 +330,12 @@ describe('Routing', function () {
 
       request(url)
         .put('/api/users/' + testUser._id + '/location')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -324,7 +350,7 @@ describe('Routing', function () {
         .get('/api/users/' + testUser.username + '/profile')
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -344,7 +370,7 @@ describe('Routing', function () {
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -364,7 +390,7 @@ describe('Routing', function () {
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();
@@ -384,7 +410,7 @@ describe('Routing', function () {
         .send(payload)
         .end(function (err, res) {
           try {
-            if (err) { throw err }
+            if (err) { throw err; }
 
             should(res).have.property('status', 200);
             done();

@@ -3,6 +3,8 @@
  * @moduledesc this module contains the user routes methods.
  */
 
+'use strict';
+
 var fs = require('fs');
 var mongoose = require('mongoose');
 var cloudinary = require('cloudinary');
@@ -37,7 +39,7 @@ exports.deleteUser = function (req, res, next) {
       }
     });
   } else {
-    res.status(400).json({ success: false, message: 'Invalid user id' })
+    res.status(400).json({ success: false, message: 'Invalid user id' });
   }
 };
 
@@ -67,7 +69,7 @@ exports.updateUserInfo = function (req, res, next) {
       }
     });
   } else {
-    res.status(400).json({ success: false, message: 'Invalid user id' })
+    res.status(400).json({ success: false, message: 'Invalid user id' });
   }
 };
 

@@ -1,3 +1,5 @@
+'use strict';
+
 var fs = require('fs');
 var url = require('url'); // for url parsing
 var express = require('express');
@@ -16,7 +18,9 @@ require('./config/cloudinary-config')(cloudinary); // sets cloudinary credential
 /* Logs Directory Check and Configuration */
 var logDirectory = __dirname + '/log';
 
-fs.existsSync(logDirectory) || fs.mkdirSync(logDirectory) // ensure log directory exists
+if (!fs.existsSync(logDirectory)) {
+  fs.mkdirSync(logDirectory); // ensure log directory exists
+}
 
 var loggerConfig = require('./config/logger-config')(logDirectory);
 var accessLogStream = loggerConfig.logger;
