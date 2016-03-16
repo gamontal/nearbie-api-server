@@ -25,7 +25,7 @@ var userSchema = new Schema({
     gender: String,
     bio: String
   }
-});
+}, { timestamps: true });
 
 userSchema.plugin(uniqueValidator); // validate unique schema properties
 

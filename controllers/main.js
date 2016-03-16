@@ -42,9 +42,12 @@ exports.register = function (req, res, next) {
       });
     } else {
 
+      // remove unwanted properties from the response object
       user.__v = undefined;
       user.password = undefined;
       user.email = undefined;
+      user.createdAt = undefined;
+      user.updatedAt = undefined;
 
       res.status(201).json(user);
     }
