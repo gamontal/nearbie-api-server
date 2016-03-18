@@ -140,7 +140,7 @@ exports.getNearbyUsers = function (req, res, next) {
             $near: coords,
             $maxDistance: maxDistance
           }
-        }, { password: 0, __v: 0 }).exec(function (err, users) {
+        }, { password: 0, __v: 0, loc: 0 }).exec(function (err, users) {
 
           if (err) {
             return next(err);
