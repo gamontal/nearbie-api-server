@@ -14,7 +14,11 @@ var User = require('../models/user'); // user model
 
 // GET /api
 exports.api = function (req, res) {
-    res.json({ message: 'quickee-api' + ' v' + (require('../package').version)});
+  var result = {
+    version: require('../package').version
+  };
+
+  res.json(result);
 };
 
 // POST /api/reqister
