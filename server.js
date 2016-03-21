@@ -1,7 +1,7 @@
 'use strict';
 
 var fs = require('fs');
-var url = require('url'); // for url parsing
+var url = require('url');
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
@@ -38,6 +38,10 @@ mongoose.connect(serverConfig.database, function (err) {
 
 
 var server = express(); // express server instance
+
+/* IP and PORT Configuration */
+server.set('port', serverConfig.port);
+server.set('ip', serverConfig.ip);
 
 /* Middleware */
 if (process.env.NODE_ENV === 'production') {
@@ -116,8 +120,8 @@ server.use(function (err, req, res, next) {
 });
 
 /* Initialize the Server */
-server.listen(serverConfig.port, function () {
-    console.log('Listening on port ' + serverConfig.port);
+server.listen(server.get('port') , server.get('ip'), function () {
+  console.log('Server listening at %s:%d', server.get('ip'), server.get('port'));
 });
 
 module.exports = server; // makes the server module available for integration tests
