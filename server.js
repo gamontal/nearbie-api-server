@@ -41,7 +41,7 @@ var server = express(); // express server instance
 
 /* IP and PORT Configuration */
 server.set('port', serverConfig.port);
-server.set('ip', serverConfig.ip);
+server.set('ip', serverConfig.host);
 
 /* Middleware */
 if (process.env.NODE_ENV === 'production') {
