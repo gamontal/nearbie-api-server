@@ -1,4 +1,3 @@
-// OPENSHIFT servers are used for development
 module.exports = {
   'production': {
     'port': Number(process.env.PORT || 3000),
@@ -8,7 +7,7 @@ module.exports = {
   },
   'development': {
     'port': Number(process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3001),
-    //'ip': process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '127.0.0.1',
+    'ip': process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '127.0.0.1',
     'database': 'mongodb://admin:admin@ds061355.mongolab.com:61355/quickee-db'
   },
   'test': {
