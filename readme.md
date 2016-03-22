@@ -3,10 +3,8 @@
 - [Current build status](#current-build-status)
 - [Active development server platforms](#active-development-server-platforms)
 - [Building](#building)
-- [Documentation](#documentation)
 - [Database](#database)
   - [Models](#models)
-    - [User properties definition table](#user-properties-definition-table)
   - [Geospatial Indexes and Queries](geospatial-indexes-and-queries)
 - [API reference](#api-reference)
   - [HTTP Status codes](#http-status-codes)
@@ -80,9 +78,7 @@ Development mode:
 $ npm run dev
 ```
 
-## Documentation
-
-### Database
+## Database
 
 This project is currently using a document-based database served at [mLab (DaaS)](https://mlab.com/)
 
@@ -90,7 +86,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | -------- | ---- | ---- | ------------- |
 | mLab     | ds061355.mlab.com | 61355 | quickee-db |
 
-#### Models
+### Models
 
 **User model**
 
@@ -113,7 +109,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
   }
 }
 ```
-#### User properties definition table:
+***User properties definition table***:
 
 | Property | Description                     |
 | -------- | ------------------------------- |
@@ -129,7 +125,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | gender   | The user's gender               |
 | bio      | The user's bio                  |
 
-#### Geospatial Indexes and Queries
+### Geospatial Indexes and Queries
 
 > #### Location Data
 
