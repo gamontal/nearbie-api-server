@@ -1,4 +1,7 @@
 {
    "node": true,
-   "mocha": true
+   "mocha": true,
+   "trailing": true,
+   "white": true,
+   "indent": 2 
 }
