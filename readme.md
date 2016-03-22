@@ -6,6 +6,8 @@
 - [Documentation](#documentation)
 - [Database](#database)
 - [Database models](#database-models)
+  - [User properties definition table](#user-properties-definition-table)
+- [Geospatial Indexes and Queries](geospatial-indexes-and-queries)
 - [HTTP Status codes](#http-status-codes)
 - [API reference](#api-reference)
   - [Main route](#main-route)
@@ -110,6 +112,31 @@ This project is currently using a document-based database served at [mLab (DaaS)
   }
 }
 ```
+#### User properties definition table:
+
+| Property | Description                     |
+| -------- | ------------------------------- |
+| _id      |  The user's ObjectId            |
+| createdAt|  User creation date             |
+| updatedAt|  User modification date         |
+| username |  The user's username            |
+| password |  The user's password            |
+| email    |  The user's email               |
+| loc      |  The user's location coordinates|
+| profile  |  The user's profile             |
+| profile_image | The user's profile image   |
+| gender   | The user's gender               |
+| bio      | The user's bio                  |
+
+### Geospatial Indexes and Queries
+
+#### Location Data
+
+Location data is stored as [legacy coordinate pairs](https://docs.mongodb.org/manual/reference/glossary/#term-legacy-coordinate-pairs).
+
+This means that a user's location is stored as an array containing a set of coordinates to query from using the `$near` and `$maxDistance` MongoDB operators.
+
+**Note**: Any response to the client that contains a user's coordinates will be modified and sent as an Object.
 
 ## HTTP Status Codes
 
