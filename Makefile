@@ -7,7 +7,7 @@ start-dev: ;@echo "Starting server in development mode....."; \
             NODE_ENV=development ./node_modules/.bin/nodemon ./server.js
 
 test: ;@echo "Initializing tests....."; \
-       NODE_ENV=test ./node_modules/.bin/mocha -t 100000
+       ./node_modules/.bin/jshint --exclude ./node_modules . && NODE_ENV=test ./node_modules/.bin/mocha -t 100000
 
 install: ;@echo "Installing dependencies....."; \
           npm install pm2; \

@@ -120,7 +120,7 @@ server.use(function (err, req, res, next) {
 });
 
 /* Initialize the Server */
-server.listen(server.get('port') , server.get('ip'), function () {
+server.listen(server.get('port'), server.get('ip'), function () {
   console.log('Server listening at %s:%d', server.get('ip'), server.get('port'));
 });
 

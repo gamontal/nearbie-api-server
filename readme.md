@@ -1,5 +1,9 @@
 [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gmontalvoriv/quickee-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.com/gmontalvoriv/bb-backend.svg?token=hxR91szxm19yyULsAnMM&branch=master)](https://travis-ci.com/gmontalvoriv/bb-backend)
 
+> Stable version: https://quickee-api.herokuapp.com/api
+
+> Latest version: http://qserv-binarybeats.rhcloud.com/api
+
 ## User model
 
 ```javascript

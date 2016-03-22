@@ -198,7 +198,7 @@ exports.updateUserProfile = function (req, res, next) {
 
       // verify image
       if (typeof req.file === 'undefined') {
-        user.profile.profile_image = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457699376/profile_image_placeholder_dwdms9.jpg';
+        user.profile.profile_image = 'http://res.cloudinary.com/dvicgeltx/image/upload/v1457815397/l3ayih0vef7hkgtcttnd.jpg';
         user.save();
       } else if (req.file) {
         cloudinary.uploader.upload(req.file.path, function (result) {
