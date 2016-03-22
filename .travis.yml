@@ -1,3 +1,15 @@
+notifications:
+  email: false
+
+branches:
+  only:
+    - master
+    - dev
+
+os:
+  - linux
+  - osx
+
 sudo: false
 language: node_js
 node_js:
