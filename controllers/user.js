@@ -171,7 +171,9 @@ exports.getUserProfile = function (req, res, next) {
     password: 0,
     email: 0,
     __v: 0,
-    loc: 0
+    loc: 0,
+    updatedAt: 0,
+    createdAt: 0
   }, function (err, profile) {
     if (err) { return next(err); }
 
