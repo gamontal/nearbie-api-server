@@ -13,12 +13,18 @@ var User = require('../models/user'); // User Model
 
 // GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
-  User.findOne({ username: req.params.username }, { password: 0, __v: 0, loc: 0, updatedAt: 0 }, function (err, user) {
+  User.findOne({ username: req.params.username }, { password: 0, __v: 0, updatedAt: 0 }).lean().exec(function (err, user) {
     if (err) { return next(err); }
 
     if (!user) {
       res.status(404).json({ message: 'User doesn\'t exist' });
     } else if (user) {
+
+      user.loc = {
+        lng: user.loc[0],
+        lat: user.loc[1]
+      };
+
       res.status(200).json(user);
     }
   });
@@ -140,7 +146,7 @@ exports.getNearbyUsers = function (req, res, next) {
             $near: coords,
             $maxDistance: maxDistance
           }
-        }, { password: 0, __v: 0, loc: 0, updatedAt: 0 }).exec(function (err, users) {
+        }, { password: 0, __v: 0, updatedAt: 0 }).exec(function (err, users) {
 
           if (err) {
             return next(err);
