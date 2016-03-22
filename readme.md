@@ -393,7 +393,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
  - **Code**: `400`
 
- - **Content**:
+   - **Content**:
 
     ```javascript
     {
@@ -408,7 +408,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
     
  - **Code**: `404`
 
- - **Content**:
+   - **Content**:
 
     ```javascript
     {
@@ -441,7 +441,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
  - **Code**: `404`
 
- - **Content**:
+   - **Content**:
 
     ```javascript
     {
@@ -471,7 +471,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
  - **Code**: `404`
 
- - **Content**:
+  - **Content**:
 
     ```javascript
     {
