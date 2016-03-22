@@ -5,7 +5,7 @@
 - [Building](#building)
 - [Database](#database)
   - [Models](#models)
-  - [Geospatial Indexes and Queries](geospatial-indexes-and-queries)
+  - [Geospatial Indexes and Queries](#geospatial-indexes-and-queries)
 - [API reference](#api-reference)
   - [HTTP Status codes](#http-status-codes)
   - [Endpoints](#endpoints)
