@@ -141,11 +141,11 @@ This means that a user's location is stored as an array containing a set of coor
 
 | Code | Description |
 | ---- | ----------- |
-| `200`| Standard response for successful HTTP requests. |
-| `201`| The request has been fulfilled, resulting in the creation of a new resource. |
-| `400`| The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing). |
-| `403`| The request was a valid request, but the server is refusing to respond to it. 403 error semantically means "unauthorized", i.e. the user does not have the necessary permissions for the resource. |
-| `404`| The requested resource could not be found but may be available in the future. |
+| `200 (OK)`| Standard response for successful HTTP requests. |
+| `201 (CREATED)`| The request has been fulfilled, resulting in the creation of a new resource. |
+| `400 (BAD REQUEST)`| The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing). |
+| `403 (FORBIDDEN)`| The request was a valid request, but the server is refusing to respond to it. 403 error semantically means "unauthorized", i.e. the user does not have the necessary permissions for the resource. |
+| `404 (NOT FOUND)`| The requested resource could not be found but may be available in the future. |
 
 ### Endpoints
 
