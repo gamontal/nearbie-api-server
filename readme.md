@@ -8,6 +8,16 @@
 - [Database models](#database-models)
 - [HTTP Status codes](#http-status-codes)
 - [API reference](#api-reference)
+  - [Main route](#main-route)
+  - [Registration](#registration)
+  - [Login](#login)
+  - [Get user information](#get-user-information)
+  - [Update user information](#update-user-information)
+  - [Delete a user](#delete-a-user)
+  - [Update user location](#update-user-location)
+  - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
+  - [Get user profile information](#get-user-profile-information)
+  - [Update user profile information](#update-user-profile-information)
 - [Security](#security)
 
 ## Current build status
@@ -120,7 +130,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | `/api`  | `GET`     | `none`         |
 
 
-### User registration
+### Registration
   
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -154,7 +164,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 }
 ```
 
-### User login
+### Login
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -205,7 +215,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
     }
     ```
 
-### Get a user's information
+### Get user information
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -323,55 +333,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
      }
      ```
 
-### Update a user's location and return nearby users
-
-| URL | Method | URL Params |
-| --- | ------ | ---------- |
-| `/api/users/:userid/location`  | `PUT`     | `userid=[ObjectID]`         |
-
-***Success Response***
-
- - **Code**: `200`
-
-   - **Content**: [NearbyUsers]
-
-***Error Response***
-
- - **Code**: `400`
-
-  - **Content**:
-
-    ```javascript
-    {
-      message: 'Invalid user id'
-    }
-    ```
-    ```javascript
-    {
-      message: 'User validation failed'
-    }
-    ```
-    
-- **Code**: `404`
-
-  - **Content**:
-
-    ```javascript
-    {
-      message: 'User doesn\'t exist'
-    }
-    ```
-
-**Payload example:**
-
-```javascript
-{
-  "lng": "22.123456",
-  "lat": "-22.123456"
-}
-```
-
-### Update a user's location
+### Update user location
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -425,7 +387,55 @@ This project is currently using a document-based database served at [mLab (DaaS)
 }
 ```
 
-### Get a user's profile information
+### Update user location and return nearby users
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:userid/location`  | `PUT`     | `userid=[ObjectID]`         |
+
+***Success Response***
+
+ - **Code**: `200`
+
+   - **Content**: [NearbyUsers]
+
+***Error Response***
+
+ - **Code**: `400`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'Invalid user id'
+    }
+    ```
+    ```javascript
+    {
+      message: 'User validation failed'
+    }
+    ```
+    
+- **Code**: `404`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'User doesn\'t exist'
+    }
+    ```
+
+**Payload example:**
+
+```javascript
+{
+  "lng": "22.123456",
+  "lat": "-22.123456"
+}
+```
+
+### Get user profile information
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -449,7 +459,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
      }
      ```
 
-### Update a user's profile information
+### Update user profile information
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
