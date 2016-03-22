@@ -8,12 +8,6 @@ branches:
 
 os:
   - linux
-  - osx
-
-before install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update                       ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install nvm                  ; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then source $(brew --prefix nvm)/nvm.sh; fi
 
 sudo: false
 language: node_js
