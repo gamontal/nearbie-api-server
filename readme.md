@@ -141,7 +141,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 ## API reference
 
-## HTTP Status Codes
+### HTTP Status Codes
 
 | Code | Description |
 | ---- | ----------- |
@@ -151,16 +151,16 @@ This means that a user's location is stored as an array containing a set of coor
 | `403`| The request was a valid request, but the server is refusing to respond to it. 403 error semantically means "unauthorized", i.e. the user does not have the necessary permissions for the resource. |
 | `404`| The requested resource could not be found but may be available in the future. |
 
-> ## Endpoints
+### Endpoints
 
-### Main route
+#### Main route
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
 | `/api`  | `GET`     | `none`         |
 
 
-### Registration
+#### Registration
   
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -194,7 +194,7 @@ This means that a user's location is stored as an array containing a set of coor
 }
 ```
 
-### Login
+#### Login
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -245,7 +245,7 @@ This means that a user's location is stored as an array containing a set of coor
     }
     ```
 
-### Get user information
+#### Get user information
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -269,7 +269,7 @@ This means that a user's location is stored as an array containing a set of coor
     }
     ```
 
-### Update user information
+#### Update user information
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -323,7 +323,7 @@ This means that a user's location is stored as an array containing a set of coor
 }
 ```
 
-### Delete a user
+#### Delete a user
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -363,7 +363,7 @@ This means that a user's location is stored as an array containing a set of coor
      }
      ```
 
-### Update user location
+#### Update user location
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -417,7 +417,7 @@ This means that a user's location is stored as an array containing a set of coor
 }
 ```
 
-### Update user location and return nearby users
+#### Update user location and return nearby users
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -465,7 +465,7 @@ This means that a user's location is stored as an array containing a set of coor
 }
 ```
 
-### Get user profile information
+#### Get user profile information
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
@@ -489,7 +489,7 @@ This means that a user's location is stored as an array containing a set of coor
      }
      ```
 
-### Update user profile information
+#### Update user profile information
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
