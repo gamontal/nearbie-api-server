@@ -1,10 +1,83 @@
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/gmontalvoriv/quickee-app?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) [![Build Status](https://travis-ci.com/gmontalvoriv/bb-backend.svg?token=hxR91szxm19yyULsAnMM&branch=master)](https://travis-ci.com/gmontalvoriv/bb-backend)
+## Contents
+
+- [Current build status](#current-build-status)
+- [Active development server platforms](#active-development-server-platforms)
+- [Building](#building)
+- [Documentation](#documentation)
+- [Database](#database)
+- [Database models](#database-models)
+- [API reference](#api-reference)
+- [Security](#security)
+
+## Current build status
+
+| build config | branch  | status |
+| ------------ | ------- | -------|
+| Linux        | master  | [![Build Status](https://travis-ci.com/gmontalvoriv/bb-backend.svg?token=hxR91szxm19yyULsAnMM&branch=master)](https://travis-ci.com/gmontalvoriv/bb-backend) |
+
+### Active development server platforms
 
 > Stable version: https://quickee-api.herokuapp.com/api
 
 > Latest version: http://qserv-binarybeats.rhcloud.com/api
 
-## User model
+## Building
+
+Clone this repo:
+
+```
+$ git clone git@github.com:{username}/bb-backend.git
+...
+$ cd bb-backend
+```
+
+#### Install dependencies and run tests
+
+If you have `make` installed:
+
+```
+$ make install && make test
+```
+
+Otherwise:
+
+```
+$ npm install && npm test
+```
+
+***Note***: Run tests before you make any commit.
+
+#### Running environments
+
+Production mode:
+
+> This will start the server in production mode using pm2
+
+```
+$ npm start
+```
+
+Development mode:
+
+> This will start the server in development mode using nodemon
+
+```
+$ npm run dev
+```
+
+## Documentation
+
+### Database
+
+This project is currently using a document-based database served at [mLab (DaaS)](https://mlab.com/)
+
+| provider | host | port | database name |
+| -------- | ---- | ---- | ------------- |
+| mLab     | ds061355.mlab.com | 61355 | quickee-db |
+
+### Database Models
+
+#### User model
 
 ```javascript
 {
@@ -20,16 +93,38 @@
   }
 }
 ```
+## API reference
 
-## Available endpoints
+### Main route
 
-#### Main route
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api`  | `GET`     | `none`         |
 
-```GET /api```
 
-#### User registration
+### User registration
   
-```POST /api/register```
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/register`  | `POST`     | `none`         |
+
+***Success Response***
+
+ - Code: `201`
+
+ - Content: [User Object]
+
+***Error Response***
+
+ - Code: `400`
+
+ - Content:
+
+```javascript
+{
+  message: 'User validation failed, a user with that username or email address already exists'
+}
+```
 
 **Payload example:**
 
@@ -41,18 +136,122 @@
 }
 ```
 
-#### User login
+### User login
 
-```POST /api/login```
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/login`  | `POST`     | `none`         |
 
-#### Get a user's information
+***Success Response***
 
-```GET /users/:username```
+ - Code: `200`
 
+ - Content:
 
-#### Update user information
+```javascript
+{
+  token: [token],
+  user: [UserObject]
+}
+```
 
-```PUT /users/:userid```
+***Error Response***
+
+ - Code: `403`, `400`
+
+ - Content:
+
+```javascript
+{
+  message: 'Invalid username'
+}
+```
+```javascript
+{
+  message: 'Invalid password'
+}
+
+```
+
+```javascript
+{
+  message: 'No token provided'
+}
+
+```
+
+```javascript
+{
+  message: 'Failed to authenticate token'
+}
+
+```
+
+### Get a user's information
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:username`  | `GET`     | `username=[String]`         |
+
+***Success Response***
+
+ - Code: `200`
+
+ - Content: [UserObject]
+
+***Error Response***
+
+ - Code: `404`
+
+ - Content:
+
+```javascript
+{
+  message: 'User doesn\'t exist'
+}
+```
+
+### Update user information
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:userid`  | `PUT`     | `userid=[ObjectID]`         |
+
+***Success Response***
+
+ - Code: `200`
+
+ - Content:
+
+```javascript
+{
+  message: 'User information updated'
+}
+```
+
+***Error Response***
+
+ - Code: `404`, `400`
+
+ - Content:
+
+```javascript
+{
+  message: 'Invalid user id'
+}
+```
+
+```javascript
+{
+  message: 'User doesn\'t exist'
+}
+```
+
+```javascript
+{
+  message: 'User validation failed'
+}
+```
 
 **Payload example:**
 
@@ -64,13 +263,77 @@
 }
 ```
 
-#### Delete a user
+### Delete a user
 
-```DELETE /users/:userid```
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:userid`  | `DELETE`     | `userid=[ObjectID]`         |
 
-#### Update a user's location and return nearby users
+***Success Response***
 
-```PUT /users/:userid/location```
+ - Code: `200`
+
+ - Content:
+
+```javascript
+{
+  message: 'User deleted'
+}
+```
+
+***Error Response***
+
+ - Code: `404`, `400`
+
+ - Content:
+
+```javascript
+{
+  message: 'Invalid user id'
+}
+```
+
+```javascript
+{
+  message: 'User doesn\'t exist'
+}
+```
+
+### Update a user's location and return nearby users
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:userid/location`  | `PUT`     | `userid=[ObjectID]`         |
+
+***Success Response***
+
+ - Code: `200`
+
+ - Content: [NearbyUsers]
+
+***Error Response***
+
+ - Code: `404`, `400`
+
+ - Content:
+
+```javascript
+{
+  message: 'Invalid user id'
+}
+```
+
+```javascript
+{
+  message: 'User doesn\'t exist'
+}
+```
+
+```javascript
+{
+  message: 'User validation failed'
+}
+```
 
 **Payload example:**
 
@@ -81,9 +344,47 @@
 }
 ```
 
-#### Update a user's location
+### Update a user's location
 
-```POST /users/:userid/location```
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:userid/location`  | `POST`     | `userid=[ObjectID]`         |
+
+***Success Response***
+
+ - Code: `200`
+
+ - Content:
+
+```javascript
+{
+  message: 'User location updated'
+}
+```
+
+***Error Response***
+
+ - Code: `404`, `400`
+
+ - Content:
+
+```javascript
+{
+  message: 'Invalid user id'
+}
+```
+
+```javascript
+{
+  message: 'User doesn\'t exist'
+}
+```
+
+```javascript
+{
+  message: 'User validation failed'
+}
+```
 
 **Payload example:**
 
@@ -94,12 +395,59 @@
 }
 ```
 
-#### Get a user's profile information
+### Get a user's profile information
 
-```GET /users/:username/profile```
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:username/profile`  | `GET`     | `username=[String]`         |
 
-#### Update a user's profile information
-```PUT /users/:username/profile```
+***Success Response***
+
+ - Code: `200`
+
+ - Content: [UserProfile]
+
+***Error Response***
+
+ - Code: `404`
+
+ - Content:
+
+```javascript
+{
+  message: 'User doesn\'t exist'
+}
+```
+
+### Update a user's profile information
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:username/profile`  | `PUT`     | `username=[String]`         |
+
+***Success Response***
+
+ - Code: `200`
+
+ - Content:
+
+```javascript
+{
+  message: 'User profile updated'
+}
+```
+
+***Error Response***
+
+ - Code: `404`
+
+ - Content:
+
+```javascript
+{
+  message: 'User doesn\'t exist'
+}
+```
 
 **Payload example:**
 
@@ -110,3 +458,7 @@
   "bio": "new bio information"
 }
 ```
+
+## Security
+
+***User credentials are encrypted using the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm and validated using [JSON Web Token](https://jwt.io/).***

@@ -13,11 +13,11 @@ var User = require('../models/user'); // User Model
 
 // GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
-  User.findOne({ username: req.params.username }, { password: 0, __v: 0 }, function (err, user) {
+  User.findOne({ username: req.params.username }, { password: 0, __v: 0, loc: 0, updatedAt: 0 }, function (err, user) {
     if (err) { return next(err); }
 
     if (!user) {
-      res.status(404).json({ success: false, message: 'User doesn\'t exist' });
+      res.status(404).json({ message: 'User doesn\'t exist' });
     } else if (user) {
       res.status(200).json(user);
     }
@@ -33,13 +33,13 @@ exports.deleteUser = function (req, res, next) {
       }
 
       if (!user) {
-        res.status(404).json({ success: false, message: 'User doesn\'t exist' });
+        res.status(404).json({ message: 'User doesn\'t exist' });
       } else if (user) {
-        res.status(200).json({ success: true, message: 'User deleted' });
+        res.status(200).json({ message: 'User deleted' });
       }
     });
   } else {
-    res.status(400).json({ success: false, message: 'Invalid user id' });
+    res.status(400).json({ message: 'Invalid user id' });
   }
 };
 
@@ -52,7 +52,7 @@ exports.updateUserInfo = function (req, res, next) {
       if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ success: false, message: 'User doesn\'t exist' });
+        res.status(404).json({ message: 'User doesn\'t exist' });
       } else if (user) {
 
         user.username = userInfo.username || user.username;
@@ -61,15 +61,15 @@ exports.updateUserInfo = function (req, res, next) {
 
         user.save(function (err) { // catch validation error and return response to the client
           if (err) {
-            res.status(400).json({ success: false, message: 'User validation failed' });
+            res.status(400).json({ message: 'User validation failed' });
           } else {
-            res.status(200).json({ success: true, message: 'User information updated' });
+            res.status(200).json({ message: 'User information updated' });
           }
         });
       }
     });
   } else {
-    res.status(400).json({ success: false, message: 'Invalid user id' });
+    res.status(400).json({ message: 'Invalid user id' });
   }
 };
 
@@ -82,22 +82,22 @@ exports.updateUserLocation = function (req, res, next) {
       if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ success: false, message: 'User doesn\'t exist' });
+        res.status(404).json({ message: 'User doesn\'t exist' });
       } else if (user) {
 
         user.loc = [req.body.lng, req.body.lat];
 
         user.save(function (err) { // catch validation error and return response to the client
           if (err) {
-            res.status(400).json({ success: false, message: 'User validation failed' });
+            res.status(400).json({ message: 'User validation failed' });
           } else {
-            res.status(200).json({ success: true, message: 'User location updated' });
+            res.status(200).json({ message: 'User location updated' });
           }
         });
       }
     });
   } else {
-    res.status(400).json({ success: false, message: 'Invalid user id' });
+    res.status(400).json({ message: 'Invalid user id' });
   }
 };
 
@@ -112,7 +112,7 @@ exports.getNearbyUsers = function (req, res, next) {
       if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ success: false, message: 'user doesn\'t exist'});
+        res.status(404).json({ message: 'user doesn\'t exist' });
       } else if (user) {
 
         user.loc = [req.body.lng, req.body.lat]; // add new coordinates
@@ -120,7 +120,7 @@ exports.getNearbyUsers = function (req, res, next) {
         // save changes
         user.save(function (err) {
           if (err) {
-            res.status(400).json({ success: false, message: 'User validation failed' });
+            res.status(400).json({ message: 'User validation failed' });
           }
         });
 
@@ -140,7 +140,7 @@ exports.getNearbyUsers = function (req, res, next) {
             $near: coords,
             $maxDistance: maxDistance
           }
-        }, { password: 0, __v: 0, loc: 0 }).exec(function (err, users) {
+        }, { password: 0, __v: 0, loc: 0, updatedAt: 0 }).exec(function (err, users) {
 
           if (err) {
             return next(err);
@@ -160,7 +160,7 @@ exports.getNearbyUsers = function (req, res, next) {
       }
     });
   } else {
-    res.status(400).json({ success: false, message: 'Invalid user id' });
+    res.status(400).json({ message: 'Invalid user id' });
   }
 };
 
@@ -171,12 +171,14 @@ exports.getUserProfile = function (req, res, next) {
     password: 0,
     email: 0,
     __v: 0,
-    loc: 0
+    loc: 0,
+    updatedAt: 0,
+    createdAt: 0
   }, function (err, profile) {
     if (err) { return next(err); }
 
     if (!profile) {
-      res.status(404).json({ success: false, message: 'User doesn\'t exists' });
+      res.status(404).json({ message: 'User doesn\'t exists' });
     } else {
       res.status(200).json(profile);
     }
@@ -193,7 +195,7 @@ exports.updateUserProfile = function (req, res, next) {
     if (err) { return next(err); }
 
     if (!user) {
-      res.status(404).send({ success: false, message: 'User doesn\'t exist' });
+      res.status(404).send({ message: 'User doesn\'t exist' });
     } else if (user) {
 
       // verify image
@@ -222,7 +224,7 @@ exports.updateUserProfile = function (req, res, next) {
           return next(err);
         }
       });
-      res.status(200).send({ success: true, message: 'User profile updated' });
+      res.status(200).send({ message: 'User profile updated' });
     }
   });
 };

@@ -41,8 +41,7 @@ exports.register = function (req, res, next) {
   user.save(function (err) {
     if (err) {
       res.status(400).json({
-        success: false,
-        message: 'Validation failed, a user with that username or email address already exists.'
+        message: 'User validation failed, a user with that username or email address already exists'
       });
     } else {
 
@@ -66,7 +65,7 @@ exports.login = function (req, res, next) {
     }
 
     if (!user) {
-      res.status(400).json({ success: false, message: 'Invalid username' });
+      res.status(400).json({ message: 'Invalid username' });
     } else if (user) {
 
       user.verifyPassword(req.body.password, function (err, isMatch) {
@@ -76,7 +75,7 @@ exports.login = function (req, res, next) {
 
         // Password did not match
         if (!isMatch) {
-          res.status(400).json({ success: false, message: 'Invalid password' });
+          res.status(400).json({ message: 'Invalid password' });
         }
 
         var expires = moment().add('days', 7).valueOf();
@@ -87,7 +86,6 @@ exports.login = function (req, res, next) {
         user.__v = undefined;
 
         res.status(200).json({
-          success: true,
           token: token,
           user: user
         });
