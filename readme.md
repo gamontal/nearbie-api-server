@@ -46,6 +46,24 @@ $ npm install && npm test
 
 ***Note***: Run tests before you make any commit.
 
+#### Running environments
+
+Production mode:
+
+> This will start the server in production mode using pm2
+
+```
+$ npm start
+```
+
+Development mode:
+
+> This will start the server in development mode using nodemon
+
+```
+$ npm run dev
+```
+
 ## Documentation
 
 ### Database
@@ -150,6 +168,20 @@ This project is currently using a document-based database served at [mLab (DaaS)
 ```javascript
 {
   message: 'Invalid password'
+}
+
+```
+
+```javascript
+{
+  message: 'No token provided'
+}
+
+```
+
+```javascript
+{
+  message: 'Failed to authenticate token'
 }
 
 ```
