@@ -5,21 +5,22 @@
 - [Building](#building)
 - [Documentation](#documentation)
 - [Database](#database)
-- [Database models](#database-models)
-  - [User properties definition table](#user-properties-definition-table)
-- [Geospatial Indexes and Queries](geospatial-indexes-and-queries)
-- [HTTP Status codes](#http-status-codes)
+  - [Models](#models)
+    - [User properties definition table](#user-properties-definition-table)
+  - [Geospatial Indexes and Queries](geospatial-indexes-and-queries)
 - [API reference](#api-reference)
-  - [Main route](#main-route)
-  - [Registration](#registration)
-  - [Login](#login)
-  - [Get user information](#get-user-information)
-  - [Update user information](#update-user-information)
-  - [Delete a user](#delete-a-user)
-  - [Update user location](#update-user-location)
-  - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
-  - [Get user profile information](#get-user-profile-information)
-  - [Update user profile information](#update-user-profile-information)
+  - [HTTP Status codes](#http-status-codes)
+  - [Endpoints](#endpoints)
+    - [Main route](#main-route)
+    - [Registration](#registration)
+    - [Login](#login)
+    - [Get user information](#get-user-information)
+    - [Update user information](#update-user-information)
+    - [Delete a user](#delete-a-user)
+    - [Update user location](#update-user-location)
+    - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
+    - [Get user profile information](#get-user-profile-information)
+    - [Update user profile information](#update-user-profile-information)
 - [Security](#security)
 
 ## Current build status
@@ -89,9 +90,9 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | -------- | ---- | ---- | ------------- |
 | mLab     | ds061355.mlab.com | 61355 | quickee-db |
 
-### Database Models
+#### Models
 
-#### User model
+**User model**
 
 ```javascript
 {
@@ -128,15 +129,17 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | gender   | The user's gender               |
 | bio      | The user's bio                  |
 
-### Geospatial Indexes and Queries
+#### Geospatial Indexes and Queries
 
-#### Location Data
+> #### Location Data
 
 Location data is stored as [legacy coordinate pairs](https://docs.mongodb.org/manual/reference/glossary/#term-legacy-coordinate-pairs).
 
 This means that a user's location is stored as an array containing a set of coordinates to query from using the `$near` and `$maxDistance` MongoDB operators.
 
 **Note**: Any response to the client that contains a user's coordinates will be modified and sent as an Object.
+
+## API reference
 
 ## HTTP Status Codes
 
@@ -148,7 +151,7 @@ This means that a user's location is stored as an array containing a set of coor
 | `403`| The request was a valid request, but the server is refusing to respond to it. 403 error semantically means "unauthorized", i.e. the user does not have the necessary permissions for the resource. |
 | `404`| The requested resource could not be found but may be available in the future. |
 
-## API reference
+> ## Endpoints
 
 ### Main route
 
