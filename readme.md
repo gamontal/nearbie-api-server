@@ -1,12 +1,12 @@
 ## Contents
 
-- [Current build status](current-build-status)
-- [Active development server platforms](active-development-server-platforms)
-- [Building](building)
-- [Documentation](documentation)
-- [Database](database)
-- [Database models](database-models)
-- [API reference](api-reference)
+- [Current build status](#current-build-status)
+- [Active development server platforms](#active-development-server-platforms)
+- [Building](#building)
+- [Documentation](#documentation)
+- [Database](#database)
+- [Database models](#database-models)
+- [API reference](#api-reference)
 
 ## Current build status
 
