@@ -408,8 +408,8 @@ This means that a user's location is stored as an array containing a set of coor
 
 ```javascript
 {
-  "lng": "22.123456",
-  "lat": "-22.123456"
+  "lng": 22.123456,
+  "lat": -22.123456
 }
 ```
 
@@ -456,8 +456,8 @@ This means that a user's location is stored as an array containing a set of coor
 
 ```javascript
 {
-  "lng": "22.123456",
-  "lat": "-22.123456"
+  "lng": 22.123456,
+  "lat": -22.123456
 }
 ```
 
