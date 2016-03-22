@@ -7,6 +7,7 @@
 - [Database](#database)
 - [Database models](#database-models)
 - [API reference](#api-reference)
+- [Security](#security)
 
 ## Current build status
 
@@ -121,7 +122,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
 ```javascript
 {
-  message: 'Validation failed, a user with that username or email address already exists.'
+  message: 'User validation failed, a user with that username or email address already exists'
 }
 ```
 
@@ -457,3 +458,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
   "bio": "new bio information"
 }
 ```
+
+## Security
+
+***User credentials are encrypted using the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm and validated using [JSON Web Token](https://jwt.io/).***
