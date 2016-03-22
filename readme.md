@@ -108,8 +108,8 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | `200`| Standard response for successful HTTP requests. |
 | `201`| The request has been fulfilled, resulting in the creation of a new resource. |
 | `400`| The server cannot or will not process the request due to an apparent client error (e.g., malformed request syntax, invalid request message framing, or deceptive request routing). |
-| `404`| The requested resource could not be found but may be available in the future. |
 | `403`| The request was a valid request, but the server is refusing to respond to it. 403 error semantically means "unauthorized", i.e. the user does not have the necessary permissions for the resource. |
+| `404`| The requested resource could not be found but may be available in the future. |
 
 ## API reference
 
