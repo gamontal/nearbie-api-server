@@ -161,7 +161,7 @@ exports.getNearbyUsers = function (req, res, next) {
             }
           });
 
-          // override location property
+          // NOTE override location property
           for (var key in users) {
             users[key].loc = {
               lng: users[key].loc[0],
