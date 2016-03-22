@@ -138,11 +138,11 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
   - **Content**:
 
-   ```javascript
-   {
-      message: 'User validation failed, a user with that username or email address already exists'
-   }
-   ```
+    ```javascript
+    {
+        message: 'User validation failed, a user with that username or email address already exists'
+    }
+    ```
 
 **Payload example:**
 
@@ -253,25 +253,25 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
    - **Content**:
 
-    ```javascript
-    {
-      message: 'Invalid user id'
-    }
-    ```
-    ```javascript
-    {
-      message: 'User validation failed'
-    }
-    ```
+     ```javascript
+     {
+       message: 'Invalid user id'
+     }
+     ```
+     ```javascript
+     {
+       message: 'User validation failed'
+     }
+     ```
  - **Code**: `404`
 
    - **Content**:
     
-    ```javascript
-    {
-      message: 'User doesn\'t exist'
-    }
-    ```
+     ```javascript
+      {
+        message: 'User doesn\'t exist'
+      }
+     ```
 
 **Payload example:**
 
@@ -317,11 +317,11 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
    - **Content**:
 
-    ```javascript
-    {
-      message: 'User doesn\'t exist'
-    }
-    ```
+     ```javascript
+     { 
+       message: 'User doesn\'t exist'
+     }
+     ```
 
 ### Update a user's location and return nearby users
 
@@ -395,26 +395,26 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
    - **Content**:
 
-    ```javascript
-    {
-      message: 'Invalid user id'
-    }
-    ```
-    ```javascript
-    {
-      message: 'User validation failed'
-    }
-    ```
+     ```javascript
+     {
+       message: 'Invalid user id'
+     }
+     ```
+     ```javascript
+     {
+       message: 'User validation failed'
+     }
+     ```
     
  - **Code**: `404`
 
    - **Content**:
 
-    ```javascript
-    {
-      message: 'User doesn\'t exist'
-    }
-    ```
+     ```javascript
+     {
+       message: 'User doesn\'t exist'
+     }
+     ```
 
 **Payload example:**
 
@@ -443,11 +443,11 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
    - **Content**:
 
-    ```javascript
-    {
-      message: 'User doesn\'t exist'
-    }
-    ```
+     ```javascript
+     {
+       message: 'User doesn\'t exist'
+     }
+     ```
 
 ### Update a user's profile information
 
