@@ -146,7 +146,7 @@ exports.getNearbyUsers = function (req, res, next) {
             $near: coords,
             $maxDistance: maxDistance
           }
-        }, { password: 0, __v: 0, updatedAt: 0 }).exec(function (err, users) {
+        }, { password: 0, __v: 0, updatedAt: 0 }).lean().exec(function (err, users) {
 
           if (err) {
             return next(err);
@@ -156,6 +156,12 @@ exports.getNearbyUsers = function (req, res, next) {
           // NOTE mongoose doesn't provide this type of functionality (excluding a specific user from a query)
           // looping through the users array and eliminating the user's object is the only feasible solution I could find
           users.forEach(function (elem, index) {
+
+            users[index].loc = {
+              lng: users[index].loc[0],
+              lat: users[index].loc[1]
+            };
+
             if (elem._id == userid) {
               users.splice(index, 1);
             }
