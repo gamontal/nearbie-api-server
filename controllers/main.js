@@ -41,7 +41,7 @@ exports.register = function (req, res, next) {
   user.save(function (err) {
     if (err) {
       res.status(400).json({
-        message: 'Validation failed, a user with that username or email address already exists.'
+        message: 'User validation failed, a user with that username or email address already exists'
       });
     } else {
 
