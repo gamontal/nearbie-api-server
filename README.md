@@ -30,7 +30,7 @@
 
 ### Active development server platforms
 
-> Stable version: https://quickee-api.herokuapp.com/api
+> Stable version: https://qserv-binarybeats.herokuapp.com/api
 
 > Latest version: http://qserv-binarybeats.rhcloud.com/api
 
