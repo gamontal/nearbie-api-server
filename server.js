@@ -125,5 +125,5 @@ server.listen(server.get('port'), server.get('ip'), function () {
 });
 
 module.exports = server; // makes the server module available for integration tests
-                        // or any other service that requires it
+                        // or any other module that requires it
 

@@ -8,9 +8,12 @@
 var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
-var serverConfig = require('../config/server-config');
 
-var User = require('../models/user'); // user model
+/* Server Configuration */
+var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'production'];
+
+// User model
+var User = require('../models/user');
 
 // GET /api
 exports.api = function (req, res) {
@@ -45,21 +48,27 @@ exports.register = function (req, res, next) {
       });
     } else {
 
-      // remove unwanted properties from the response object
-      user.__v = undefined;
-      user.password = undefined;
-      user.email = undefined;
-      user.createdAt = undefined;
-      user.updatedAt = undefined;
+      var expires = moment().add(7, 'days').valueOf();
 
-      res.status(201).json(user);
+      // generate new token upon registration
+      var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
+
+      // remove unwanted properties from the response object
+      user.updatedAt = undefined;
+      user.password = undefined;
+      user.__v = undefined;
+
+      res.status(201).json({
+        token: token,
+        user: user
+      });
     }
   });
 };
 
 // POST /api/login
 exports.login = function (req, res, next) {
-  User.findOne({ username: req.body.username }, function (err, user) {
+  User.findOne({ username: req.body.username }, { __v: 0 }, function (err, user) {
     if (err) {
       return next(err);
     }
@@ -78,12 +87,12 @@ exports.login = function (req, res, next) {
           res.status(400).json({ message: 'Invalid password' });
         }
 
-        var expires = moment().add('days', 7).valueOf();
+        var expires = moment().add(7, 'days').valueOf();
+
         var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
 
         // remove any unwanted or sensitive fields
         user.password = undefined;
-        user.__v = undefined;
 
         res.status(200).json({
           token: token,
