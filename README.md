@@ -23,7 +23,7 @@
   - [Authentication](#authentication)
     - [Client Authentication](#client-authentication)
     - [User Authentication](#user-authentication)
-  - [Cryptographic Hash Function](#cryptographic-hash-function)
+  - [Storing Sensitive User Data](#storing-sensitive-user-data)
 
 ## Current build status
 
@@ -36,7 +36,7 @@
 
 > Stable version: https://qserv-binarybeats.herokuapp.com/api
 
-> Latest version: http://qserv-binarybeats.rhcloud.com/api
+> Latest version: https://qserv-binarybeats.rhcloud.com/api
 
 ## Building
 
@@ -560,6 +560,6 @@ Authorization header to send the token to the server: `x-access-token`
     }
     ```
 
-### Cryptographic Hash Function
+### Storing Sensitive User Data
 
 User credentials are encryped using the [bcrypt algorithm](https://en.wikipedia.org/wiki/Bcrypt) and compared against a fixed password hash that is stored in the database after a user is created or any user related changes are made (changing the password).
