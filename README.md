@@ -20,6 +20,10 @@
     - [Get user profile information](#get-user-profile-information)
     - [Update user profile information](#update-user-profile-information)
 - [Security](#security)
+  - [Authentication](#authentication)
+    - [Client Authentication](#client-authentication)
+    - [User Authentication](#user-authentication)
+  - [Cryptographic Hash Function](#cryptographic-hash-function)
 
 ## Current build status
 
@@ -223,21 +227,6 @@ This means that a user's location is stored as an array containing a set of coor
     ```javascript
     {
       message: 'Invalid password'
-    }
-    ```
-
-- **Code**: `403`
-
-  - **Content**:
-
-    ```javascript
-    {
-      message: 'No token provided'
-    }
-    ```
-    ```javascript
-    {
-      message: 'Failed to authenticate token'
     }
     ```
 
@@ -527,4 +516,50 @@ This means that a user's location is stored as an array containing a set of coor
 
 ## Security
 
-***User credentials are encrypted using the [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) algorithm and validated using [JSON Web Token](https://jwt.io/).***
+### Authentication
+
+>  Client and user authentication is handled separately. What this allows you to do is treat authentication of the client as one process and then authenticating the user (checking to see if an account exists etc) so that there are two layers of security.
+
+#### Client Authentication
+
+> [TODO]
+
+#### User Authentication
+
+> User authentication is done using [JSON Web Token](https://jwt.io/). Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token.
+
+**Protected routes**
+
+ - [Login](#login)
+ - [Get user information](#get-user-information)
+ - [Update user information](#update-user-information)
+ - [Delete a user](#delete-a-user)
+ - [Update user location](#update-user-location)
+ - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
+ - [Get user profile information](#get-user-profile-information)
+ - [Update user profile information](#update-user-profile-information)
+
+**Token passing**
+
+Authorization header to send the token to the server: `x-access-token`
+
+**Authentication error response**
+
+- **Code**: `403`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'No token provided'
+    }
+    ```
+    ```javascript
+    {
+      message: 'Failed to authenticate token'
+    }
+    ```
+
+### Cryptographic Hash Function
+
+User credentials are encryped using the [bcrypt algorithm](https://en.wikipedia.org/wiki/Bcrypt) and compared against a fixed password hash that is stored in the database after a user is created or any user related changes are made (changing the password).
