@@ -6,6 +6,7 @@ var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var compression = require('compression');
+var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
 /* Server Configuration */
@@ -51,6 +52,7 @@ if (process.env.NODE_ENV === 'production') {
   server.use(morgan('dev'));
 }
 
+server.use(helmet());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 server.use(compression());
