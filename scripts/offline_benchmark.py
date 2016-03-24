@@ -1,1 +1,0 @@
-# ApacheBench OFFLINE LOAD TEST
