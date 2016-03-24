@@ -5,6 +5,7 @@ var url = require('url');
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
+var compression = require('compression');
 var bodyParser = require('body-parser');
 
 /* Server Configuration */
@@ -52,6 +53,7 @@ if (process.env.NODE_ENV === 'production') {
 
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
+server.use(compression());
 
 /* API Routes */
 
