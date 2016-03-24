@@ -8,7 +8,7 @@ var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
 /* Server Configuration */
-var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'production'];
+var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'development'];
 
 /* Image Handling Modules */
 var upload = require('./config/multer-config'); // multer configuration
