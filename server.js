@@ -16,10 +16,10 @@ var cloudinary = require('cloudinary');
 require('./config/cloudinary-config')(cloudinary); // sets cloudinary credentials
 
 /* Logs Directory Check and Configuration */
-var logDirectory = __dirname + '/log';
+var logDirectory = __dirname + '/logs';
 
 if (!fs.existsSync(logDirectory)) {
-  fs.mkdirSync(logDirectory); // ensure log directory exists
+  fs.mkdirSync(logDirectory); // ensure logs directory exists
 }
 
 var loggerConfig = require('./config/logger-config')(logDirectory);
