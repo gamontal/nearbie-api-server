@@ -5,10 +5,12 @@ var url = require('url');
 var express = require('express');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
+var compression = require('compression');
+var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
 /* Server Configuration */
-var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'production'];
+var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'development'];
 
 /* Image Handling Modules */
 var upload = require('./config/multer-config'); // multer configuration
@@ -16,10 +18,10 @@ var cloudinary = require('cloudinary');
 require('./config/cloudinary-config')(cloudinary); // sets cloudinary credentials
 
 /* Logs Directory Check and Configuration */
-var logDirectory = __dirname + '/log';
+var logDirectory = __dirname + '/logs';
 
 if (!fs.existsSync(logDirectory)) {
-  fs.mkdirSync(logDirectory); // ensure log directory exists
+  fs.mkdirSync(logDirectory); // ensure logs directory exists
 }
 
 var loggerConfig = require('./config/logger-config')(logDirectory);
@@ -44,14 +46,16 @@ server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
 /* Middleware */
+server.use(helmet());
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.json());
+server.use(compression());
+
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: accessLogStream }));
 } else if (process.env.NODE_ENV === 'development') {
   server.use(morgan('dev'));
 }
-
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
 
 /* API Routes */
 
@@ -124,6 +128,6 @@ server.listen(server.get('port'), server.get('ip'), function () {
   console.log('Server listening at %s:%d', server.get('ip'), server.get('port'));
 });
 
-module.exports = server; // makes the server module available for integration tests
-                        // or any other module that requires it
+// make the server available for integration tests
+module.exports = server;
 

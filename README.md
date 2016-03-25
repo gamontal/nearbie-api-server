@@ -1,4 +1,4 @@
-## Contents
+## Index
 
 - [Current build status](#current-build-status)
 - [Active development server platforms](#active-development-server-platforms)
@@ -99,9 +99,9 @@ This project is currently using a document-based database served at [mLab (DaaS)
   _id: ObjectID,
   createdAt: Date,
   updatedAt: Date,
-  username: String, //=> unique = true, required = true
-  password: String, //=> required = true
-  email: String, //=> unique = true, required = true
+  username: String,
+  password: String,
+  email: String,
   loc: {
     lng: Number,
     lat: Number

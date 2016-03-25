@@ -11,13 +11,33 @@ var cloudinary = require('cloudinary');
 
 var User = require('../models/user'); // User Model
 
+var INFO = [
+  'User deleted',
+  'User information updated',
+  'User location updated',
+  'User profile updated'
+];
+
+var ERROR = [
+  'User doesn\'t exist',
+  'Invalid user ID',
+  'User validation failed'
+];
+
 // GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
-  User.findOne({ username: req.params.username }, { password: 0, __v: 0, updatedAt: 0 }).lean().exec(function (err, user) {
+  User.findOne({ username: req.params.username }, {
+    password: 0,
+    __v: 0,
+    updatedAt: 0
+  }).lean().exec(function (err, user) {
+
     if (err) { return next(err); }
 
     if (!user) {
-      res.status(404).json({ message: 'User doesn\'t exist' });
+      res.status(404).json({
+        message: ERROR[0]
+      });
     } else if (user) {
 
       user.loc = {
@@ -34,48 +54,64 @@ exports.getUserInfo = function (req, res, next) {
 exports.deleteUser = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
     User.remove({ _id: req.params.userid }, function (err, user) {
-      if (err) {
-        return next(err);
-      }
+
+      if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ message: 'User doesn\'t exist' });
+        res.status(404).json({
+          message: ERROR[0]
+        });
       } else if (user) {
-        res.status(200).json({ message: 'User deleted' });
+        res.status(200).json({
+          message: INFO[0]
+        });
       }
     });
   } else {
-    res.status(400).json({ message: 'Invalid user id' });
+    res.status(400).json({
+      message: ERROR[1]
+    });
   }
 };
 
 // PUT /api/users/:userid
 exports.updateUserInfo = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
+
     var userInfo = req.body;
 
     User.findOne({ _id: req.params.userid }, function (err, user) {
+
       if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ message: 'User doesn\'t exist' });
+        res.status(404).json({
+          message: ERROR[0]
+        });
       } else if (user) {
 
         user.username = userInfo.username || user.username;
         user.password = userInfo.password || user.password;
         user.email = userInfo.email || user.email;
 
-        user.save(function (err) { // catch validation error and return response to the client
+        // catch validation error and return response to the client
+        user.save(function (err) {
           if (err) {
-            res.status(400).json({ message: 'User validation failed' });
+            res.status(400).json({
+              message: ERROR[2]
+            });
           } else {
-            res.status(200).json({ message: 'User information updated' });
+            res.status(200).json({
+              message: INFO[1]
+            });
           }
         });
       }
     });
   } else {
-    res.status(400).json({ message: 'Invalid user id' });
+    res.status(400).json({
+      message: ERROR[1]
+    });
   }
 };
 
@@ -85,40 +121,53 @@ exports.updateUserLocation = function (req, res, next) {
 
     // store new coordenates
     User.findOne({ _id: req.params.userid }, function (err, user) {
+
       if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ message: 'User doesn\'t exist' });
+        res.status(404).json({
+          message: ERROR[0]
+        });
       } else if (user) {
 
         user.loc = [req.body.lng, req.body.lat];
 
-        user.save(function (err) { // catch validation error and return response to the client
+        user.save(function (err) {
           if (err) {
-            res.status(400).json({ message: 'User validation failed' });
+            res.status(400).json({
+              message: ERROR[2]
+            });
           } else {
-            res.status(200).json({ message: 'User location updated' });
+            res.status(200).json({
+              message: INFO[2]
+            });
           }
         });
       }
     });
   } else {
-    res.status(400).json({ message: 'Invalid user id' });
+    res.status(400).json({
+      message: ERROR[1]
+    });
   }
 };
 
 // PUT /api/users/:userid/location
-// NOTE returns an empty array if no users were found with nearby coordinates
+// NOTE this method returns an empty array if no users were found with nearby coordinates
 exports.getNearbyUsers = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
+
     var userid = req.params.userid;
 
     // store new coordinates
     User.findOne({ _id: userid }, function (err, user) {
+
       if (err) { return next(err); }
 
       if (!user) {
-        res.status(404).json({ message: 'user doesn\'t exist' });
+        res.status(404).json({
+          message: ERROR[0]
+        });
       } else if (user) {
 
         user.loc = [req.body.lng, req.body.lat]; // add new coordinates
@@ -126,7 +175,9 @@ exports.getNearbyUsers = function (req, res, next) {
         // save changes
         user.save(function (err) {
           if (err) {
-            res.status(400).json({ message: 'User validation failed' });
+            res.status(400).json({
+              message: ERROR[2]
+            });
           }
         });
 
@@ -146,11 +197,12 @@ exports.getNearbyUsers = function (req, res, next) {
             $near: coords,
             $maxDistance: maxDistance
           }
-        }, { password: 0, __v: 0, updatedAt: 0 }).lean().exec(function (err, users) {
-
-          if (err) {
-            return next(err);
-          }
+        }, {
+          password: 0,
+          __v: 0,
+          updatedAt: 0
+        }).lean().exec(function (err, users) {
+          if (err) { return next(err); }
 
           // this removes the current user from the results array
           // NOTE mongoose doesn't provide this type of functionality (excluding a specific user from a query)
@@ -174,7 +226,9 @@ exports.getNearbyUsers = function (req, res, next) {
       }
     });
   } else {
-    res.status(400).json({ message: 'Invalid user id' });
+    res.status(400).json({
+      message: ERROR[1]
+    });
   }
 };
 
@@ -189,10 +243,13 @@ exports.getUserProfile = function (req, res, next) {
     updatedAt: 0,
     createdAt: 0
   }, function (err, profile) {
+
     if (err) { return next(err); }
 
     if (!profile) {
-      res.status(404).json({ message: 'User doesn\'t exists' });
+      res.status(404).json({
+        message: ERROR[0]
+      });
     } else {
       res.status(200).json(profile);
     }
@@ -200,16 +257,19 @@ exports.getUserProfile = function (req, res, next) {
 };
 
 // PUT /api/users/:username/profile
-// TODO upload image to cloudinary from the client
-// NOTE this method is not practical, used for development
+// NOTE upload image to cloudinary from the client
 exports.updateUserProfile = function (req, res, next) {
+
   var newProfileInfo = req.body;
 
   User.findOne({ username: req.params.username }, function (err, user) {
+
     if (err) { return next(err); }
 
     if (!user) {
-      res.status(404).send({ message: 'User doesn\'t exist' });
+      res.status(404).send({
+        message: ERROR[0]
+      });
     } else if (user) {
 
       // verify image
@@ -234,11 +294,11 @@ exports.updateUserProfile = function (req, res, next) {
       user.profile.bio = newProfileInfo.bio || user.profile.bio;
 
       user.save(function (err) {
-        if (err) {
-          return next(err);
-        }
+        if (err) { return next(err); }
       });
-      res.status(200).send({ message: 'User profile updated' });
+      res.status(200).send({
+        message: INFO[3]
+      });
     }
   });
 };
