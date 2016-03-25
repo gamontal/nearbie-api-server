@@ -39,9 +39,9 @@ mongoose.connect(serverConfig.database, function (err) {
 });
 
 
-var server = express(); // express server instance
+var server = express();
 
-/* IP and PORT Configuration */
+/* Express Environment Variables */
 server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
