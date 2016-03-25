@@ -10,10 +10,16 @@ var jwt = require('jsonwebtoken');
 var moment = require('moment');
 
 /* Server Configuration */
-var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'production'];
+var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'development'];
 
 // User model
 var User = require('../models/user');
+
+var ERROR = [
+  'User validation failed, a user with that username or email address already exists',
+  'Invalid username',
+  'Invalid password'
+];
 
 // GET /api
 exports.api = function (req, res) {
@@ -44,7 +50,7 @@ exports.register = function (req, res, next) {
   user.save(function (err) {
     if (err) {
       res.status(400).json({
-        message: 'User validation failed, a user with that username or email address already exists'
+        message: ERROR[0]
       });
     } else {
 
@@ -68,13 +74,17 @@ exports.register = function (req, res, next) {
 
 // POST /api/login
 exports.login = function (req, res, next) {
-  User.findOne({ username: req.body.username }, { __v: 0 }, function (err, user) {
+  User.findOne({ username: req.body.username }, {
+    __v: 0
+  }, function (err, user) {
     if (err) {
       return next(err);
     }
 
     if (!user) {
-      res.status(400).json({ message: 'Invalid username' });
+      res.status(400).json({
+        message: ERROR[1]
+      });
     } else if (user) {
 
       user.verifyPassword(req.body.password, function (err, isMatch) {
@@ -84,7 +94,9 @@ exports.login = function (req, res, next) {
 
         // Password did not match
         if (!isMatch) {
-          res.status(400).json({ message: 'Invalid password' });
+          res.status(400).json({
+            message: ERROR[2]
+          });
         }
 
         var expires = moment().add(7, 'days').valueOf();

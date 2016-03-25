@@ -6,7 +6,12 @@
 'use strict';
 
 var jwt = require('jsonwebtoken');
-var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'production'];
+var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'development'];
+
+var ERROR = [
+  'Failed to authenticate token',
+  'No token provided'
+];
 
 exports.checkForAuthentication = function (req, res, next) {
   // check header or url parameters or post parameters for token
@@ -17,7 +22,7 @@ exports.checkForAuthentication = function (req, res, next) {
     jwt.verify(token, serverConfig.secret, function (err, decoded) {
       if (err) {
         return res.status(403).json({
-          message: 'Failed to authenticate token'
+          message: ERROR[0]
         });
       } else {
         req.decoded = decoded;
@@ -26,7 +31,7 @@ exports.checkForAuthentication = function (req, res, next) {
     });
   } else {
     return res.status(403).json({
-      message: 'No token provided'
+      message: ERROR[1]
     });
   }
 };
