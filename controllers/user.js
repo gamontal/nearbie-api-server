@@ -13,7 +13,11 @@ var User = require('../models/user'); // User Model
 
 // GET /api/users/:username
 exports.getUserInfo = function (req, res, next) {
-  User.findOne({ username: req.params.username }, { password: 0, __v: 0, updatedAt: 0 }).lean().exec(function (err, user) {
+  User.findOne({ username: req.params.username }, {
+    password: 0,
+    __v: 0,
+    updatedAt: 0
+  }).lean().exec(function (err, user) {
     if (err) { return next(err); }
 
     if (!user) {
@@ -146,7 +150,11 @@ exports.getNearbyUsers = function (req, res, next) {
             $near: coords,
             $maxDistance: maxDistance
           }
-        }, { password: 0, __v: 0, updatedAt: 0 }).lean().exec(function (err, users) {
+        }, {
+          password: 0,
+          __v: 0,
+          updatedAt: 0
+        }).lean().exec(function (err, users) {
 
           if (err) {
             return next(err);

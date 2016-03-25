@@ -46,16 +46,16 @@ server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
 /* Middleware */
+server.use(helmet());
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.json());
+server.use(compression());
+
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: accessLogStream }));
 } else if (process.env.NODE_ENV === 'development') {
   server.use(morgan('dev'));
 }
-
-server.use(helmet());
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
-server.use(compression());
 
 /* API Routes */
 
