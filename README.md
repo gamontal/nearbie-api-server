@@ -1,4 +1,4 @@
-## Contents
+## Index
 
 - [Current build status](#current-build-status)
 - [Active development server platforms](#active-development-server-platforms)
