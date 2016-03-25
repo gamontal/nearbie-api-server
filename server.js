@@ -128,6 +128,6 @@ server.listen(server.get('port'), server.get('ip'), function () {
   console.log('Server listening at %s:%d', server.get('ip'), server.get('port'));
 });
 
-module.exports = server; // makes the server module available for integration tests
-                        // or any other module that requires it
+// make the server available for integration tests
+module.exports = server;
 
