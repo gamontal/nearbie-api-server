@@ -13,6 +13,9 @@ install: ;@echo "Installing dependencies....."; \
           npm install pm2; \
           npm install # install pm2 and the rest of the dependencies
 
+clean: ;@echo "Cleaning node modules....."; \
+        rm -rf ./node_modules
+
 # stop production server for maintenance purposes
 stop-prod: ;@echo "WARNING: Stopping all server processes....."; \
             ./node_modules/.bin/pm2 stop all
@@ -20,4 +23,4 @@ stop-prod: ;@echo "WARNING: Stopping all server processes....."; \
 restart-prod: ;@echo "WARNING: Restarting all server processes....."; \
                ./node_modules/.bin/pm2 restart
 
-.PHONY: start-prod start-dev test install stop-prod restart-prod
+.PHONY: start-prod start-dev test install clean stop-prod restart-prod
