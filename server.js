@@ -103,7 +103,7 @@ server.get('*', function (req, res) {
 
 // development error handler
 // will print stacktrace
-if (server.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
   server.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
