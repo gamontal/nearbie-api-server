@@ -34,14 +34,14 @@ var authController = require('./controllers/auth');
 
 /* MongoDB Connection */
 mongoose.connect(serverConfig.database, function (err) {
-  if (err) { console.log('\n\tconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
-  else { console.log('\n\tconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
+  if (err) { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
+  else { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
 });
 
 
-var server = express(); // express server instance
+var server = express();
 
-/* IP and PORT Configuration */
+/* Express Environment Variables */
 server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
@@ -49,11 +49,11 @@ server.set('ip', serverConfig.host);
 server.use(helmet());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-server.use(compression());
 
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: accessLogStream }));
 } else if (process.env.NODE_ENV === 'development') {
+  server.use(compression());
   server.use(morgan('dev'));
 }
 
@@ -103,7 +103,7 @@ server.get('*', function (req, res) {
 
 // development error handler
 // will print stacktrace
-if (server.get('env') === 'development') {
+if (process.env.NODE_ENV === 'development') {
   server.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -125,7 +125,7 @@ server.use(function (err, req, res, next) {
 
 /* Initialize the Server */
 server.listen(server.get('port'), server.get('ip'), function () {
-  console.log('Server listening at %s:%d', server.get('ip'), server.get('port'));
+  console.log('\nServer listening at %s:%d', server.get('ip'), server.get('port'));
 });
 
 // make the server available for integration tests

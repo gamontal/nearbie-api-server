@@ -296,7 +296,8 @@ exports.updateUserProfile = function (req, res, next) {
       user.save(function (err) {
         if (err) { return next(err); }
       });
-      res.status(200).send({
+
+      res.status(200).json({
         message: INFO[3]
       });
     }
