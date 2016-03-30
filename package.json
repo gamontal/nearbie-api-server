@@ -2,6 +2,7 @@
   "name": "quickee-api",
   "version": "1.2.0",
   "main": "server.js",
+  "private": true,
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "1.15.0",
