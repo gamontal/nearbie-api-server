@@ -46,15 +46,15 @@ server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
 /* Middleware */
-server.use(helmet());
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
-  server.use(morgan('combined', { stream: accessLogStream }));
+  server.use(morgan('combined', { stream: accessLogStream })); // TODO Add error logging
 } else if (process.env.NODE_ENV === 'development') {
-  server.use(compression());
-  server.use(morgan('dev'));
+  server.use(helmet()); // adds default security headers
+  server.use(compression()); // gzip compression for data transit
+  server.use(morgan('dev')); // developer friendly console logger
 }
 
 /* API Routes */
