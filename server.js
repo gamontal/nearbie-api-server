@@ -104,7 +104,7 @@ server.get('*', function (req, res) {
 // development error handler
 // will print stacktrace
 if (process.env.NODE_ENV === 'development') {
-  server.use(function (err, req, res, next) {
+  server.use(function (err, req, res) {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -115,7 +115,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-server.use(function (err, req, res, next) {
+server.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,

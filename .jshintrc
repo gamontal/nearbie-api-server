@@ -1,5 +1,8 @@
 {
    "node": true,
+   "strict": true,
+   "unused":true,
+   "undef": true,
    "mocha": true,
    "trailing": true,
    "white": true,

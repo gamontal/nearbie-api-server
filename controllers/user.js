@@ -6,7 +6,6 @@
 'use strict';
 
 var fs = require('fs');
-var mongoose = require('mongoose');
 var cloudinary = require('cloudinary');
 
 var User = require('../models/user'); // User Model

@@ -3,6 +3,8 @@
  * @moduledesc Defines the user model.
  */
 
+'use strict';
+
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
 var uniqueValidator = require('mongoose-unique-validator');

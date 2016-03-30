@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = {
   production: {
     port: Number(process.env.PORT || 8080),

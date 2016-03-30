@@ -1,3 +1,5 @@
+'use strict';
+
 var FileStreamRotator = require('file-stream-rotator');
 
 module.exports = function (logDirectory) {

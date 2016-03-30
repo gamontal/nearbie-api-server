@@ -5,7 +5,6 @@
 
 'use strict';
 
-var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
 
@@ -31,7 +30,7 @@ exports.api = function (req, res) {
 };
 
 // POST /api/reqister
-exports.register = function (req, res, next) {
+exports.register = function (req, res) {
   var userInfo = req.body;
 
   // create a new user
