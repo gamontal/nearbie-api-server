@@ -9,8 +9,10 @@ var compression = require('compression');
 var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
+var env = process.env.NODE_ENV || 'development';
+
 /* Server Configuration */
-var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'development'];
+var serverConfig = require('./config/server-config')[env];
 
 /* Image Handling Modules */
 var upload = require('./config/multer-config'); // multer configuration
@@ -32,8 +34,10 @@ var mainController = require('./controllers/main');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
-/* MongoDB Connection */
-mongoose.connect(serverConfig.database, function (err) {
+/* Database Connection */
+var dbConfig = require('./config/database-config');
+
+mongoose.connect(serverConfig.database, dbConfig, function (err) {
   if (err) { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
   else { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
 });
