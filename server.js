@@ -54,7 +54,7 @@ server.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: accessLogStream })); // TODO Add error logging
-} else if (process.env.NODE_ENV === 'development') {
+} else {
   server.use(helmet()); // adds default security headers
   server.use(compression()); // gzip compression for data transit
   server.use(morgan('dev')); // developer friendly console logger
