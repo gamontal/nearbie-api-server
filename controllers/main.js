@@ -38,10 +38,7 @@ exports.register = function (req, res) {
     username: userInfo.username,
     password: userInfo.password,
     email: userInfo.email,
-    loc: {
-      lng: userInfo.lng,
-      lat: userInfo.lat
-    },
+    loc: [userInfo.loc.lng, userInfo.loc.lat],
     profile: {
       profile_image: "",
       gender: "",
@@ -59,7 +56,10 @@ exports.register = function (req, res) {
       var expires = moment().add(7, 'days').valueOf();
 
       // generate new token upon registration
-      var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
+
+      if (process.env.NODE_ENV === 'production') {
+        var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
+      }
 
       // remove unwanted properties from the response object
       user.updatedAt = undefined;
@@ -67,7 +67,7 @@ exports.register = function (req, res) {
       user.__v = undefined;
 
       res.status(201).json({
-        token: token,
+        token: token? token : '',
         user: user
       });
     }
