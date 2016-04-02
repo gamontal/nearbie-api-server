@@ -10,8 +10,8 @@ var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
 /* Server Configuration */
-var Configuration = require('./config/server-config');
-var serverConfig = new Configuration();
+var ServerConfiguration = require('./config/server-config');
+var serverConfig = new ServerConfiguration();
 
 /* Image Handling Modules */
 var upload = require('./config/multer-config'); // multer configuration
@@ -45,10 +45,11 @@ mongoose.connect(serverConfig.database, dbConfig, function (err) {
 var server = express();
 
 /* Express Environment Variables */
+server.set('config', serverConfig);
 server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
-/* Middleware */
+/* Application-wide Middleware */
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
@@ -100,8 +101,7 @@ server.use('/api', router); // set routes
 
 // catch 404 status code
 server.get('*', function (req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.status(404).send({ message: 'Not Found' });
+  res.status(404).json({ message: 'Not Found' });
 });
 
 // development error handler

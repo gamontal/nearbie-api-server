@@ -8,10 +8,6 @@
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
 
-/* Server Configuration */
-var Configuration = require('../config/server-config');
-var serverConfig = new Configuration();
-
 // User model
 var User = require('../models/user');
 
@@ -32,6 +28,7 @@ exports.api = function (req, res) {
 
 // POST /api/reqister
 exports.register = function (req, res) {
+  var serverConfig = req.app.get('config');
   var userInfo = req.body;
 
   // create a new user
@@ -76,6 +73,8 @@ exports.register = function (req, res) {
 
 // POST /api/login
 exports.login = function (req, res, next) {
+  var serverConfig = req.app.get('config');
+
   User.findOne({ username: req.body.username }, {
     __v: 0
   }, function (err, user) {

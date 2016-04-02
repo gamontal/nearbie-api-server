@@ -7,16 +7,14 @@
 
 var jwt = require('jsonwebtoken');
 
-/* Server Configuration */
-var Configuration = require('../config/server-config');
-var serverConfig = new Configuration();
-
 var ERROR = [
   'Failed to authenticate token',
   'No token provided'
 ];
 
 exports.checkForAuthentication = function (req, res, next) {
+  var serverConfig = req.app.get('config');
+
   // check header or url parameters or post parameters for token
   var token = req.headers['x-access-token']; // takes API token from the request header
 
