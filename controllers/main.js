@@ -38,7 +38,10 @@ exports.register = function (req, res) {
     username: userInfo.username,
     password: userInfo.password,
     email: userInfo.email,
-    loc: userInfo.loc,
+    loc: {
+      lng: userInfo.lng,
+      lat: userInfo.lat
+    },
     profile: {
       profile_image: "",
       gender: "",
