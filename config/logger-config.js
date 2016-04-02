@@ -1,13 +1,31 @@
-var FileStreamRotator = require('file-stream-rotator');
+'use strict';
 
-module.exports = function (logDirectory) {
-  return ({
-    logger: FileStreamRotator.getStream({
-      date_format: 'YYYYMMDD',
-      filename: logDirectory + '/access-%DATE%.log',
-      frequency: 'daily',
-      verbose: false
+var winston = require('winston');
+
+var logger = new winston.Logger({
+  transports: [
+    new winston.transports.File({
+      level: 'info',
+      filename: './logs/access.log',
+      handleExceptions: true,
+      json: true,
+      maxsize: 5242880, //5MB
+      maxFiles: 5,
+      colorize: false
     })
-  });
+  ],
+  exitOnError: false
+});
+
+logger.stream = {
+  write: function(message){
+    logger.info(message);
+  }
 };
+
+module.exports = {
+  logger: logger,
+  stream: logger.stream
+};
+
 

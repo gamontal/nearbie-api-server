@@ -1,6 +1,6 @@
 all: install test start-prod
 
-start-prod: ;@echo "Starting server....."; \
+start-prod: ;@echo "Starting server in production mode....."; \
              NODE_ENV=production ./node_modules/.bin/pm2 start ./server.js
 
 start-dev: ;@echo "Starting server in development mode....."; \

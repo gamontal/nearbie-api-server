@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function (cloudinary) {
   cloudinary.config({
     cloud_name: 'dvicgeltx',

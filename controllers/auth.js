@@ -6,7 +6,6 @@
 'use strict';
 
 var jwt = require('jsonwebtoken');
-var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'development'];
 
 var ERROR = [
   'Failed to authenticate token',
@@ -14,6 +13,8 @@ var ERROR = [
 ];
 
 exports.checkForAuthentication = function (req, res, next) {
+  var serverConfig = req.app.get('config');
+
   // check header or url parameters or post parameters for token
   var token = req.headers['x-access-token']; // takes API token from the request header
 

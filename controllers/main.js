@@ -5,12 +5,8 @@
 
 'use strict';
 
-var mongoose = require('mongoose');
 var jwt = require('jsonwebtoken');
 var moment = require('moment');
-
-/* Server Configuration */
-var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'development'];
 
 // User model
 var User = require('../models/user');
@@ -31,7 +27,8 @@ exports.api = function (req, res) {
 };
 
 // POST /api/reqister
-exports.register = function (req, res, next) {
+exports.register = function (req, res) {
+  var serverConfig = req.app.get('config');
   var userInfo = req.body;
 
   // create a new user
@@ -39,7 +36,7 @@ exports.register = function (req, res, next) {
     username: userInfo.username,
     password: userInfo.password,
     email: userInfo.email,
-    loc: userInfo.loc,
+    loc: [userInfo.loc.lng, userInfo.loc.lat],
     profile: {
       profile_image: "",
       gender: "",
@@ -54,10 +51,12 @@ exports.register = function (req, res, next) {
       });
     } else {
 
-      var expires = moment().add(7, 'days').valueOf();
+      var expires = moment().add(7, 'days').valueOf(), token;
 
       // generate new token upon registration
-      var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
+      if (serverConfig.secret) {
+        token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
+      }
 
       // remove unwanted properties from the response object
       user.updatedAt = undefined;
@@ -65,7 +64,7 @@ exports.register = function (req, res, next) {
       user.__v = undefined;
 
       res.status(201).json({
-        token: token,
+        token: token? token : '',
         user: user
       });
     }
@@ -74,6 +73,8 @@ exports.register = function (req, res, next) {
 
 // POST /api/login
 exports.login = function (req, res, next) {
+  var serverConfig = req.app.get('config');
+
   User.findOne({ username: req.body.username }, {
     __v: 0
   }, function (err, user) {

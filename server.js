@@ -10,7 +10,8 @@ var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
 /* Server Configuration */
-var serverConfig = require('./config/server-config')[process.env.NODE_ENV || 'development'];
+var ServerConfiguration = require('./config/server-config');
+var serverConfig = new ServerConfiguration();
 
 /* Image Handling Modules */
 var upload = require('./config/multer-config'); // multer configuration
@@ -24,16 +25,18 @@ if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory); // ensure logs directory exists
 }
 
-var loggerConfig = require('./config/logger-config')(logDirectory);
-var accessLogStream = loggerConfig.logger;
+var logConfig = require('./config/logger-config');
+var logStream = logConfig.stream;
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
 var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
-/* MongoDB Connection */
-mongoose.connect(serverConfig.database, function (err) {
+/* Database Connection */
+var dbConfig = require('./config/database-config');
+
+mongoose.connect(serverConfig.database, dbConfig, function (err) {
   if (err) { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
   else { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
 });
@@ -42,19 +45,20 @@ mongoose.connect(serverConfig.database, function (err) {
 var server = express();
 
 /* Express Environment Variables */
+server.set('config', serverConfig);
 server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
-/* Middleware */
-server.use(helmet());
+/* Application-wide Middleware */
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
-  server.use(morgan('combined', { stream: accessLogStream }));
-} else if (process.env.NODE_ENV === 'development') {
-  server.use(compression());
-  server.use(morgan('dev'));
+  server.use(morgan('combined', { stream: logStream }));
+} else {
+  server.use(helmet()); // adds default security headers
+  server.use(compression()); // gzip compression for data transit
+  server.use(morgan('dev')); // developer friendly console logger
 }
 
 /* API Routes */
@@ -97,14 +101,13 @@ server.use('/api', router); // set routes
 
 // catch 404 status code
 server.get('*', function (req, res) {
-  res.setHeader('Content-Type', 'application/json');
-  res.status(404).send({ message: 'Not Found' });
+  res.status(404).json({ message: 'Not Found' });
 });
 
 // development error handler
 // will print stacktrace
 if (process.env.NODE_ENV === 'development') {
-  server.use(function (err, req, res, next) {
+  server.use(function (err, req, res) {
     res.status(err.status || 500);
     res.render('error', {
       message: err.message,
@@ -115,7 +118,7 @@ if (process.env.NODE_ENV === 'development') {
 
 // production error handler
 // no stacktraces leaked to user
-server.use(function (err, req, res, next) {
+server.use(function (err, req, res) {
   res.status(err.status || 500);
   res.render('error', {
     message: err.message,
