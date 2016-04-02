@@ -25,8 +25,8 @@ if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory); // ensure logs directory exists
 }
 
-var loggerConfig = require('./config/logger-config')(logDirectory);
-var accessLogStream = loggerConfig.logger;
+var logConfig = require('./config/logger-config');
+var logStream = logConfig.stream;
 
 /* Route Handlers */
 var mainController = require('./controllers/main');
@@ -54,7 +54,7 @@ server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
 
 if (process.env.NODE_ENV === 'production') {
-  server.use(morgan('combined', { stream: accessLogStream })); // TODO Add error logging
+  server.use(morgan('combined', { stream: logStream }));
 } else {
   server.use(helmet()); // adds default security headers
   server.use(compression()); // gzip compression for data transit
