@@ -53,12 +53,12 @@ exports.register = function (req, res) {
       });
     } else {
 
-      var expires = moment().add(7, 'days').valueOf();
+      var expires = moment().add(7, 'days').valueOf(), token;
 
       // generate new token upon registration
 
       if (process.env.NODE_ENV === 'production') {
-        var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
+        token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
       }
 
       // remove unwanted properties from the response object
