@@ -9,7 +9,8 @@ var jwt = require('jsonwebtoken');
 var moment = require('moment');
 
 /* Server Configuration */
-var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'development'];
+var Configuration = require('../config/server-config');
+var serverConfig = new Configuration();
 
 // User model
 var User = require('../models/user');
@@ -56,8 +57,7 @@ exports.register = function (req, res) {
       var expires = moment().add(7, 'days').valueOf(), token;
 
       // generate new token upon registration
-
-      if (process.env.NODE_ENV === 'production') {
+      if (serverConfig.secret) {
         token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
       }
 

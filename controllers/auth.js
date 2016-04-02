@@ -6,7 +6,10 @@
 'use strict';
 
 var jwt = require('jsonwebtoken');
-var serverConfig = require('../config/server-config')[process.env.NODE_ENV || 'development'];
+
+/* Server Configuration */
+var Configuration = require('../config/server-config');
+var serverConfig = new Configuration();
 
 var ERROR = [
   'Failed to authenticate token',

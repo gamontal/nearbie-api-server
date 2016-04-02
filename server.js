@@ -9,10 +9,9 @@ var compression = require('compression');
 var helmet = require('helmet');
 var bodyParser = require('body-parser');
 
-var env = process.env.NODE_ENV || 'development';
-
 /* Server Configuration */
-var serverConfig = require('./config/server-config')[env];
+var Configuration = require('./config/server-config');
+var serverConfig = new Configuration();
 
 /* Image Handling Modules */
 var upload = require('./config/multer-config'); // multer configuration
