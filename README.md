@@ -233,6 +233,15 @@ This means that a user's location is stored as an array containing a set of coor
       message: 'Invalid password'
     }
     ```
+    
+**Payload example:**
+
+```javascript
+{
+  "username": "user1",
+  "password": "1234"
+}
+```
 
 #### Get user information
 
