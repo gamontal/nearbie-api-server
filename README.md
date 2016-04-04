@@ -190,7 +190,11 @@ This means that a user's location is stored as an array containing a set of coor
 {
   "username": "user1",
   "password": "1234",
-  "email": "user1@gmail.com"
+  "email": "user1@gmail.com",
+  "loc": {
+    "lng": -22.123456,
+    "lat": 18.123456
+  }
 }
 ```
 
