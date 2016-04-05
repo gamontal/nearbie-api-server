@@ -191,21 +191,29 @@ exports.getNearbyUsers = function (req, res, next) {
         coords[1] = req.body.lat;
 
         // query for nearby users
-        User.find({
-          loc: {
-            $near: coords,
-            $maxDistance: maxDistance
+        User.aggregate([
+          {
+            $geoNear: {
+              near: coords,
+              distanceField: 'calculated_distance',
+              maxDistance: maxDistance,
+              spherical: false
+            }
+          },
+          {
+            $project: {
+              _id: 1,
+              username: 1,
+              email: 1,
+              loc: 1,
+              profile: 1
+            }
           }
-        }, {
-          password: 0,
-          __v: 0,
-          updatedAt: 0
-        }).lean().exec(function (err, users) {
+        ], function (err, users) {
           if (err) { return next(err); }
 
           // this removes the current user from the results array
-          // NOTE mongoose doesn't provide this type of functionality (excluding a specific user from a query)
-          // looping through the users array and eliminating the user's object is the only feasible solution I could find
+
           users.forEach(function (elem, index) {
             if (elem._id == userid) {
               users.splice(index, 1);
