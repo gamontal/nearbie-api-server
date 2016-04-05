@@ -1,9 +1,8 @@
 /*
   TODO:
-  - Identify active and inactive users
-  - Filter this nearby users query by place to avoid making an exhaustive search that can produce errors in production
-  - Establish a real-time connection with the client using the same port
   - Add GeoFencing support for events and registered places
+  - Identify active and inactive users
+  - Filter the nearby users query by place to avoid making an exhaustive search that can produce errors in production
 */
 
 'use strict';
