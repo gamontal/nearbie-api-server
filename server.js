@@ -1,6 +1,5 @@
 /*
   TODO:
-  - Change mongodb $near query operator for $geoNear to support mongodb sharding
   - Identify active and inactive users
   - Filter this nearby users query by place to avoid making an exhaustive search that can produce errors in production
   - Establish a real-time connection with the client using the same port
