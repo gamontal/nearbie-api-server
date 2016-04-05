@@ -65,5 +65,6 @@ userSchema.methods.verifyPassword = function (password, cb) {
 };
 
 userSchema.index({ loc: '2d' });
+
 module.exports = mongoose.model('users', userSchema);
 

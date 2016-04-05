@@ -23,7 +23,7 @@ var ERROR = [
   'User validation failed'
 ];
 
-// GET /api/users/:username
+/* GET /api/users/:username */
 exports.getUserInfo = function (req, res, next) {
   User.findOne({ username: req.params.username }, {
     password: 0,
@@ -49,7 +49,7 @@ exports.getUserInfo = function (req, res, next) {
   });
 };
 
-// DELETE /api/users/:userid
+/* DELETE /api/users/:userid */
 exports.deleteUser = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
     User.remove({ _id: req.params.userid }, function (err, user) {
@@ -73,7 +73,7 @@ exports.deleteUser = function (req, res, next) {
   }
 };
 
-// PUT /api/users/:userid
+/* PUT /api/users/:userid */
 exports.updateUserInfo = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
@@ -114,7 +114,7 @@ exports.updateUserInfo = function (req, res, next) {
   }
 };
 
-// POST /api/users/:userid/location
+/* POST /api/users/:userid/location */
 exports.updateUserLocation = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
@@ -151,8 +151,8 @@ exports.updateUserLocation = function (req, res, next) {
   }
 };
 
-// PUT /api/users/:userid/location
 // NOTE this method returns an empty array if no users were found with nearby coordinates
+/* PUT /api/users/:userid/location */
 exports.getNearbyUsers = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
@@ -239,7 +239,7 @@ exports.getNearbyUsers = function (req, res, next) {
   }
 };
 
-// GET /api/users/:username/profile
+/* GET /api/users/:username/profile */
 exports.getUserProfile = function (req, res, next) {
   User.findOne({ username: req.params.username }, {
     // remove unwanted or sensitive fields
@@ -263,8 +263,8 @@ exports.getUserProfile = function (req, res, next) {
   });
 };
 
-// PUT /api/users/:username/profile
 // NOTE upload image to cloudinary from the client
+/* PUT /api/users/:username/profile */
 exports.updateUserProfile = function (req, res, next) {
 
   var newProfileInfo = req.body;

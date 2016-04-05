@@ -1,7 +1,8 @@
 /*
   TODO:
-  - Add GeoFencing support for events and registered places
-  - Identify active and inactive users
+  * Add GeoFencing support for events and registered places
+  * Identify active and inactive users
+  - Socket.io route authentication
   - Filter the nearby users query by place to avoid making an exhaustive search that can produce errors in production
 */
 
