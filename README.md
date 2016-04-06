@@ -96,6 +96,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 ```javascript
 {
   _id: ObjectID,
+  active: Boolean,
   createdAt: Date,
   updatedAt: Date,
   username: String,
