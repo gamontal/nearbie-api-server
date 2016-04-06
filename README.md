@@ -17,7 +17,6 @@
     - [Delete a user](#delete-a-user)
     - [Update user location](#update-user-location)
     - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
-    - [Get user profile information](#get-user-profile-information)
     - [Update user profile information](#update-user-profile-information)
 - [Security](#security)
   - [Authentication](#authentication)
@@ -118,6 +117,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | Property | Description                     |
 | -------- | ------------------------------- |
 | _id      |  The user's ObjectId            |
+| active   |  User state flag (idle check)   |
 | createdAt|  User creation date             |
 | updatedAt|  User modification date         |
 | username |  The user's username            |
@@ -127,7 +127,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | profile  |  The user's profile             |
 | profile_image | The user's profile image   |
 | gender   | The user's gender               |
-| bio      | The user's bio                  |
+| status      | The user's bio                  |
 
 ### Geospatial Indexes and Queries
 
@@ -321,6 +321,14 @@ This means that a user's location is stored as an array containing a set of coor
 }
 ```
 
+***User Active/Inactive event payload example***
+
+```javascript
+{
+  "active": false
+}
+```
+
 #### Delete a user
 
 | URL | Method | URL Params |
@@ -462,30 +470,6 @@ This means that a user's location is stored as an array containing a set of coor
   "lat": -22.123456
 }
 ```
-
-#### Get user profile information
-
-| URL | Method | URL Params |
-| --- | ------ | ---------- |
-| `/api/users/:username/profile`  | `GET`     | `username=[String]`         |
-
-***Success Response***
-
- - **Code**: `200`
-
-  - **Content**: [UserProfile]
-
-***Error Response***
-
- - **Code**: `404`
-
-   - **Content**:
-
-     ```javascript
-     {
-       message: 'User doesn\'t exist'
-     }
-     ```
 
 #### Update user profile information
 
