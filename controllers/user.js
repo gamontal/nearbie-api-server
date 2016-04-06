@@ -191,6 +191,9 @@ exports.getNearbyUsers = function (req, res, next) {
         coords[0] = req.body.lng;
         coords[1] = req.body.lat;
 
+        // inactivity max time limit value (in hours);
+        var inactiveTimeLimit = 5;
+
         // query for nearby users
         User.aggregate([
           {
@@ -204,7 +207,7 @@ exports.getNearbyUsers = function (req, res, next) {
           {
             $match: {
               updatedAt: {
-                $gte: new Date(new Date().setHours(new Date().getHours() - 5)),
+                $gte: new Date(new Date().setHours(new Date().getHours() - inactiveTimeLimit)),
                 $lte: new Date()
               }
             }
