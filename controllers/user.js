@@ -218,7 +218,6 @@ exports.getNearbyUsers = function (req, res, next) {
               '_id': 1,
               'updatedAt': 1,
               'active': 1,
-              'was_active': 1,
               'username': 1,
               'loc': 1,
               'profile': 1
@@ -236,8 +235,6 @@ exports.getNearbyUsers = function (req, res, next) {
 
           // modifies location properties and was_active string
           for (var key in users) {
-            users[key].was_active = moment(users[key].was_active).fromNow();
-
             users[key].loc = {
               lng: users[key].loc[0],
               lat: users[key].loc[1]
