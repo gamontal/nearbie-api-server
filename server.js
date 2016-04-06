@@ -1,6 +1,5 @@
 /*
   TODO:
-   * Identify active and inactive users (adds active property to the user object)
    * Add zipcode to the user object to filter nearby users queries
    - Add GeoFencing support for events and registered places
    - Socket.io route authentication
