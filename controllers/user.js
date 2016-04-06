@@ -287,7 +287,7 @@ exports.updateUserProfile = function (req, res, next) {
       }
 
       user.profile.gender = NEW_PROFILE_INFO.gender || user.profile.gender;
-      user.profile.bio = NEW_PROFILE_INFO.bio || user.profile.bio;
+      user.profile.status = NEW_PROFILE_INFO.status || user.profile.status;
 
       user.save(function (err) {
         if (err) { return next(err); }

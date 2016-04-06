@@ -41,7 +41,7 @@ exports.register = function (req, res) {
     profile: {
       profile_image: "",
       gender: "",
-      bio: ""
+      status: ""
     }
   });
 

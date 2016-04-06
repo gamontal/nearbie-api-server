@@ -39,7 +39,7 @@ var userSchema = new Schema({
   profile: {
     profile_image: String,
     gender: String,
-    bio: String
+    status: String
   }
 }, { timestamps: true });
 
