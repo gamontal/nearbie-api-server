@@ -1,9 +1,9 @@
 /*
   TODO:
-  * Add GeoFencing support for events and registered places
-  * Identify active and inactive users
-  - Socket.io route authentication
-  - Filter the nearby users query by place to avoid making an exhaustive search that can produce errors in production
+   * Identify active and inactive users (adds active property to the user object)
+   * Add zipcode to the user object to filter nearby users queries
+   - Add GeoFencing support for events and registered places
+   - Socket.io route authentication
 */
 
 'use strict';

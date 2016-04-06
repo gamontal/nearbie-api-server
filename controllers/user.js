@@ -203,8 +203,8 @@ exports.getNearbyUsers = function (req, res, next) {
           {
             $project: {
               _id: 1,
+              active: 1,
               username: 1,
-              email: 1,
               loc: 1,
               profile: 1
             }

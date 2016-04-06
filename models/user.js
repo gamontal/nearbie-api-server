@@ -11,6 +11,10 @@ var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
+  active: {
+    type: Boolean,
+    default: false
+  },
   username: {
     type: String,
     unique: true,
@@ -28,6 +32,9 @@ var userSchema = new Schema({
   },
   loc: {
     type: [Number]
+  },
+  loc_properties: {
+    zipcode: Number
   },
   profile: {
     profile_image: String,
