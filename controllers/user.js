@@ -6,6 +6,7 @@
 'use strict';
 
 var fs = require('fs');
+var moment = require('moment');
 var cloudinary = require('cloudinary');
 
 var User = require('../models/user'); // User Model
@@ -197,44 +198,46 @@ exports.getNearbyUsers = function (req, res, next) {
         // query for nearby users
         User.aggregate([
           {
-            $geoNear: {
-              near: coords,
-              distanceField: 'calculated_distance',
-              maxDistance: maxDistance,
-              spherical: false
+            '$geoNear': {
+              'near': coords,
+              'distanceField': 'calculated_distance',
+              'maxDistance': maxDistance,
+              'spherical': false
             }
           },
           {
-            $match: {
-              updatedAt: {
-                $gte: new Date(new Date().setHours(new Date().getHours() - inactiveTimeLimit)),
-                $lte: new Date()
+            '$match': {
+              'updatedAt': {
+                '$gte': new Date(new Date().setHours(new Date().getHours() - inactiveTimeLimit)),
+                '$lte': new Date()
               }
             }
           },
           {
-            $project: {
-              _id: 1,
-              updatedAt: 1,
-              active: 1,
-              username: 1,
-              loc: 1,
-              profile: 1
+            '$project': {
+              '_id': 1,
+              'updatedAt': 1,
+              'active': 1,
+              'was_active': 1,
+              'username': 1,
+              'loc': 1,
+              'profile': 1
             }
           }
         ], function (err, users) {
           if (err) { return next(err); }
 
           // this removes the current user from the results array
-
           users.forEach(function (elem, index) {
             if (elem._id == userid) {
               users.splice(index, 1);
             }
           });
 
-          // NOTE override location property
+          // modifies location properties and was_active string
           for (var key in users) {
+            users[key].was_active = moment(users[key].was_active).fromNow();
+
             users[key].loc = {
               lng: users[key].loc[0],
               lat: users[key].loc[1]

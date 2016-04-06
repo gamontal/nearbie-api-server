@@ -15,6 +15,10 @@ var userSchema = new Schema({
     type: Boolean,
     default: false
   },
+  was_active: {
+    type: Date,
+    default: Date.now
+  },
   username: {
     type: String,
     unique: true,
@@ -33,7 +37,7 @@ var userSchema = new Schema({
   loc: {
     type: [Number]
   },
-  loc_properties: {
+  loc_attr: {
     zipcode: Number
   },
   profile: {
