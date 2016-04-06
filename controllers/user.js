@@ -6,7 +6,6 @@
 'use strict';
 
 var fs = require('fs');
-var moment = require('moment');
 var cloudinary = require('cloudinary');
 
 var User = require('../models/user'); // User Model

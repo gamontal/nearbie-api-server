@@ -2,7 +2,6 @@
   TODO:
    * Add zipcode to the user object to filter nearby users queries
    - Add GeoFencing support for events and registered places
-   - Socket.io route authentication
 */
 
 'use strict';
@@ -10,7 +9,6 @@
 var fs = require('fs');
 var url = require('url');
 var express = require('express');
-var io = require('socket.io');
 var mongoose = require('mongoose');
 var morgan = require('morgan');
 var compression = require('compression');
@@ -134,9 +132,9 @@ server.use(function (err, req, res) {
 });
 
 /* Initialize the Server */
-io.listen(server.listen(server.get('port'), server.get('ip'), function () {
+server.listen(server.get('port'), server.get('ip'), function () {
   console.log('\nServer listening at %s:%d', server.get('ip'), server.get('port'));
-}));
+});
 
 // make the server available for integration tests
 module.exports = server;
