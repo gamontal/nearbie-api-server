@@ -1,7 +1,6 @@
 /*
   TODO:
    * Add zipcode to the user object to filter nearby users queries
-   - Add GeoFencing support for events and registered places
 */
 
 'use strict';
