@@ -346,21 +346,6 @@ var server_test = function (server) {
           });
       });
 
-      it('should RETURN a user\'s profile information', function (done) {
-        request(url)
-          .get('/api/users/' + testUser.username + '/profile')
-          .end(function (err, res) {
-            try {
-              if (err) { throw err; }
-
-              should(res).have.property('status', 200);
-              done();
-            } catch (e) {
-              done(e);
-            }
-          });
-      });
-
       it('should UPDATE a user\'s profile information #1', function (done) {
         var payload = {
           gender: testUser.profile.gender
