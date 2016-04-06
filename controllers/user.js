@@ -215,6 +215,7 @@ exports.getNearbyUsers = function (req, res, next) {
           {
             $project: {
               _id: 1,
+              updatedAt: 1,
               active: 1,
               username: 1,
               loc: 1,
