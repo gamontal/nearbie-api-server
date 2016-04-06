@@ -24,7 +24,7 @@ var ERROR = [
 ];
 
 /* GET /api/users/:username */
-exports.getUserInfo = function (req, res, next) {
+exports.getUser = function (req, res, next) {
   User.findOne({ username: req.params.username }, {
     password: 0,
     __v: 0,
@@ -74,10 +74,10 @@ exports.deleteUser = function (req, res, next) {
 };
 
 /* PUT /api/users/:userid */
-exports.updateUserInfo = function (req, res, next) {
+exports.updateUser = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
-    var userInfo = req.body;
+    var NEW_USER_INFO = req.body; // the received user object
 
     User.findOne({ _id: req.params.userid }, function (err, user) {
 
@@ -89,9 +89,10 @@ exports.updateUserInfo = function (req, res, next) {
         });
       } else if (user) {
 
-        user.username = userInfo.username || user.username;
-        user.password = userInfo.password || user.password;
-        user.email = userInfo.email || user.email;
+        user.active = NEW_USER_INFO.active? true : false;
+        user.username = NEW_USER_INFO.username || user.username;
+        user.password = NEW_USER_INFO.password || user.password;
+        user.email = NEW_USER_INFO.email || user.email;
 
         // catch validation error and return response to the client
         user.save(function (err) {
@@ -201,6 +202,14 @@ exports.getNearbyUsers = function (req, res, next) {
             }
           },
           {
+            $match: {
+              updatedAt: {
+                $gte: new Date(new Date().setHours(new Date().getHours() - 5)),
+                $lte: new Date()
+              }
+            }
+          },
+          {
             $project: {
               _id: 1,
               active: 1,
@@ -239,35 +248,11 @@ exports.getNearbyUsers = function (req, res, next) {
   }
 };
 
-/* GET /api/users/:username/profile */
-exports.getUserProfile = function (req, res, next) {
-  User.findOne({ username: req.params.username }, {
-    // remove unwanted or sensitive fields
-    password: 0,
-    email: 0,
-    __v: 0,
-    loc: 0,
-    updatedAt: 0,
-    createdAt: 0
-  }, function (err, profile) {
-
-    if (err) { return next(err); }
-
-    if (!profile) {
-      res.status(404).json({
-        message: ERROR[0]
-      });
-    } else {
-      res.status(200).json(profile);
-    }
-  });
-};
-
 // NOTE upload image to cloudinary from the client
 /* PUT /api/users/:username/profile */
 exports.updateUserProfile = function (req, res, next) {
 
-  var newProfileInfo = req.body;
+  var NEW_PROFILE_INFO = req.body;
 
   User.findOne({ username: req.params.username }, function (err, user) {
 
@@ -297,8 +282,8 @@ exports.updateUserProfile = function (req, res, next) {
         });
       }
 
-      user.profile.gender = newProfileInfo.gender || user.profile.gender;
-      user.profile.bio = newProfileInfo.bio || user.profile.bio;
+      user.profile.gender = NEW_PROFILE_INFO.gender || user.profile.gender;
+      user.profile.bio = NEW_PROFILE_INFO.bio || user.profile.bio;
 
       user.save(function (err) {
         if (err) { return next(err); }

@@ -33,6 +33,7 @@ exports.register = function (req, res) {
 
   // create a new user
   var user = new User({
+    active: true,
     username: userInfo.username,
     password: userInfo.password,
     email: userInfo.email,
@@ -104,8 +105,13 @@ exports.login = function (req, res, next) {
 
         var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
 
+        // set user as active upon successful login
+        user.active = true;
+
         // remove any unwanted or sensitive fields
+        user.updatedAt = undefined;
         user.password = undefined;
+        user.email = undefined;
 
         res.status(200).json({
           token: token,
