@@ -82,8 +82,8 @@ exports.register = function (req, res) {
 exports.login = function (req, res, next) {
   var serverConfig = req.app.get('config');
 
-  User.findOne({ username: req.body.username }, {
-    __v: 0
+  User.findOne({ 'username': req.body.username }, {
+    '__v': 0
   }, function (err, user) {
     if (err) {
       return next(err);

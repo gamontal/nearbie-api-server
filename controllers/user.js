@@ -26,10 +26,10 @@ var ERROR = [
 
 /* GET /api/users/:username */
 exports.getUser = function (req, res, next) {
-  User.findOne({ username: req.params.username }, {
-    password: 0,
-    __v: 0,
-    updatedAt: 0
+  User.findOne({ 'username': req.params.username }, {
+    'password': 0,
+    '__v': 0,
+    'updatedAt': 0
   }).lean().exec(function (err, user) {
 
     if (err) { return next(err); }
@@ -53,7 +53,7 @@ exports.getUser = function (req, res, next) {
 /* DELETE /api/users/:userid */
 exports.deleteUser = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
-    User.remove({ _id: req.params.userid }, function (err, user) {
+    User.remove({ '_id': req.params.userid }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -80,7 +80,7 @@ exports.updateUser = function (req, res, next) {
 
     var NEW_USER_INFO = req.body; // the received user object
 
-    User.findOne({ _id: req.params.userid }, function (err, user) {
+    User.findOne({ '_id': req.params.userid }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -124,7 +124,7 @@ exports.updateUserLocation = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
     // store new coordenates
-    User.findOne({ _id: req.params.userid }, function (err, user) {
+    User.findOne({ '_id': req.params.userid }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -167,7 +167,7 @@ exports.getNearbyUsers = function (req, res, next) {
     var zipcode = fetchZipcode(coords);
 
     // store new coordinates
-    User.findOne({ _id: userid }, function (err, user) {
+    User.findOne({ '_id': userid }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -262,7 +262,7 @@ exports.updateUserProfile = function (req, res, next) {
 
   var NEW_PROFILE_INFO = req.body;
 
-  User.findOne({ username: req.params.username }, function (err, user) {
+  User.findOne({ 'username': req.params.username }, function (err, user) {
 
     if (err) { return next(err); }
 
