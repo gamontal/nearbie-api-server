@@ -1,6 +1,5 @@
 /*
   TODO:
-   * Add zipcode to the user object to filter nearby users queries
    * Blocking users
 */
 
