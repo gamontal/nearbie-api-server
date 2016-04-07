@@ -1,3 +1,8 @@
+# 1.3.1
+
+- Adds nearby users query filters (by zipcode and last_updated properties)
+- Minor fixes and improvements
+
 # 1.3.0
 
 - Adds socket.io support
