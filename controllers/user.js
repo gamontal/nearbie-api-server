@@ -6,6 +6,7 @@
 'use strict';
 
 var fs = require('fs');
+var fetchZipcode = require('../lib/fetch_zipcode');
 var cloudinary = require('cloudinary');
 
 var User = require('../models/user'); // User Model
@@ -117,6 +118,9 @@ exports.updateUser = function (req, res, next) {
 
 /* POST /api/users/:userid/location */
 exports.updateUserLocation = function (req, res, next) {
+  var coords = [req.body.lng, req.body.lat];
+  var zipcode = fetchZipcode(coords);
+
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
     // store new coordenates
@@ -130,7 +134,8 @@ exports.updateUserLocation = function (req, res, next) {
         });
       } else if (user) {
 
-        user.loc = [req.body.lng, req.body.lat];
+        user.loc = coords; // set new coordinates
+        user.loc_attr.zipcode = zipcode; // update zipcode
 
         user.save(function (err) {
           if (err) {
@@ -158,6 +163,8 @@ exports.getNearbyUsers = function (req, res, next) {
   if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
 
     var userid = req.params.userid;
+    var coords = [req.body.lng, req.body.lat];
+    var zipcode = fetchZipcode(coords);
 
     // store new coordinates
     User.findOne({ _id: userid }, function (err, user) {
@@ -170,7 +177,8 @@ exports.getNearbyUsers = function (req, res, next) {
         });
       } else if (user) {
 
-        user.loc = [req.body.lng, req.body.lat]; // add new coordinates
+        user.loc = coords;
+        user.loc_attr.zipcode = zipcode;
 
         // save changes
         user.save(function (err) {
@@ -186,10 +194,6 @@ exports.getNearbyUsers = function (req, res, next) {
 
         // convert the distance to radius
         maxDistance /= 6371;
-
-        var coords = [];
-        coords[0] = req.body.lng;
-        coords[1] = req.body.lat;
 
         // inactivity max time limit value (in hours);
         var inactiveTimeLimit = 5;

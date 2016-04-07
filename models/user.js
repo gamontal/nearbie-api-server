@@ -34,7 +34,7 @@ var userSchema = new Schema({
     type: [Number]
   },
   loc_attr: {
-    zipcode: Number
+    zipcode: String
   },
   profile: {
     profile_image: String,

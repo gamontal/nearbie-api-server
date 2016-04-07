@@ -6,11 +6,11 @@ var should = require('should');
 var request = require('supertest');
 
 var testUser = {
-  _id: '56e3001a76517d7d05122b1b',
+  _id: '5705b27cfe67e893100c262d',
   username: 'user1',
   password: '1234',
   email: 'user1@server.com',
-  loc: [-69.758605, 19.475206],
+  loc: [-66.75861, 18.47524],
   profile: {
     profile_image: undefined,
     gender: 'Male',
@@ -43,7 +43,10 @@ var server_test = function (server) {
           username: testUser.username,
           password: testUser.password,
           email: testUser.email,
-          "loc": [testUser.loc[0], testUser.loc[1]]
+          loc: {
+            lng: testUser.loc[0],
+            lat: testUser.loc[1]
+          }
       };
 
       request(url)

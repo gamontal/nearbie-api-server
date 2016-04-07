@@ -6,6 +6,7 @@
 'use strict';
 
 var jwt = require('jsonwebtoken');
+var fetchZipcode = require('../lib/fetch_zipcode');
 var moment = require('moment');
 
 // User model
@@ -29,15 +30,19 @@ exports.api = function (req, res) {
 // POST /api/reqister
 exports.register = function (req, res) {
   var serverConfig = req.app.get('config');
-  var userInfo = req.body;
+  var coords = [req.body.loc.lng, req.body.loc.lat];
+  var zipcode = fetchZipcode(coords);
 
   // create a new user
   var user = new User({
     active: true,
-    username: userInfo.username,
-    password: userInfo.password,
-    email: userInfo.email,
-    loc: [userInfo.loc.lng, userInfo.loc.lat],
+    username: req.body.username,
+    password: req.body.password,
+    email: req.body.email,
+    loc: coords,
+    loc_attr: {
+      zipcode: zipcode
+    },
     profile: {
       profile_image: "",
       gender: "",
@@ -62,6 +67,7 @@ exports.register = function (req, res) {
       // remove unwanted properties from the response object
       user.updatedAt = undefined;
       user.password = undefined;
+      user.loc_attr = undefined;
       user.__v = undefined;
 
       res.status(201).json({
