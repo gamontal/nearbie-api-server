@@ -213,7 +213,8 @@ exports.getNearbyUsers = function (req, res, next) {
               'updatedAt': {
                 '$gte': new Date(new Date().setHours(new Date().getHours() - inactiveTimeLimit)),
                 '$lte': new Date()
-              }
+              },
+              'loc_attr.zipcode': zipcode
             }
           },
           {
