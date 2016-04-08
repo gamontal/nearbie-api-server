@@ -1,8 +1,3 @@
-/*
-  TODO:
-   * Blocking users
-*/
-
 'use strict';
 
 var fs = require('fs');
