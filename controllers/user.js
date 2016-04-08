@@ -17,7 +17,8 @@ var INFO = [
   'User location updated',
   'User profile updated',
   'New blocked user added',
-  'User already blocked'
+  'User already blocked',
+  'Removed blocked users'
 ];
 
 var ERROR = [
@@ -346,3 +347,38 @@ exports.blockUser = function (req, res, next) {
   }
 };
 
+exports.removeBlockedUsers = function (req, res, next) {
+  if (!req.params.user_id.match(USER_ID_PATTERN)) {
+    res.status(400).json({
+      message: ERROR[1]
+    });
+  } else {
+    var BLOCKED_USERS = JSON.parse(req.query.blocked_users);
+
+    User.findOne({ '_id': req.params.user_id }, function (err, user) {
+      if (err) { return next(err); }
+
+      if (!user) {
+        res.status(404).send({
+          message: ERROR[0]
+        });
+      } else if (user) {
+        user.blocked_users.forEach(function (addedBlockedUsers, abuIndex) {
+          BLOCKED_USERS.forEach(function (toRemove, trIndex) {
+            if (addedBlockedUsers == toRemove) {
+              user.blocked_users.splice(addedBlockedUsers, 1);
+            }
+          });
+        });
+
+        user.save(function (err) {
+          if (err) { return next(err); }
+        });
+
+        res.status(200).json({
+          message: INFO[6]
+        });
+      }
+    });
+  }
+};

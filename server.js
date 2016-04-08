@@ -99,8 +99,8 @@ router.route('/users/:username/profile')
   .put(upload.single('profile_image'), userController.updateUserProfile); // update a user's profile information
 
 router.route('/users/:user_id/blocks')
-  .post(userController.blockUser); // blocks a specified user
-
+  .post(userController.blockUser) // blocks a specified user
+  .delete(userController.removeBlockedUsers);
 
 server.use('/api', router); // set routes
 
