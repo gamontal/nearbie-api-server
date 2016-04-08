@@ -87,16 +87,20 @@ if (process.env.NODE_ENV === 'production') {
 router.route('/users/:username')
   .get(userController.getUser); // return user object
 
-router.route('/users/:userid')
+router.route('/users/:user_id')
   .put(userController.updateUser) // update account information
   .delete(userController.deleteUser); // delete user account permanently
 
-router.route('/users/:userid/location')
+router.route('/users/:user_id/location')
   .post(userController.updateUserLocation) // update and store a user's location
   .put(userController.getNearbyUsers); // updates the user location and returns nearby users
 
 router.route('/users/:username/profile')
   .put(upload.single('profile_image'), userController.updateUserProfile); // update a user's profile information
+
+router.route('/users/:user_id/blocks')
+  .post(userController.blockUser); // blocks a specified user
+
 
 server.use('/api', router); // set routes
 

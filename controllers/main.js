@@ -47,7 +47,8 @@ exports.register = function (req, res) {
       profile_image: "",
       gender: "",
       status: ""
-    }
+    },
+    blocked_users: []
   });
 
   user.save(function (err) {

@@ -15,7 +15,9 @@ var INFO = [
   'User deleted',
   'User information updated',
   'User location updated',
-  'User profile updated'
+  'User profile updated',
+  'New blocked user added',
+  'User already blocked'
 ];
 
 var ERROR = [
@@ -23,6 +25,8 @@ var ERROR = [
   'Invalid user ID',
   'User validation failed'
 ];
+
+var USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
 
 /* GET /api/users/:username */
 exports.getUser = function (req, res, next) {
@@ -50,10 +54,12 @@ exports.getUser = function (req, res, next) {
   });
 };
 
-/* DELETE /api/users/:userid */
+/* DELETE /api/users/:user_id */
 exports.deleteUser = function (req, res, next) {
-  if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
-    User.remove({ '_id': req.params.userid }, function (err, user) {
+  if (!req.params.user_id.match(USER_ID_PATTERN)) {
+    res.status(400).json({ message: ERROR[1] });
+  } else {
+    User.remove({ '_id': req.params.user_id }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -67,20 +73,19 @@ exports.deleteUser = function (req, res, next) {
         });
       }
     });
-  } else {
-    res.status(400).json({
-      message: ERROR[1]
-    });
   }
 };
 
-/* PUT /api/users/:userid */
+/* PUT /api/users/:user_id */
 exports.updateUser = function (req, res, next) {
-  if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
-
+  if (!req.params.user_id.match(USER_ID_PATTERN)) {
+    res.status(400).json({
+      message: ERROR[1]
+    });
+  } else {
     var NEW_USER_INFO = req.body; // the received user object
 
-    User.findOne({ '_id': req.params.userid }, function (err, user) {
+    User.findOne({ '_id': req.params.user_id }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -109,22 +114,18 @@ exports.updateUser = function (req, res, next) {
         });
       }
     });
-  } else {
-    res.status(400).json({
-      message: ERROR[1]
-    });
   }
 };
 
-/* POST /api/users/:userid/location */
+/* POST /api/users/:user_id/location */
 exports.updateUserLocation = function (req, res, next) {
   var coords = [req.body.lng, req.body.lat];
   var zipcode = fetchZipcode(coords);
 
-  if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
+  if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
 
     // store new coordenates
-    User.findOne({ '_id': req.params.userid }, function (err, user) {
+    User.findOne({ '_id': req.params.user_id }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -158,16 +159,19 @@ exports.updateUserLocation = function (req, res, next) {
 };
 
 // NOTE this method returns an empty array if no users were found with nearby coordinates
-/* PUT /api/users/:userid/location */
+/* PUT /api/users/:user_id/location */
 exports.getNearbyUsers = function (req, res, next) {
-  if (req.params.userid.match(/^[0-9a-fA-F]{24}$/)) {
+  if (!req.params.user_id.match(USER_ID_PATTERN)) {
+    res.status(400).json({
+      message: ERROR[1]
+    });
+  } else {
 
-    var userid = req.params.userid;
     var coords = [req.body.lng, req.body.lat];
     var zipcode = fetchZipcode(coords);
 
     // store new coordinates
-    User.findOne({ '_id': userid }, function (err, user) {
+    User.findOne({ '_id': req.params.user_id }, function (err, user) {
 
       if (err) { return next(err); }
 
@@ -210,6 +214,9 @@ exports.getNearbyUsers = function (req, res, next) {
           },
           {
             '$match': {
+              '_id': {
+                '$nin': user.blocked_users
+              },
               'updatedAt': {
                 '$gte': new Date(new Date().setHours(new Date().getHours() - inactiveTimeLimit)),
                 '$lte': new Date()
@@ -232,7 +239,7 @@ exports.getNearbyUsers = function (req, res, next) {
 
           // this removes the current user from the results array
           users.forEach(function (elem, index) {
-            if (elem._id == userid) {
+            if (elem._id == req.params.user_id) {
               users.splice(index, 1);
             }
           });
@@ -248,10 +255,6 @@ exports.getNearbyUsers = function (req, res, next) {
           res.status(200).json(users);
         });
       }
-    });
-  } else {
-    res.status(400).json({
-      message: ERROR[1]
     });
   }
 };
@@ -302,5 +305,44 @@ exports.updateUserProfile = function (req, res, next) {
       });
     }
   });
+};
+
+
+exports.blockUser = function (req, res, next) {
+  if (!req.params.user_id.match(USER_ID_PATTERN)) {
+    res.status(400).json({
+      message: ERROR[1]
+    });
+  } else {
+
+    var BLOCKED_USER_ID = req.query.blocked_user;
+
+    User.findOne({ '_id': req.params.user_id }, function (err, user) {
+      if (err) { return next(err); }
+
+      if (!user) {
+        res.status(404).send({
+          message: ERROR[0]
+        });
+      } else if (user) {
+
+        if (user.blocked_users.indexOf(BLOCKED_USER_ID) > -1) {
+          res.status(200).json({
+            message: INFO[5]
+          });
+        } else {
+          user.blocked_users.push(BLOCKED_USER_ID);
+
+          user.save(function (err) {
+            if (err) { return next(err); }
+          });
+
+          res.status(200).json({
+            message: INFO[4]
+          });
+        }
+      }
+    });
+  }
 };
 

@@ -40,7 +40,8 @@ var userSchema = new Schema({
     profile_image: String,
     gender: String,
     status: String
-  }
+  },
+  blocked_users: [{ type: Schema.Types.ObjectId }]
 }, { timestamps: true });
 
 userSchema.plugin(uniqueValidator); // validate unique schema properties
