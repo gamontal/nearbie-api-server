@@ -36,7 +36,7 @@ exports.getUser = function (req, res, next) {
     'updatedAt': 0,
     'password': 0,
     'email': 0,
-    'loc_attr:': 0,
+    'loc_attr': 0,
     '__v': 0
   }).lean().exec(function (err, user) {
 
