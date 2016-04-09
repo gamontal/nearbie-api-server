@@ -20,6 +20,12 @@ var config = {
     host: '127.0.0.1', // run tests in a local environment only
     database: 'mongodb://ds011369.mlab.com:11369/quickee-test-db',
     env: 'test'
+  },
+  local: {
+    port: Number(process.env.PORT || 8080),
+    host: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '127.0.0.1',
+    database: 'mongodb://localhost:27017/hackathon2-db',
+    env: 'local'
   }
 };
 
@@ -28,6 +34,7 @@ module.exports = function () {
   case 'production': return config.production;    // production environment
   case 'development': return config.development;  // development environment
   case 'test': return config.test;                // test environment
+  case 'local': return config.local;              // local environment (just in case)
   default: return config.development;             // node server will start en development mode by default
   }
 };
