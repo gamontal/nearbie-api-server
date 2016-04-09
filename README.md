@@ -556,7 +556,7 @@ This means that a user's location is stored as an array containing a set of coor
  }
  ```
  
- #### Unblock a user
+#### Unblock a user
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
