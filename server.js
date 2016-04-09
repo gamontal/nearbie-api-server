@@ -34,7 +34,7 @@ var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
 
 /* Database Connection */
-//var dbConfig = require('./config/database-config');
+//var dbConfig = require('./config/database-config'); temporarily removed
 
 mongoose.connect(serverConfig.database, function (err) {
   if (err) { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
