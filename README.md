@@ -555,6 +555,36 @@ This means that a user's location is stored as an array containing a set of coor
     message: 'User doesn\'t exist'
  }
  ```
+ 
+ #### Unblock a user
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:user_id/blocks/blocked_users=["{blocked_user_id}", ...]`  | `DELETE`     | `userid=[String]`, `blocked_users_ids=[Array]`     |
+
+***Success Response***
+
+ - **Code**: `200`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'Removed blocked users'
+    }
+    ```
+    
+***Error Response***
+
+ - **Code**: `404`
+
+  - **Content**:
+
+ ```javascript
+ {
+    message: 'User doesn\'t exist'
+ }
+ ```
 
 ## Security
 
@@ -580,6 +610,8 @@ This means that a user's location is stored as an array containing a set of coor
  - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
  - [Get user profile information](#get-user-profile-information)
  - [Update user profile information](#update-user-profile-information)
+ - [Block a user](#block-a-user)
+ - [Unblock a user](#unblock-a-user)
 
 **Token passing**
 
