@@ -363,8 +363,8 @@ exports.removeBlockedUsers = function (req, res, next) {
           message: ERROR[0]
         });
       } else if (user) {
-        user.blocked_users.forEach(function (addedBlockedUsers, abuIndex) {
-          BLOCKED_USERS.forEach(function (toRemove, trIndex) {
+        user.blocked_users.forEach(function (addedBlockedUsers) {
+          BLOCKED_USERS.forEach(function (toRemove) {
             if (addedBlockedUsers == toRemove) {
               user.blocked_users.splice(addedBlockedUsers, 1);
             }
