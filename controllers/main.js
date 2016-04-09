@@ -6,6 +6,7 @@
 'use strict';
 
 var jwt = require('jsonwebtoken');
+var fetchZipcode = require('../lib/fetch_zipcode');
 var moment = require('moment');
 
 // User model
@@ -29,19 +30,25 @@ exports.api = function (req, res) {
 // POST /api/reqister
 exports.register = function (req, res) {
   var serverConfig = req.app.get('config');
-  var userInfo = req.body;
+  var coords = [req.body.loc.lng, req.body.loc.lat];
+  var zipcode = fetchZipcode(coords);
 
   // create a new user
   var user = new User({
-    username: userInfo.username,
-    password: userInfo.password,
-    email: userInfo.email,
-    loc: [userInfo.loc.lng, userInfo.loc.lat],
+    active: true,
+    username: req.body.username,
+    password: req.body.password,
+    email: req.body.email,
+    loc: coords,
+    loc_attr: {
+      zipcode: zipcode
+    },
     profile: {
       profile_image: "",
       gender: "",
-      bio: ""
-    }
+      status: ""
+    },
+    blocked_users: []
   });
 
   user.save(function (err) {
@@ -61,6 +68,7 @@ exports.register = function (req, res) {
       // remove unwanted properties from the response object
       user.updatedAt = undefined;
       user.password = undefined;
+      user.loc_attr = undefined;
       user.__v = undefined;
 
       res.status(201).json({
@@ -75,8 +83,8 @@ exports.register = function (req, res) {
 exports.login = function (req, res, next) {
   var serverConfig = req.app.get('config');
 
-  User.findOne({ username: req.body.username }, {
-    __v: 0
+  User.findOne({ 'username': req.body.username }, {
+    '__v': 0
   }, function (err, user) {
     if (err) {
       return next(err);
@@ -104,8 +112,13 @@ exports.login = function (req, res, next) {
 
         var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
 
+        // set user as active upon successful login
+        user.active = true;
+
         // remove any unwanted or sensitive fields
+        user.updatedAt = undefined;
         user.password = undefined;
+        user.email = undefined;
 
         res.status(200).json({
           token: token,

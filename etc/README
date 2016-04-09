@@ -1,0 +1,3 @@
+This directory includes some additional scripts to facilitate common tasks.
+
+NOTE: Keep the contents of this folder or any filesystem action that may occur during the exucution of a script separate from the root project.

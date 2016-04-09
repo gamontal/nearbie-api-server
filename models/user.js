@@ -11,6 +11,10 @@ var uniqueValidator = require('mongoose-unique-validator');
 var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
+  active: {
+    type: Boolean,
+    default: false
+  },
   username: {
     type: String,
     unique: true,
@@ -29,11 +33,15 @@ var userSchema = new Schema({
   loc: {
     type: [Number]
   },
+  loc_attr: {
+    zipcode: String
+  },
   profile: {
     profile_image: String,
     gender: String,
-    bio: String
-  }
+    status: String
+  },
+  blocked_users: [{ type: Schema.Types.ObjectId }]
 }, { timestamps: true });
 
 userSchema.plugin(uniqueValidator); // validate unique schema properties
@@ -65,5 +73,6 @@ userSchema.methods.verifyPassword = function (password, cb) {
 };
 
 userSchema.index({ loc: '2d' });
+
 module.exports = mongoose.model('users', userSchema);
 
