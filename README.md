@@ -18,6 +18,8 @@
     - [Update user location](#update-user-location)
     - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
     - [Update user profile information](#update-user-profile-information)
+    - [Block a user](#block-a-user)
+    - [Unblock a user](#unblock-a-user)
 - [Security](#security)
   - [Authentication](#authentication)
     - [Client Authentication](#client-authentication)
@@ -106,11 +108,15 @@ This project is currently using a document-based database served at [mLab (DaaS)
     lng: Number,
     lat: Number
   },
+  loc_attr: {
+    zipcode: String
+  },
   profile: {
     profile_image: String,
     gender: String,
-    bio: String
-  }
+    status: String
+  },
+  blocked_users: Array
 }
 ```
 ***User properties definition table***:
@@ -125,10 +131,12 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | password |  The user's password            |
 | email    |  The user's email               |
 | loc      |  The user's location coordinates|
+| loc_attr |  Additional location information|
 | profile  |  The user's profile             |
 | profile_image | The user's profile image   |
 | gender   | The user's gender               |
-| status      | The user's bio                  |
+| status   | The user's bio                  |
+| blocked_users    |  The user's blocked list (this array contains the ID's of the blocked users|
 
 ### Geospatial Indexes and Queries
 
@@ -136,7 +144,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 
 Location data is stored as [legacy coordinate pairs](https://docs.mongodb.org/manual/reference/glossary/#term-legacy-coordinate-pairs).
 
-This means that a user's location is stored as an array containing a set of coordinates to query from using the `$near` and `$maxDistance` MongoDB operators.
+This means that a user's location is stored as an array containing a set of coordinates to query from using the `$geoNear` and `$maxDistance` MongoDB operators pipelined in an `aggregation` query.
 
 **Note**: Any response to the client that contains a user's coordinates will be modified and sent as an Object.
 
@@ -272,7 +280,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
-| `/api/users/:userid`  | `PUT`     | `userid=[ObjectID]`         |
+| `/api/users/:user_id`  | `PUT`     | `userid=[ObjectID]`         |
 
 ***Success Response***
 
@@ -334,7 +342,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
-| `/api/users/:userid`  | `DELETE`     | `userid=[ObjectID]`         |
+| `/api/users/:user_id`  | `DELETE`     | `userid=[ObjectID]`         |
 
 ***Success Response***
 
@@ -374,7 +382,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
-| `/api/users/:userid/location`  | `POST`     | `userid=[ObjectID]`         |
+| `/api/users/:user_id/location`  | `POST`     | `userid=[ObjectID]`         |
 
 ***Success Response***
 
@@ -428,7 +436,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
-| `/api/users/:userid/location`  | `PUT`     | `userid=[ObjectID]`         |
+| `/api/users/:user_id/location`  | `PUT`     | `userid=[ObjectID]`         |
 
 ***Success Response***
 
@@ -508,9 +516,45 @@ This means that a user's location is stored as an array containing a set of coor
 {
   "profile_image": "example.link.com",
   "gender": "Female",
-  "bio": "new bio information"
+  "status": "new bio information"
 }
 ```
+
+#### Block a user
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/:user_id/blocks/blocked_user="{blocked_user_id}"`  | `POST`     | `userid=[String]`, `blocked_user_id=[String]`     |
+
+***Success Response***
+
+ - **Code**: `200`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'New blocked user added'
+    }
+    ```
+    
+    ```javascript
+    {
+      message: 'User already blocked'
+    }
+    ```
+    
+***Error Response***
+
+ - **Code**: `404`
+
+  - **Content**:
+
+ ```javascript
+ {
+    message: 'User doesn\'t exist'
+ }
+ ```
 
 ## Security
 
