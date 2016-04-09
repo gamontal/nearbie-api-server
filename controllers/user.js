@@ -32,9 +32,12 @@ var USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
 /* GET /api/users/:username */
 exports.getUser = function (req, res, next) {
   User.findOne({ 'username': req.params.username }, {
+    'active': 0,
+    'updatedAt': 0,
     'password': 0,
-    '__v': 0,
-    'updatedAt': 0
+    'email': 0,
+    'loc_attr:': 0,
+    '__v': 0
   }).lean().exec(function (err, user) {
 
     if (err) { return next(err); }
