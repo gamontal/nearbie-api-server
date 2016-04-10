@@ -1,6 +1,6 @@
 {
   "name": "quickee-api",
-  "version": "1.3.6",
+  "version": "1.3.7",
   "main": "server.js",
   "private": true,
   "dependencies": {
