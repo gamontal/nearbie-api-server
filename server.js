@@ -28,7 +28,7 @@ if (!fs.existsSync(logDirectory)) {
 var logConfig = require('./config/logger-config');
 var logStream = logConfig.stream;
 
-/* Route Handlers */
+/* API Controllers */
 var authController = require('./controllers/auth');
 var indexController = require('./controllers/index');
 var registrationController = require('./controllers/registration');
