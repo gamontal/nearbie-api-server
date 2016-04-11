@@ -39,8 +39,6 @@
 
 > Latest version: https://qserv-binarybeats.rhcloud.com/api
 
-> Amazon server: https://ec2-52-32-220-128.us-west-2.compute.amazonaws.com:8080/api
-
 ## Building
 
 Clone this repo:
