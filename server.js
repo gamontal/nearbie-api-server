@@ -29,9 +29,11 @@ var logConfig = require('./config/logger-config');
 var logStream = logConfig.stream;
 
 /* Route Handlers */
-var mainController = require('./controllers/main');
-var userController = require('./controllers/user');
 var authController = require('./controllers/auth');
+var indexController = require('./controllers/index');
+var registrationController = require('./controllers/registration');
+var loginController = require('./controllers/login');
+var userController = require('./controllers/user');
 
 /* Database Connection */
 var dbConfig = require('./config/database-config');
@@ -66,13 +68,13 @@ if (process.env.NODE_ENV === 'production') {
 var router = express.Router();
 
 router.route('/')
-  .get(mainController.api);
+  .get(indexController.api);
 
 router.route('/register')
-  .post(mainController.register); // user registration
+  .post(registrationController.register); // user registration
 
 router.route('/login')
-  .post(mainController.login); // user login
+  .post(loginController.login); // user login
 
 /* ENABLE AUTHENTICATION FOR ALL /api/users/ ROUTES */
 if (process.env.NODE_ENV === 'production') {
