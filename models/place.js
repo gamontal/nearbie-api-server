@@ -10,7 +10,7 @@ var placeSchema = new Schema({
   }
 }, { timestamps: true });
 
-placeSchema.index({ loc: '2d' });
+placeSchema.index({ place_loc: '2d' });
 
 module.exports = mongoose.model('places', placeSchema);
 
