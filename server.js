@@ -33,6 +33,7 @@ var authController = require('./controllers/auth');
 var indexController = require('./controllers/index');
 var registrationController = require('./controllers/registration');
 var loginController = require('./controllers/login');
+var eventController = require('./controllers/event');
 var userController = require('./controllers/user');
 
 /* Database Connection */
@@ -98,6 +99,12 @@ router.route('/users/:username/profile')
 router.route('/users/:user_id/blocks')
   .post(userController.blockUser) // blocks a specified user
   .delete(userController.removeBlockedUsers);
+
+router.route('/events')
+  .get(eventController.getEvents);
+
+router.route('/events/:eventid')
+  .get(eventController.getEvent);
 
 server.use('/api', router); // set routes
 
