@@ -743,10 +743,13 @@ This means that a user's location is stored as an array containing a set of coor
  - [Delete a user](#delete-a-user)
  - [Update user location](#update-user-location)
  - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
- - [Get user profile information](#get-user-profile-information)
  - [Update user profile information](#update-user-profile-information)
  - [Block a user](#block-a-user)
  - [Unblock a user](#unblock-a-user)
+ - [Get nearby places](#get-nearby-places)
+ - [Get place information](#get-place-information)
+ - [Get events](#get-events)
+ - [Get event information](#get-event-information)
 
 **Token passing**
 
