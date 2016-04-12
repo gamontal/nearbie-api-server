@@ -7,8 +7,8 @@ var moment = require('moment');
 var User = require('../models/user');
 
 var ERROR = [
-  'Invalid username',
-  'Invalid password'
+  'Error: Invalid username',
+  'Error: Invalid password'
 ];
 
 exports.login = function (req, res, next) {

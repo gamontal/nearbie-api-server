@@ -22,9 +22,9 @@ var INFO = [
 ];
 
 var ERROR = [
-  'User doesn\'t exist',
-  'Invalid user ID',
-  'User validation failed'
+  'Error: User doesn\'t exist',
+  'Error: Invalid user ID',
+  'Error: User validation failed'
 ];
 
 var USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;

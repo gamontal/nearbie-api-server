@@ -8,7 +8,7 @@ var moment = require('moment');
 var User = require('../models/user');
 
 var ERROR = [
-  'User validation failed, a user with that username or email address already exists'
+  'Error: User validation failed, a user with that username or email address already exists'
 ];
 
 exports.register = function (req, res) {

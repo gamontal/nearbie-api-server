@@ -33,6 +33,7 @@ var authController = require('./controllers/auth');
 var indexController = require('./controllers/index');
 var registrationController = require('./controllers/registration');
 var loginController = require('./controllers/login');
+var placeController = require('./controllers/place');
 var eventController = require('./controllers/event');
 var userController = require('./controllers/user');
 
@@ -101,10 +102,16 @@ router.route('/users/:user_id/blocks')
   .delete(userController.removeBlockedUsers);
 
 router.route('/events')
-  .get(eventController.getEvents);
+  .get(eventController.getEvents); // get all registered events
 
-router.route('/events/:eventid')
-  .get(eventController.getEvent);
+router.route('/events/:event_id')
+  .get(eventController.getEvent); // get information about a event
+
+router.route('/places/:user_id')
+  .put(placeController.getNearbyPlaces); // get all registered nearby places
+
+router.route('/places/:place_id')
+  .get(placeController.getPlace); // get information about a place
 
 server.use('/api', router); // set routes
 

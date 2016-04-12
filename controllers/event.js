@@ -16,7 +16,7 @@ exports.getEvents = function (req, res, next) {
 };
 
 exports.getEvent = function (req, res, next) {
-  var EVENT_ID = req.params.eventid;
+  var EVENT_ID = req.params.event_id;
 
   Event.findOne({ '_id': EVENT_ID }, function (err, event) {
     if (err) { return next(err); }
