@@ -8,8 +8,8 @@
 var jwt = require('jsonwebtoken');
 
 var ERROR = [
-  'Failed to authenticate token',
-  'No token provided'
+  'Error: Failed to authenticate token',
+  'Error: No token provided'
 ];
 
 exports.checkForAuthentication = function (req, res, next) {

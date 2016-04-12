@@ -22,9 +22,9 @@ var INFO = [
 ];
 
 var ERROR = [
-  'User doesn\'t exist',
-  'Invalid user ID',
-  'User validation failed'
+  'Error: User doesn\'t exist',
+  'Error: Invalid user ID',
+  'Error: User validation failed'
 ];
 
 var USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
@@ -32,9 +32,12 @@ var USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
 /* GET /api/users/:username */
 exports.getUser = function (req, res, next) {
   User.findOne({ 'username': req.params.username }, {
+    'active': 0,
+    'updatedAt': 0,
     'password': 0,
-    '__v': 0,
-    'updatedAt': 0
+    'email': 0,
+    'loc_attr': 0,
+    '__v': 0
   }).lean().exec(function (err, user) {
 
     if (err) { return next(err); }
@@ -201,7 +204,7 @@ exports.getNearbyUsers = function (req, res, next) {
         maxDistance /= 6371;
 
         // inactivity max time limit value (in hours);
-        var inactiveTimeLimit = 5;
+        //var inactiveTimeLimit = 5;
 
         // query for nearby users
         User.aggregate([
@@ -218,10 +221,10 @@ exports.getNearbyUsers = function (req, res, next) {
               '_id': {
                 '$nin': user.blocked_users
               },
-              'updatedAt': {
-                '$gte': new Date(new Date().setHours(new Date().getHours() - inactiveTimeLimit)),
-                '$lte': new Date()
-              },
+            //  'updatedAt': {
+           //     '$gte': new Date(new Date().setHours(new Date().getHours() - inactiveTimeLimit)),
+          //      '$lte': new Date()
+         //     },
               'loc_attr.zipcode': zipcode
             }
           },

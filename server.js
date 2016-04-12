@@ -28,10 +28,14 @@ if (!fs.existsSync(logDirectory)) {
 var logConfig = require('./config/logger-config');
 var logStream = logConfig.stream;
 
-/* Route Handlers */
-var mainController = require('./controllers/main');
-var userController = require('./controllers/user');
+/* API Controllers */
 var authController = require('./controllers/auth');
+var indexController = require('./controllers/index');
+var registrationController = require('./controllers/registration');
+var loginController = require('./controllers/login');
+var placeController = require('./controllers/place');
+var eventController = require('./controllers/event');
+var userController = require('./controllers/user');
 
 /* Database Connection */
 var dbConfig = require('./config/database-config');
@@ -66,13 +70,13 @@ if (process.env.NODE_ENV === 'production') {
 var router = express.Router();
 
 router.route('/')
-  .get(mainController.api);
+  .get(indexController.api);
 
 router.route('/register')
-  .post(mainController.register); // user registration
+  .post(registrationController.register); // user registration
 
 router.route('/login')
-  .post(mainController.login); // user login
+  .post(loginController.login); // user login
 
 /* ENABLE AUTHENTICATION FOR ALL /api/users/ ROUTES */
 if (process.env.NODE_ENV === 'production') {
@@ -96,6 +100,18 @@ router.route('/users/:username/profile')
 router.route('/users/:user_id/blocks')
   .post(userController.blockUser) // blocks a specified user
   .delete(userController.removeBlockedUsers);
+
+router.route('/events')
+  .get(eventController.getEvents); // get all registered events
+
+router.route('/events/:event_id')
+  .get(eventController.getEvent); // get information about a event
+
+router.route('/places/:user_id')
+  .put(placeController.getNearbyPlaces); // get all registered nearby places
+
+router.route('/places/:place_id')
+  .get(placeController.getPlace); // get information about a place
 
 server.use('/api', router); // set routes
 

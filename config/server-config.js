@@ -10,13 +10,13 @@ var config = {
     secret: 'rRID4RK7'
   },
   development: {
-    port: Number(process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 8080),
-    host: process.env.OPENSHIFT_NODEJS_IP || process.env.IP || '127.0.0.1',
-    database: 'mongodb://ds061355.mongolab.com:61355/quickee-db', // after production this URI will point to a local or testing database
+    port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081),
+    host: process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
+    database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'dev'
   },
   test: {
-    port: Number(process.env.PORT || 3000),
+    port: Number(process.env.PORT || 8082),
     host: '127.0.0.1', // run tests in a local environment only
     database: 'mongodb://ds011369.mlab.com:11369/quickee-test-db',
     env: 'test'

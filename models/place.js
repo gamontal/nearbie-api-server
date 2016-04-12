@@ -5,12 +5,12 @@ var Schema = mongoose.Schema;
 
 var placeSchema = new Schema({
   place_name: String,
-  place_location: {
+  place_loc: {
     type: [Number]
   }
 }, { timestamps: true });
 
-placeSchema.index({ loc: '2dsphere' });
+placeSchema.index({ place_loc: '2d' });
 
 module.exports = mongoose.model('places', placeSchema);
 
