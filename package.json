@@ -17,7 +17,6 @@
     "mongoose-unique-validator": "1.0.0",
     "morgan": "^1.6.1",
     "multer": "^1.1.0",
-    "socket.io": "^1.4.5",
     "winston": "^2.2.0",
     "xmlhttprequest": "^1.8.0"
   },
