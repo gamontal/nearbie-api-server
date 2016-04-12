@@ -137,6 +137,7 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | email    |  The user's email               |
 | loc      |  The user's location coordinates|
 | loc_attr |  Additional location information|
+| zipcode  |  The user's location zip-code   |
 | profile  |  The user's profile             |
 | profile_image | The user's profile image   |
 | gender   | The user's gender               |
