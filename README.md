@@ -20,6 +20,11 @@
     - [Update user profile information](#update-user-profile-information)
     - [Block a user](#block-a-user)
     - [Unblock a user](#unblock-a-user)
+    - [Get nearby places](#get-nearby-places)
+    - [Get place information](#get-place-information)
+    - [Get events](#get-events)
+    - [Get event information](#get-event-information)
+
 - [Security](#security)
   - [Authentication](#authentication)
     - [Client Authentication](#client-authentication)
@@ -560,7 +565,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
-| `/api/users/:user_id/blocks/blocked_users=["{blocked_user_id}", ...]`  | `DELETE`     | `userid=[String]`, `blocked_users_ids=[Array]`     |
+| `/api/users/:user_id/blocks/blocked_users=["{blocked_user_id}", ...]`  | `DELETE`     | `user_id=[String]`, `blocked_users_ids=[Array]`     |
 
 ***Success Response***
 
@@ -585,6 +590,135 @@ This means that a user's location is stored as an array containing a set of coor
     message: 'User doesn\'t exist'
  }
  ```
+ 
+#### Get nearby places
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/places/user_id]`  | `PUT`     | `user_id=[String]`
+
+***Success Response***
+
+ - **Code**: `200`
+
+  - **Content**: [NearbyPlaces]
+
+***Error Response***
+
+ - **Code**: `400`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'Invalid user id'
+    }
+    ```
+    ```javascript
+    {
+      message: 'User validation failed'
+    }
+    ```
+    
+- **Code**: `404`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'User doesn\'t exist'
+    }
+    ```
+
+**Payload example:**
+
+```javascript
+{
+  "lng": 22.123456,
+  "lat": -22.123456
+}
+```
+
+#### Get place information
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/places/place_id]`  | `GET`     | `place_id=[String]`
+
+***Success Response***
+
+ - **Code**: `200`
+
+  - **Content**: [PlaceObject]
+
+***Error Response***
+
+ - **Code**: `400`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'Invalid place id'
+    }
+    ```
+    
+- **Code**: `404`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'Place not found'
+    }
+    ```
+
+#### Get events
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/users/events`  | `GET`     | `none`
+
+***Success Response***
+
+ - **Code**: `200`
+
+  - **Content**: [EventsArray]
+
+#### Get event information
+
+| URL | Method | URL Params |
+| --- | ------ | ---------- |
+| `/api/events/:event_id`  | `GET`     | `event_id=[String]`
+
+***Success Response***
+
+ - **Code**: `200`
+
+  - **Content**: [EventObject]
+
+***Error Response***
+
+ - **Code**: `400`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'Invalid event id'
+    }
+    ```
+    
+- **Code**: `404`
+
+  - **Content**:
+
+    ```javascript
+    {
+      message: 'Event not found'
+    }
+    ```
+
 
 ## Security
 
