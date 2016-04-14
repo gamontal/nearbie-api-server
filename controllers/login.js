@@ -11,7 +11,7 @@ var ERROR = [
   'Error: Invalid password'
 ];
 
-exports.login = function (req, res, next) {
+exports.authenticate = function (req, res, next) {
   var serverConfig = req.app.get('config');
 
   User.findOne({ 'username': req.body.username }, {

@@ -75,8 +75,8 @@ router.route('/')
 router.route('/register')
   .post(registrationController.register); // user registration
 
-router.route('/login')
-  .post(loginController.login); // user login
+router.route('/authenticate')
+  .post(loginController.authenticate); // user login
 
 /* ENABLE AUTHENTICATION FOR ALL /api/users/ ROUTES */
 if (process.env.NODE_ENV === 'production') {
