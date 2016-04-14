@@ -217,7 +217,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
-| `/api/login`  | `POST`     | `none`         |
+| `/api/authenticate`  | `POST`     | `none`         |
 
 ***Success Response***
 
