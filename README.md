@@ -144,6 +144,66 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | status   | The user's bio                  |
 | blocked_users    |  The user's blocked list (this array contains the ID's of the blocked users|
 
+**Nearby places model**
+
+```javascript
+{
+  _id: ObjectID,
+  createdAt: Date,
+  updatedAt: Date,
+  place_name: String,
+  place_image: String,
+  place_loc: Array,
+  zipcode: String
+}
+```
+
+***Places properties definition table***:
+
+| Property    | Description                     |
+| --------    | ------------------------------- |
+| _id         |  The place ObjectId             |
+| createdAt   |  Object creation date           |
+| updatedAt   |  Object update date             |
+| place_name  |  The place name                 |
+| place_image |  The place image                |
+| place_loc   |  The place location             |
+| zipcode     |  The place zipcode              |
+
+
+**Events model**
+
+```javascript
+{
+  _id: ObjectID,
+  createdAt: Date,
+  updatedAt: Date,
+  event_name: String,
+  event_image: String,
+  start_day: Date,
+  finish_day: Date,
+  event_loc: Array,
+  zipcode: String,
+  user_count: Number
+}
+```
+
+***Events properties definition table***:
+
+| Property    | Description                     |
+| --------    | ------------------------------- |
+| _id         |  The event's ObjectId           |
+| createdAt   |  Object creation date           |
+| updatedAt   |  Object update date             |
+| event_name  |  The event's name               |
+| event_image |  The event's image              |
+| start_day   |  The event's start date         |
+| finish_day  |  The event's finish date        |
+| event_loc   |  The event's location           |
+| zipcode     |  The event's zipcode            |
+| user_count  |  The event's nearby users count |
+
+
 ### Geospatial Indexes and Queries
 
 > #### Location Data
