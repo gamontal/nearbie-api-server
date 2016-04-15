@@ -147,7 +147,7 @@ server.use(function (err, req, res) {
 
 /* Initialize the Server */
 server.listen(server.get('port'), server.get('ip'), function () {
-  console.log('\nServer listening at %s:%d', server.get('ip'), server.get('port'));
+  console.log('\nListening for client connections on %s:%d', server.get('ip'), server.get('port'));
 });
 
 // make the server available for integration tests
