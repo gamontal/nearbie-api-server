@@ -54,13 +54,13 @@ server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
 /* Application-wide Middleware */
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({ limit: '100kb', extended: false, parameterLimit: 1000 }));
+server.use(bodyParser.json({ limit: '100kb' }));
 
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: logStream }));
 } else {
-  server.use(helmet()); // adds default security headers
+  server.use(helmet()); // adds security headers
   server.use(compression()); // gzip compression for data transit
   server.use(morgan('dev')); // developer friendly console logger
 }
