@@ -15,6 +15,8 @@ exports.authenticate = function (req, res, next) {
   var serverConfig = req.app.get('config');
 
   User.findOne({ 'username': req.body.username }, {
+    'updatedAt': 0,
+    'email': 0,
     '__v': 0
   }, function (err, user) {
     if (err) {
@@ -47,9 +49,7 @@ exports.authenticate = function (req, res, next) {
         user.active = true;
 
         // remove any unwanted or sensitive fields
-        user.updatedAt = undefined;
         user.password = undefined;
-        user.email = undefined;
 
         res.status(200).json({
           token: token,

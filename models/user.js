@@ -65,8 +65,8 @@ userSchema.pre('save', function (cb) {
   });
 });
 
-userSchema.methods.verifyPassword = function (password, cb) {
-  bcrypt.compare(password, this.password, function (err, isMatch) {
+userSchema.methods.verifyPassword = function (candidatePwd, cb) {
+  bcrypt.compare(candidatePwd, this.password, function (err, isMatch) {
     if (err) { return cb(err); }
     cb(null, isMatch);
   });
