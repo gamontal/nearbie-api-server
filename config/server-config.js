@@ -1,5 +1,7 @@
 'use strict';
 
+var PKEY = require('../secret')();
+
 /* Environment Objects */
 var config = {
   production: {
@@ -7,7 +9,7 @@ var config = {
     host: process.env.IP || '127.0.0.1',
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'prod',
-    secret: require('../secret')() || ''
+    secret: PKEY ? PKEY : ''
   },
   development: {
     port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081),
