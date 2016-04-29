@@ -41,10 +41,11 @@ var userController = require('./controllers/user');
 var dbConfig = require('./config/database-config');
 
 mongoose.connect(serverConfig.database, dbConfig, function (err) {
-  if (err) { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
-  else { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
+  if (err) { console.error('\nconnection to ' +
+                         url.parse(serverConfig.database).host + ' failed\n'); }
+  else { console.log('\nconnection to ' +
+                     url.parse(serverConfig.database).host + ' was successful\n'); }
 });
-
 
 var server = express();
 
@@ -54,14 +55,27 @@ server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
 /* Application-wide Middleware */
-server.use(bodyParser.urlencoded({ limit: '100kb', extended: false, parameterLimit: 1000 }));
-server.use(bodyParser.json({ limit: '100kb' }));
+server.use(bodyParser.urlencoded({
+  limit: '100kb',
+  extended: false,
+  parameterLimit: 1000
+}));
+
+server.use(bodyParser.json({
+  limit: '100kb'
+}));
 
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: logStream }));
+
+  // Security headers are handled by the reverse proxy server (NGINX) in production
 } else {
-  server.use(helmet()); // adds security headers
-  server.use(compression()); // gzip compression for data transit
+  server.use(helmet()); // adds security headers using express
+
+  // gzip compression for data transit
+  // NOTE: DO NOT USE WITH TLS TRANSPORTS, SEE: https://en.wikipedia.org/wiki/CRIME
+  server.use(compression());
+
   server.use(morgan('dev')); // developer friendly console logger
 }
 

@@ -29,9 +29,7 @@ exports.authenticate = function (req, res, next) {
     'email': 0,
     '__v': 0
   }, function (err, user) {
-    if (err) {
-      return next(err);
-    }
+    if (err) { return next(err); }
 
     if (!user) {
       res.status(400).json({
@@ -40,9 +38,7 @@ exports.authenticate = function (req, res, next) {
     } else if (user) {
 
       user.verifyPassword(pwd, function (err, isMatch) {
-        if (err) {
-          return next(err);
-        }
+        if (err) { return next(err); }
 
         // Password did not match
         if (!isMatch) {
@@ -71,3 +67,4 @@ exports.authenticate = function (req, res, next) {
     }
   });
 };
+
