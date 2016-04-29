@@ -77,3 +77,6 @@ $RECYCLE.BIN/
 # OPENSHIFT
 
 .openshift
+
+# Other
+secret.js
