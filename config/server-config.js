@@ -1,6 +1,6 @@
 'use strict';
 
-var PKEY = require('../secret')();
+var PKEY = require('../secret')() || null;
 
 /* Environment Objects */
 var config = {
