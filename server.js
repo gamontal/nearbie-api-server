@@ -41,10 +41,11 @@ var userController = require('./controllers/user');
 var dbConfig = require('./config/database-config');
 
 mongoose.connect(serverConfig.database, dbConfig, function (err) {
-  if (err) { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' failed\n'); }
-  else { console.log('\nconnection to ' + url.parse(serverConfig.database).host + ' was successful\n'); }
+  if (err) { console.error('\nconnection to ' +
+                         url.parse(serverConfig.database).host + ' failed\n'); }
+  else { console.log('\nconnection to ' +
+                     url.parse(serverConfig.database).host + ' was successful\n'); }
 });
-
 
 var server = express();
 
@@ -54,14 +55,27 @@ server.set('port', serverConfig.port);
 server.set('ip', serverConfig.host);
 
 /* Application-wide Middleware */
-server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
+server.use(bodyParser.urlencoded({
+  limit: '100kb',
+  extended: false,
+  parameterLimit: 1000
+}));
+
+server.use(bodyParser.json({
+  limit: '100kb'
+}));
 
 if (process.env.NODE_ENV === 'production') {
   server.use(morgan('combined', { stream: logStream }));
+
+  // Security headers are handled by the reverse proxy server (NGINX) in production
 } else {
-  server.use(helmet()); // adds default security headers
-  server.use(compression()); // gzip compression for data transit
+  server.use(helmet()); // adds security headers using express
+
+  // gzip compression for data transit
+  // NOTE: DO NOT USE WITH TLS TRANSPORTS, SEE: https://en.wikipedia.org/wiki/CRIME
+  server.use(compression());
+
   server.use(morgan('dev')); // developer friendly console logger
 }
 
@@ -75,8 +89,8 @@ router.route('/')
 router.route('/register')
   .post(registrationController.register); // user registration
 
-router.route('/login')
-  .post(loginController.login); // user login
+router.route('/authenticate')
+  .post(loginController.authenticate); // user login
 
 /* ENABLE AUTHENTICATION FOR ALL /api/users/ ROUTES */
 if (process.env.NODE_ENV === 'production') {
@@ -147,7 +161,7 @@ server.use(function (err, req, res) {
 
 /* Initialize the Server */
 server.listen(server.get('port'), server.get('ip'), function () {
-  console.log('\nServer listening at %s:%d', server.get('ip'), server.get('port'));
+  console.log('\nListening for client connections on %s:%d', server.get('ip'), server.get('port'));
 });
 
 // make the server available for integration tests

@@ -1,3 +1,8 @@
+# 1.4.1
+
+- Adds events and place search methods and routes
+- Minor changes and improvements
+
 # 1.3.1
 
 - Adds nearby users query filters (by zipcode and last_updated properties)

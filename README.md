@@ -35,8 +35,8 @@
 
 | build config | branch  | status |
 | ------------ | ------- | -------|
-| Linux        | master  | [![Build Status](https://travis-ci.com/gmontalvoriv/bb-backend.svg?token=hxR91szxm19yyULsAnMM&branch=master)](https://travis-ci.com/gmontalvoriv/bb-backend) |
-| Linux        | dev    | [![Build Status](https://travis-ci.com/gmontalvoriv/bb-backend.svg?token=hxR91szxm19yyULsAnMM&branch=dev)](https://travis-ci.com/gmontalvoriv/bb-backend) |
+| Linux        | master  | [![Build Status](https://travis-ci.org/gmontalvoriv/bb-backend.svg?branch=master)](https://travis-ci.org/gmontalvoriv/bb-backend) |
+| Linux        | dev    | [![Build Status](https://travis-ci.org/gmontalvoriv/bb-backend.svg?branch=dev)](https://travis-ci.org/gmontalvoriv/bb-backend) |
 
 ### Active development server platforms
 
@@ -137,11 +137,72 @@ This project is currently using a document-based database served at [mLab (DaaS)
 | email    |  The user's email               |
 | loc      |  The user's location coordinates|
 | loc_attr |  Additional location information|
+| zipcode  |  The user's location zip-code   |
 | profile  |  The user's profile             |
 | profile_image | The user's profile image   |
 | gender   | The user's gender               |
 | status   | The user's bio                  |
 | blocked_users    |  The user's blocked list (this array contains the ID's of the blocked users|
+
+**Nearby places model**
+
+```javascript
+{
+  _id: ObjectID,
+  createdAt: Date,
+  updatedAt: Date,
+  place_name: String,
+  place_image: String,
+  place_loc: Array,
+  zipcode: String
+}
+```
+
+***Places properties definition table***:
+
+| Property    | Description                     |
+| --------    | ------------------------------- |
+| _id         |  The place ObjectId             |
+| createdAt   |  Object creation date           |
+| updatedAt   |  Object update date             |
+| place_name  |  The place name                 |
+| place_image |  The place image                |
+| place_loc   |  The place location             |
+| zipcode     |  The place zipcode              |
+
+
+**Events model**
+
+```javascript
+{
+  _id: ObjectID,
+  createdAt: Date,
+  updatedAt: Date,
+  event_name: String,
+  event_image: String,
+  start_day: Date,
+  finish_day: Date,
+  event_loc: Array,
+  zipcode: String,
+  user_count: Number
+}
+```
+
+***Events properties definition table***:
+
+| Property    | Description                     |
+| --------    | ------------------------------- |
+| _id         |  The event's ObjectId           |
+| createdAt   |  Object creation date           |
+| updatedAt   |  Object update date             |
+| event_name  |  The event's name               |
+| event_image |  The event's image              |
+| start_day   |  The event's start date         |
+| finish_day  |  The event's finish date        |
+| event_loc   |  The event's location           |
+| zipcode     |  The event's zipcode            |
+| user_count  |  The event's nearby users count |
+
 
 ### Geospatial Indexes and Queries
 
@@ -216,7 +277,7 @@ This means that a user's location is stored as an array containing a set of coor
 
 | URL | Method | URL Params |
 | --- | ------ | ---------- |
-| `/api/login`  | `POST`     | `none`         |
+| `/api/authenticate`  | `POST`     | `none`         |
 
 ***Success Response***
 
@@ -742,10 +803,13 @@ This means that a user's location is stored as an array containing a set of coor
  - [Delete a user](#delete-a-user)
  - [Update user location](#update-user-location)
  - [Update user location and return nearby users](#update-user-location-and-return-nearby-users)
- - [Get user profile information](#get-user-profile-information)
  - [Update user profile information](#update-user-profile-information)
  - [Block a user](#block-a-user)
  - [Unblock a user](#unblock-a-user)
+ - [Get nearby places](#get-nearby-places)
+ - [Get place information](#get-place-information)
+ - [Get events](#get-events)
+ - [Get event information](#get-event-information)
 
 **Token passing**
 
