@@ -1,7 +1,7 @@
 'use strict';
 
 exports.api = function (req, res) {
-  var result = {
+  const result = {
     version: require('../package').version
   };
 

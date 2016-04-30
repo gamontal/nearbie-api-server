@@ -1,21 +1,21 @@
 'use strict';
 
-var fetchZipcode = require('../lib/fetch_zipcode');
+const fetchZipcode = require('../lib/fetch_zipcode');
 
-var Place = require('../models/place');
-var User = require('../models/user');
+const Place = require('../models/place');
+const User = require('../models/user');
 
-var ERROR = [
+const ERROR = [
   'Error: Invalid user ID',
   'Error: User doesn\'t exist',
   'Error: User validation failed',
   'Error: Place not found'
 ];
 
-var USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
+const USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
 
 exports.getNearbyPlaces = function (req, res, next) {
-  var USER_ID = req.params.user_id;
+  const USER_ID = req.params.user_id;
 
   if (!USER_ID.match(USER_ID_PATTERN)) {
     res.status(400).json({
@@ -23,8 +23,8 @@ exports.getNearbyPlaces = function (req, res, next) {
     });
   } else {
 
-    var coords = [req.body.lng, req.body.lat];
-    var zipcode = fetchZipcode(coords);
+    const coords = [req.body.lng, req.body.lat];
+    const zipcode = fetchZipcode(coords);
 
     // store new coordinates
     User.findOne({ '_id': USER_ID }, function (err, user) {
@@ -96,7 +96,7 @@ exports.getNearbyPlaces = function (req, res, next) {
 };
 
 exports.getPlace = function (req, res, next) {
-  var PLACE_ID = req.params.place_id;
+  const PLACE_ID = req.params.place_id;
 
   Place.findOne({ '_id': PLACE_ID }, { place_loc: 0, zipcode: 0 }, function (err, place) {
     if (err) { return next(err); }

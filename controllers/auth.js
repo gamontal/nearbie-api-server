@@ -5,18 +5,18 @@
 
 'use strict';
 
-var jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 
-var ERROR = [
+const ERROR = [
   'Error: Failed to authenticate token',
   'Error: No token provided'
 ];
 
 exports.checkForAuthentication = function (req, res, next) {
-  var serverConfig = req.app.get('config');
+  const serverConfig = req.app.get('config');
 
   // check header or url parameters or post parameters for token
-  var token = req.headers['x-access-token']; // takes API token from the request header
+  const token = req.headers['x-access-token']; // takes API token from the request header
 
   if (token) {
     // compare tokens

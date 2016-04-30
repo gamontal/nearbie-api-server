@@ -1,20 +1,20 @@
 'use strict';
 
-var jwt = require('jsonwebtoken');
-var fetchZipcode = require('../lib/fetch_zipcode');
-var moment = require('moment');
+const jwt = require('jsonwebtoken');
+const fetchZipcode = require('../lib/fetch_zipcode');
+const moment = require('moment');
 
 // User model
-var User = require('../models/user');
+const User = require('../models/user');
 
-var ERROR = [
+const ERROR = [
   'Error: User validation failed, a user with that username or email address already exists'
 ];
 
 exports.register = function (req, res) {
-  var serverConfig = req.app.get('config');
-  var coords = [req.body.loc.lng, req.body.loc.lat];
-  var zipcode = fetchZipcode(coords);
+  const serverConfig = req.app.get('config');
+  const coords = [req.body.loc.lng, req.body.loc.lat];
+  const zipcode = fetchZipcode(coords);
 
   // create a new user
   var user = new User({
@@ -41,11 +41,11 @@ exports.register = function (req, res) {
       });
     } else {
 
-      var expires = moment().add(7, 'days').valueOf(), token;
+      const expires = moment().add(7, 'days').valueOf();
 
       // generate new token upon registration
       if (serverConfig.secret) {
-        token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
+        var token = jwt.sign(user, serverConfig.secret, { expiresIn: expires });
       }
 
       // remove unwanted properties from the response object

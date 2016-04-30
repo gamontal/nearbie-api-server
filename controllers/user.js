@@ -5,13 +5,13 @@
 
 'use strict';
 
-var fs = require('fs');
-var fetchZipcode = require('../lib/fetch_zipcode');
-var cloudinary = require('cloudinary');
+const fs = require('fs');
+const fetchZipcode = require('../lib/fetch_zipcode');
+const cloudinary = require('cloudinary');
 
-var User = require('../models/user'); // User Model
+const User = require('../models/user'); // User Model
 
-var INFO = [
+const INFO = [
   'User deleted',
   'User information updated',
   'User location updated',
@@ -21,13 +21,13 @@ var INFO = [
   'Removed blocked users'
 ];
 
-var ERROR = [
+const ERROR = [
   'Error: User doesn\'t exist',
   'Error: Invalid user ID',
   'Error: User validation failed'
 ];
 
-var USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
+const USER_ID_PATTERN = /^[0-9a-fA-F]{24}$/;
 
 /* GET /api/users/:username */
 exports.getUser = function (req, res, next) {
@@ -87,7 +87,7 @@ exports.updateUser = function (req, res, next) {
       message: ERROR[1]
     });
   } else {
-    var NEW_USER_INFO = req.body; // the received user object
+    const NEW_USER_INFO = req.body; // the received user object
 
     User.findOne({ '_id': req.params.user_id }, function (err, user) {
 
@@ -123,8 +123,8 @@ exports.updateUser = function (req, res, next) {
 
 /* POST /api/users/:user_id/location */
 exports.updateUserLocation = function (req, res, next) {
-  var coords = [req.body.lng, req.body.lat];
-  var zipcode = fetchZipcode(coords);
+  const coords = [req.body.lng, req.body.lat];
+  const zipcode = fetchZipcode(coords);
 
   if (req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
 
@@ -171,8 +171,8 @@ exports.getNearbyUsers = function (req, res, next) {
     });
   } else {
 
-    var coords = [req.body.lng, req.body.lat];
-    var zipcode = fetchZipcode(coords);
+    const coords = [req.body.lng, req.body.lat];
+    const zipcode = fetchZipcode(coords);
 
     // store new coordinates
     User.findOne({ '_id': req.params.user_id }, function (err, user) {
@@ -266,8 +266,7 @@ exports.getNearbyUsers = function (req, res, next) {
 // NOTE upload image to cloudinary from the client
 /* PUT /api/users/:username/profile */
 exports.updateUserProfile = function (req, res, next) {
-
-  var NEW_PROFILE_INFO = req.body;
+  const NEW_PROFILE_INFO = req.body;
 
   User.findOne({ 'username': req.params.username }, function (err, user) {
 
@@ -319,7 +318,7 @@ exports.blockUser = function (req, res, next) {
     });
   } else {
 
-    var BLOCKED_USER_ID = req.query.blocked_user;
+    const BLOCKED_USER_ID = req.query.blocked_user;
 
     User.findOne({ '_id': req.params.user_id }, function (err, user) {
       if (err) { return next(err); }
@@ -356,7 +355,7 @@ exports.removeBlockedUsers = function (req, res, next) {
       message: ERROR[1]
     });
   } else {
-    var BLOCKED_USERS = JSON.parse(req.query.blocked_users);
+    const BLOCKED_USERS = JSON.parse(req.query.blocked_users);
 
     User.findOne({ '_id': req.params.user_id }, function (err, user) {
       if (err) { return next(err); }
