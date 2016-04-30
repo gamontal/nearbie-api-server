@@ -1,6 +1,6 @@
 {
   "name": "nearbie-api",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "main": "server.js",
   "private": true,
   "engines": {
