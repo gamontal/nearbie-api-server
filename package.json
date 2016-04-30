@@ -4,7 +4,7 @@
   "main": "server.js",
   "private": true,
   "engines": {
-    "node": ">= 4.4.3"
+    "node": ">= 0.11.12"
   },
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
