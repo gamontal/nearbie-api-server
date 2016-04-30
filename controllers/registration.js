@@ -14,8 +14,8 @@ const ERROR = [
 exports.register = function (req, res) {
   const serverConfig = req.app.get('config');
   const coords = [req.body.loc.lng, req.body.loc.lat];
-  const zipcode = fetchZipcode(coords);
-
+  const zipcode = fetchZipcode(coords); // NOTE: this module will throw an error if invalid coordinates are passed
+                                       // TODO: validate coordinates to prevent the server from crashing...
   // create a new user
   let user = new User({
     active: true,

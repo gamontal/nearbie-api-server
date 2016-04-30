@@ -6,7 +6,7 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt-nodejs');
+const bcrypt = require('../lib/bcrypt');
 const uniqueValidator = require('mongoose-unique-validator');
 const Schema = mongoose.Schema;
 
