@@ -198,13 +198,13 @@ exports.getNearbyUsers = function (req, res, next) {
         });
 
         // sets radius
-        var maxDistance = req.body.maxDistance || 2;
+        let maxDistance = req.body.maxDistance || 2;
 
         // convert the distance to radius
         maxDistance /= 6371;
 
         // inactivity max time limit value (in hours);
-        //var inactiveTimeLimit = 5;
+        //let inactiveTimeLimit = 5;
 
         // query for nearby users
         User.aggregate([
@@ -249,7 +249,7 @@ exports.getNearbyUsers = function (req, res, next) {
           });
 
           // modifies location properties and was_active string
-          for (var key in users) {
+          for (let key in users) {
             users[key].loc = {
               lng: users[key].loc[0],
               lat: users[key].loc[1]

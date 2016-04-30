@@ -50,7 +50,7 @@ exports.getNearbyPlaces = function (req, res, next) {
         });
 
         // sets radius
-        var maxDistance = req.body.maxDistance || 2;
+        let maxDistance = req.body.maxDistance || 2;
 
         // convert the distance to radius
         maxDistance /= 6371;

@@ -31,7 +31,7 @@ exports.getEvent = function (req, res, next) {
       const zipcode = event.zipcode;
 
       // sets radius
-      var maxDistance = req.query.maxDistance || 2;
+      let maxDistance = req.query.maxDistance || 2;
 
       // convert the distance to radius
       maxDistance /= 6371;

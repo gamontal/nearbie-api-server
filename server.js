@@ -11,7 +11,7 @@ const bodyParser = require('body-parser');
 
 /* Server Configuration */
 const ServerConfiguration = require('./config/server-config');
-const serverConfig = new ServerConfiguration();
+let serverConfig = ServerConfiguration();
 
 /* Image Handling Modules */
 const upload = require('./config/multer-config'); // multer configuration
@@ -47,7 +47,7 @@ mongoose.connect(serverConfig.database, dbConfig, function (err) {
                      url.parse(serverConfig.database).host + ' was successful\n'); }
 });
 
-var server = express();
+let server = express();
 
 /* Express Environment Variables */
 server.set('config', serverConfig);

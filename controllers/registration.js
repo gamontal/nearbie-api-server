@@ -17,7 +17,7 @@ exports.register = function (req, res) {
   const zipcode = fetchZipcode(coords);
 
   // create a new user
-  var user = new User({
+  let user = new User({
     active: true,
     username: req.body.username,
     password: req.body.password,
