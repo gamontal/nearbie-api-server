@@ -40,9 +40,9 @@
 
 ### Active development server platforms
 
-> Stable version: https://qserv-binarybeats.herokuapp.com/api
+> Stable version: NO SERVER AVAILABLE AT THE MOMENT
 
-> Latest version: https://qserv-binarybeats.rhcloud.com/api
+> Latest version: NO SERVER AVAILABLE AT THE MOMENT
 
 ## Building
 
