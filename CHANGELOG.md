@@ -1,3 +1,8 @@
+# 1.4.6
+
+- Removes private key from the server configuration for security measures
+- Minor changes and improvements
+
 # 1.4.1
 
 - Adds events and place search methods and routes

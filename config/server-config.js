@@ -1,13 +1,18 @@
 'use strict';
 
+let PKEY;
+
+try { PKEY = require('../secret')(); }
+catch (ex) { PKEY = undefined; }
+
 /* Environment Objects */
-var config = {
+const config = {
   production: {
     port: Number(process.env.PORT || 8080),
     host: process.env.IP || '127.0.0.1',
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'prod',
-    secret: 'rRID4RK7'
+    secret: PKEY
   },
   development: {
     port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081),

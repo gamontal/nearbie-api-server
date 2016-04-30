@@ -1,11 +1,11 @@
 'use strict';
 
-var local = require('../server');
-var should = require('should');
+const local = require('../server');
+const should = require('should');
 // var assert = require('assert');
-var request = require('supertest');
+const request = require('supertest');
 
-var testUser = {
+const testUser = {
   _id: '5705b27cfe67e893100c262d',
   username: 'user1',
   password: '1234',
@@ -18,9 +18,9 @@ var testUser = {
   }
 };
 
-var server_test = function (server) {
+const server_test = function (server) {
   describe('Routing', function () {
-    var url = server;
+    const url = server;
 
     describe('API connection', function () {
       it('should return the API\'s main page', function (done) {

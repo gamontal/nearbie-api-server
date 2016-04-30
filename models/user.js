@@ -5,12 +5,12 @@
 
 'use strict';
 
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
-var uniqueValidator = require('mongoose-unique-validator');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt-nodejs');
+const uniqueValidator = require('mongoose-unique-validator');
+const Schema = mongoose.Schema;
 
-var userSchema = new Schema({
+let userSchema = new Schema({
   active: {
     type: Boolean,
     default: false
@@ -48,7 +48,7 @@ userSchema.plugin(uniqueValidator); // validate unique schema properties
 
 // Execute before each user.save() call
 userSchema.pre('save', function (cb) {
-  var user = this;
+  let user = this;
 
   // Break out if the password hasn't changed
   if (!user.isModified('password')) { return cb(); }
