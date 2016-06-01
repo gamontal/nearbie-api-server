@@ -1,12 +1,13 @@
 'use strict';
 
-let PKEY;
+var PKEY;
 
+// check if private key exists
 try { PKEY = require('../secret')(); }
 catch (ex) { PKEY = undefined; }
 
 /* Environment Objects */
-const config = {
+var config = {
   production: {
     port: Number(process.env.PORT || 8080),
     host: process.env.IP || '127.0.0.1',

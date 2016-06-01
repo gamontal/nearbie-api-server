@@ -1,44 +1,44 @@
 'use strict';
 
-const fs = require('fs');
-const url = require('url');
-const express = require('express');
-const mongoose = require('mongoose');
-const morgan = require('morgan');
-const compression = require('compression');
-const helmet = require('helmet');
-const bodyParser = require('body-parser');
+var fs = require('fs');
+var url = require('url');
+var express = require('express');
+var mongoose = require('mongoose');
+var morgan = require('morgan');
+var compression = require('compression');
+var helmet = require('helmet');
+var bodyParser = require('body-parser');
 
 /* Server Configuration */
-const ServerConfiguration = require('./config/server-config');
-let serverConfig = ServerConfiguration();
+var ServerConfiguration = require('./config/server-config');
+var serverConfig = ServerConfiguration();
 
 /* Image Handling Modules */
-const upload = require('./config/multer-config'); // multer configuration
-const cloudinary = require('cloudinary');
+var upload = require('./config/multer-config'); // multer configuration
+var cloudinary = require('cloudinary');
 require('./config/cloudinary-config')(cloudinary); // sets cloudinary credentials
 
 /* Logs Directory Check and Configuration */
-const logDirectory = __dirname + '/logs';
+var logDirectory = __dirname + '/logs';
 
 if (!fs.existsSync(logDirectory)) {
   fs.mkdirSync(logDirectory); // ensure logs directory exists
 }
 
-const logConfig = require('./config/logger-config');
-const logStream = logConfig.stream;
+var logConfig = require('./config/logger-config');
+var logStream = logConfig.stream;
 
 /* API Controllers */
-const authController = require('./controllers/auth');
-const indexController = require('./controllers/index');
-const registrationController = require('./controllers/registration');
-const loginController = require('./controllers/login');
-const placeController = require('./controllers/place');
-const eventController = require('./controllers/event');
-const userController = require('./controllers/user');
+var authController = require('./controllers/auth');
+var indexController = require('./controllers/index');
+var registrationController = require('./controllers/registration');
+var loginController = require('./controllers/login');
+var placeController = require('./controllers/place');
+var eventController = require('./controllers/event');
+var userController = require('./controllers/user');
 
 /* Database Connection */
-const dbConfig = require('./config/database-config');
+var dbConfig = require('./config/database-config');
 
 mongoose.connect(serverConfig.database, dbConfig, function (err) {
   if (err) { console.error('\nconnection to ' +
@@ -47,7 +47,7 @@ mongoose.connect(serverConfig.database, dbConfig, function (err) {
                      url.parse(serverConfig.database).host + ' was successful\n'); }
 });
 
-let server = express();
+var server = express();
 
 /* Express Environment Variables */
 server.set('config', serverConfig);
@@ -81,7 +81,7 @@ if (process.env.NODE_ENV === 'production') {
 
 /* API Routes */
 
-const router = express.Router();
+var router = express.Router();
 
 router.route('/')
   .get(indexController.api);

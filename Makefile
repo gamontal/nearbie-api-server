@@ -23,4 +23,11 @@ stop-prod: ;@echo "WARNING: Stopping all server processes....."; \
 restart-prod: ;@echo "WARNING: Restarting all server processes....."; \
                ./node_modules/.bin/pm2 restart
 
-.PHONY: start-prod start-dev test install clean stop-prod restart-prod
+# other tasks
+rhc-deploy: ;@echo "Switching to openshift branch....."; \
+             git checkout openshift; \
+            ;@echo "Merging master --> openshift"; \
+             git merge --no-ff master; \
+            ;@echo "Pushing changes to the remote server";
+
+.PHONY: start-prod start-dev test install clean stop-prod restart-prod rhc-deploy
