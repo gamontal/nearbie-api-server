@@ -27,6 +27,7 @@ restart-prod: ;@echo "WARNING: Restarting all server processes....."; \
 rhc-deploy: ;@echo "Deploying server code to OPENSHIFT....."; \
              git checkout openshift; \
              git merge --no-ff master; \
-             git push openshift HEAD:master -f
+             git push openshift HEAD:master -f; \
+             git checkout master;
 
 .PHONY: start-prod start-dev test install clean stop-prod restart-prod rhc-deploy
