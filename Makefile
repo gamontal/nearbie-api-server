@@ -24,10 +24,9 @@ restart-prod: ;@echo "WARNING: Restarting all server processes....."; \
                ./node_modules/.bin/pm2 restart
 
 # other tasks
-rhc-deploy: ;@echo "Switching to openshift branch....."; \
+rhc-deploy: ;@echo "Deploying server code to OPENSHIFT....."; \
              git checkout openshift; \
-            ;@echo "Merging master --> openshift"; \
              git merge --no-ff master; \
-            ;@echo "Pushing changes to the remote server";
+             git push openshift HEAD:master -f
 
 .PHONY: start-prod start-dev test install clean stop-prod restart-prod rhc-deploy
