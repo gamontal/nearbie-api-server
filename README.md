@@ -42,7 +42,7 @@
 
 > Stable version: NOT AVAILABLE
 
-> Latest version: ![](https://qserv-binarybeats.rhcloud.com/api)
+> Latest version: https://qserv-binarybeats.rhcloud.com/api
 
 ## Building
 
