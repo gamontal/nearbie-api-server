@@ -204,7 +204,7 @@ exports.getNearbyUsers = function (req, res, next) {
         maxDistance /= 6371;
 
         // inactivity max time limit value (in hours);
-        //let inactiveTimeLimit = 5;
+        //var inactiveTimeLimit = 5;
 
         // query for nearby users
         User.aggregate([
@@ -249,7 +249,7 @@ exports.getNearbyUsers = function (req, res, next) {
           });
 
           // modifies location properties and was_active string
-          for (let key in users) {
+          for (var key in users) {
             users[key].loc = {
               lng: users[key].loc[0],
               lat: users[key].loc[1]
