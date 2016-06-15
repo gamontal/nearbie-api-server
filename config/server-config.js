@@ -21,6 +21,12 @@ var config = {
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'dev'
   },
+  local: {
+    port: Number(process.env.PORT || 8080),
+    host: '127.0.0.1',
+    database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
+    env: 'local'
+  },
   test: {
     port: Number(process.env.PORT || 8082),
     host: '127.0.0.1', // run tests in a local environment only
@@ -33,6 +39,7 @@ module.exports = function () {
   switch(process.env.NODE_ENV) {
   case 'production': return config.production;    // production environment
   case 'development': return config.development;  // development environment
+  case 'local': return config.local;
   case 'test': return config.test;                // test environment
   default: return config.development;             // node server will start en development mode by default
   }
