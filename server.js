@@ -160,7 +160,7 @@ server.use(function (err, req, res) {
 });
 
 /* Initialize the Server */
-server.listen(server.get('port'), server.get('ip'), function () {
+server.listen(server.get('port'), (serverConfig.env === 'local' ? undefined : server.get('ip')), function () {
   console.log('\nListening for client connections on %s:%d', server.get('ip'), server.get('port'));
 });
 
