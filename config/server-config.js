@@ -16,7 +16,7 @@ var config = {
     secret: PKEY
   },
   development: {
-    port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081),
+    port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080),
     host: process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'dev'
