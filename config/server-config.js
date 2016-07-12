@@ -1,12 +1,13 @@
 'use strict';
 
-let PKEY;
+var PKEY;
 
+// check if private key exists
 try { PKEY = require('../secret')(); }
 catch (ex) { PKEY = undefined; }
 
 /* Environment Objects */
-const config = {
+var config = {
   production: {
     port: Number(process.env.PORT || 8080),
     host: process.env.IP || '127.0.0.1',
@@ -15,10 +16,16 @@ const config = {
     secret: PKEY
   },
   development: {
-    port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8081),
+    port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080),
     host: process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'dev'
+  },
+  local: {
+    port: Number(process.env.PORT || 8080),
+    host: '127.0.0.1',
+    database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
+    env: 'local'
   },
   test: {
     port: Number(process.env.PORT || 8082),
@@ -32,6 +39,7 @@ module.exports = function () {
   switch(process.env.NODE_ENV) {
   case 'production': return config.production;    // production environment
   case 'development': return config.development;  // development environment
+  case 'local': return config.local;
   case 'test': return config.test;                // test environment
   default: return config.development;             // node server will start en development mode by default
   }

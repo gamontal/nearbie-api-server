@@ -1,8 +1,8 @@
 'use strict';
 
-const winston = require('winston');
+var winston = require('winston');
 
-let logger = new winston.Logger({
+var logger = new winston.Logger({
   transports: [
     new winston.transports.File({
       level: 'info',

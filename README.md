@@ -35,12 +35,12 @@
 
 | build config | branch  | status |
 | ------------ | ------- | -------|
-| Linux        | master  | [![Build Status](https://travis-ci.org/gmontalvoriv/bb-backend.svg?branch=master)](https://travis-ci.org/gmontalvoriv/bb-backend) |
-| Linux        | dev    | [![Build Status](https://travis-ci.org/gmontalvoriv/bb-backend.svg?branch=dev)](https://travis-ci.org/gmontalvoriv/bb-backend) |
+| Linux        | master  | [![Build Status](https://travis-ci.com/gmontalvoriv/bb-backend.svg?token=hxR91szxm19yyULsAnMM&branch=master)](https://travis-ci.com/gmontalvoriv/bb-backend) |
+| Linux        | dev    | [![Build Status](https://travis-ci.com/gmontalvoriv/bb-backend.svg?token=hxR91szxm19yyULsAnMM&branch=dev)](https://travis-ci.com/gmontalvoriv/bb-backend) |
 
 ### Active development server platforms
 
-> Stable version: https://qserv-binarybeats.herokuapp.com/api
+> Stable version: NOT AVAILABLE
 
 > Latest version: https://qserv-binarybeats.rhcloud.com/api
 

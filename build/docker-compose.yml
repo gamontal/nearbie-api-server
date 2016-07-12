@@ -3,18 +3,15 @@ nginx:
   links:
     - "node1:node1"
     - "node2:node2"
-    - "node3:node3"
   ports:
-    - "80:80"
+    - "80:8080"
 node1:
   build: ./node
   ports:
     - "8080"
+  restart: always
 node2:
   build: ./node
   ports:
     - "8080"
-node3:
-  build: ./node
-  ports:
-    - "8080"
+  restart: always

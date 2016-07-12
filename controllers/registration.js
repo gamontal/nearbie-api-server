@@ -1,23 +1,23 @@
 'use strict';
 
-const jwt = require('jsonwebtoken');
-const fetchZipcode = require('../lib/fetch_zipcode');
-const moment = require('moment');
+var jwt = require('jsonwebtoken');
+var fetchZipcode = require('../lib/fetch_zipcode');
+var moment = require('moment');
 
 // User model
-const User = require('../models/user');
+var User = require('../models/user');
 
-const ERROR = [
+var ERROR = [
   'Error: User validation failed, a user with that username or email address already exists'
 ];
 
 exports.register = function (req, res) {
-  const serverConfig = req.app.get('config');
-  const coords = [req.body.loc.lng, req.body.loc.lat];
-  const zipcode = fetchZipcode(coords);
-
+  var serverConfig = req.app.get('config');
+  var coords = [req.body.loc.lng, req.body.loc.lat];
+  var zipcode = fetchZipcode(coords); // NOTE: this module will throw an error if invalid coordinates are passed
+                                       // TODO: validate coordinates to prevent the server from crashing...
   // create a new user
-  let user = new User({
+  var user = new User({
     active: true,
     username: req.body.username,
     password: req.body.password,
@@ -41,7 +41,7 @@ exports.register = function (req, res) {
       });
     } else {
 
-      const expires = moment().add(7, 'days').valueOf();
+      var expires = moment().add(7, 'days').valueOf();
 
       // generate new token upon registration
       if (serverConfig.secret) {

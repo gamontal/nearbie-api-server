@@ -1,9 +1,9 @@
 'use strict';
 
-const Event = require('../models/event');
-const User = require('../models/user');
+var Event = require('../models/event');
+var User = require('../models/user');
 
-const ERROR = [
+var ERROR = [
   'Error: Event not found'
 ]
 
@@ -16,7 +16,7 @@ exports.getEvents = function (req, res, next) {
 };
 
 exports.getEvent = function (req, res, next) {
-  const EVENT_ID = req.params.event_id;
+  var EVENT_ID = req.params.event_id;
 
   Event.findOne({ '_id': EVENT_ID }, function (err, event) {
     if (err) { return next(err); }
@@ -27,11 +27,11 @@ exports.getEvent = function (req, res, next) {
       });
     } else if (event) {
 
-      const coords = event.event_loc;
-      const zipcode = event.zipcode;
+      var coords = event.event_loc;
+      var zipcode = event.zipcode;
 
       // sets radius
-      let maxDistance = req.query.maxDistance || 2;
+      var maxDistance = req.query.maxDistance || 2;
 
       // convert the distance to radius
       maxDistance /= 6371;

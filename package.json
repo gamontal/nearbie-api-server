@@ -1,20 +1,18 @@
 {
-  "name": "quickee-api",
-  "version": "1.4.9",
+  "name": "nearbie-api",
+  "version": "1.5.1",
   "main": "server.js",
   "private": true,
   "engines": {
     "node": ">= 0.11.12"
   },
   "dependencies": {
-    "bcrypt-nodejs": "0.0.3",
     "body-parser": "1.15.0",
     "cloudinary": "^1.3.0",
-    "compression": "1.6.1",
-    "express": "4.13.3",
+    "compression": "^1.6.1",
+    "express": "^4.13.3",
     "helmet": "^1.3.0",
     "jsonwebtoken": "^5.5.4",
-    "kerberos": "^0.0.17",
     "moment": "^2.11.2",
     "mongoose": "^4.2.8",
     "mongoose-unique-validator": "1.0.0",
@@ -28,6 +26,7 @@
     "jshint": "^2.9.1",
     "mocha": "^2.4.5",
     "nodemon": "1.3.7",
+    "nsp": "^2.6.0",
     "should": "^8.2.2",
     "supertest": "^1.2.0"
   },
@@ -39,10 +38,10 @@
     "Makefile"
   ],
   "scripts": {
-    "start": "echo Starting server && node --harmony ./server.js",
-    "dev": "echo Starting server in development mode..... && NODE_ENV=development ./node_modules/.bin/nodemon --harmony ./server.js",
-    "prod": "echo Starting server in production mode..... && NODE_ENV=production ./node_modules/.bin/pm2 start ./server.js --node-args=\"--harmony\"",
-    "test": "echo Initializing tests..... && ./node_modules/.bin/jshint --exclude ./node_modules,websocket_setup && NODE_ENV=test ./node_modules/.bin/mocha --harmony -t 100000",
-    "local": "echo Starting server in local mode..... && NODE_ENV=local ./node_modules/.bin/nodemon --harmony ./server.js"
+    "start": "echo Starting server && node ./server.js",
+    "dev": "echo Starting server in development mode..... && NODE_ENV=development ./node_modules/.bin/nodemon ./server.js",
+    "prod": "echo Starting server in production mode..... && NODE_ENV=production ./node_modules/.bin/pm2 start ./server.js",
+    "local": "echo Starting server in local mode..... && NODE_ENV=local ./node_modules/.bin/nodemon ./server.js",
+    "test": "echo Initializing tests..... && echo Initializing NSP checks..... && ./node_modules/.bin/nsp check . && ./node_modules/.bin/jshint --exclude ./node_modules,websocket_setup && NODE_ENV=test ./node_modules/.bin/mocha -t 100000"
   }
 }

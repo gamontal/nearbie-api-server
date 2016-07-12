@@ -1,20 +1,20 @@
 'use strict';
 
-const jwt = require('jsonwebtoken');
-const moment = require('moment');
+var jwt = require('jsonwebtoken');
+var moment = require('moment');
 
 // User model
-const User = require('../models/user');
+var User = require('../models/user');
 
-const ERROR = [
+var ERROR = [
   'Error: Invalid username',
   'Error: Invalid password',
   'Error: Invalid fields detected'
 ];
 
 exports.authenticate = function (req, res, next) {
-  const username = req.body.username;
-  const pwd = req.body.password;
+  var username = req.body.username;
+  var pwd = req.body.password;
 
   if (!username || !pwd) {
     res.status(400).json({
