@@ -10,26 +10,26 @@ catch (ex) { PKEY = undefined; }
 var config = {
   production: {
     port: Number(process.env.PORT || 8080),
-    host: process.env.IP || '127.0.0.1',
+    host: process.env.IP || '0.0.0.0',
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'prod',
     secret: PKEY
   },
   development: {
     port: Number(process.env.PORT || process.env.OPENSHIFT_NODEJS_PORT || 8080),
-    host: process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1',
+    host: process.env.IP || process.env.OPENSHIFT_NODEJS_IP || '0.0.0.0',
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'dev'
   },
   local: {
     port: Number(process.env.PORT || 8080),
-    host: '127.0.0.1',
+    host: '0.0.0.0',
     database: 'mongodb://ds061355.mongolab.com:61355/quickee-db',
     env: 'local'
   },
   test: {
     port: Number(process.env.PORT || 8082),
-    host: '127.0.0.1', // run tests in a local environment only
+    host: '0.0.0.0', // run tests in a local environment only
     database: 'mongodb://ds011369.mlab.com:11369/quickee-test-db',
     env: 'test'
   }
