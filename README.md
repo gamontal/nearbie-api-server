@@ -1,3 +1,5 @@
+**No longer maintained**
+
 ## Index
 
 - [Current build status](#current-build-status)
